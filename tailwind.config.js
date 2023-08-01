@@ -13,7 +13,10 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Open Sans', ...defaultTheme.fontFamily.sans],
+                roboto: 'roboto',
+                'roboto-slab': 'roboto-slab',
+                oswald: 'Oswald',
             },
         },
     },
