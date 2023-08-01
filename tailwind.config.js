@@ -14,11 +14,9 @@ export default {
         extend: {
             fontFamily: {
                 sans: ['Open Sans', ...defaultTheme.fontFamily.sans],
-                oswald: ['Oswald', 'Sans', 'cursive','sand-serif'],
-                'monserat': ['Montserrat']
             },
             colors:{
-                'primary': '#F45050',
+                'primary': '#DF2E38',
                 'base': '#3C486B',
                 'second': '#F9D949',
                 'light':'#F0F0F0'

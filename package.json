@@ -18,6 +18,7 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
-        "vue3-carousel": "^0.3.1"
+        "@vueup/vue-quill": "^1.2.0",
+        "swiper": "^10.1.0"
     }
 }
