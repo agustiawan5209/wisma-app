@@ -14,11 +14,29 @@ export default {
         extend: {
             fontFamily: {
                 sans: ['Open Sans', ...defaultTheme.fontFamily.sans],
-                roboto: 'roboto',
-                'roboto-slab': 'roboto-slab',
-                oswald: 'Oswald',
+                oswald: ['Oswald', 'Sans', 'cursive','sand-serif'],
+                'monserat': ['Montserrat']
             },
+            colors:{
+                'primary': '#F45050',
+                'base': '#3C486B',
+                'second': '#F9D949',
+                'light':'#F0F0F0'
+            },
+            height:{
+                '10-vh': '10vh',
+                '1/5-vh': '15vh',
+                '20-vh': '20vh',
+                '30-vh': '30vh',
+                '40-vh': '40vh',
+                '50-vh': '50vh',
+                '60-vh': '60vh',
+                '70-vh': '70vh',
+                '80-vh': '80vh',
+                '90-vh': '90vh',
+            }
         },
+
     },
 
     plugins: [forms],

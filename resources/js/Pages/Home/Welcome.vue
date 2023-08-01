@@ -8,5 +8,6 @@ import {ref, defineProps} from 'vue'
 <template>
     <HomeLayout>
         <Head title="Home"/>
+
     </HomeLayout>
 </template>

@@ -1,0 +1,15 @@
+.nav-home::after{
+    content: "";
+    width: 90%;
+    height: 4px;
+    background-color: #F45050;
+    transform: scaleX(0);
+    transition: all ease-in 300ms;
+}
+
+.nav-home:hover::after{
+    transform: scale(1);
+}
+.active-nav-home::after{
+    transform: scale(1);
+}
