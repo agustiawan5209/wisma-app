@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kamar;
 use App\Http\Requests\StoreKamarRequest;
 use App\Http\Requests\UpdateKamarRequest;
+use Inertia\Inertia;
 
 class KamarController extends Controller
 {
@@ -13,7 +14,9 @@ class KamarController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Admin/Kamar', [
+            'kamar'=> Kamar::with(['details','tipe'])->orderBy('id','desc')->paginate(10),
+        ]);
     }
 
     /**
