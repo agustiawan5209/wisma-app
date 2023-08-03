@@ -12,7 +12,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
             <div class="logo w-max h-full py-2">
                 <img src="vite.svg" class="w-14 h-14 rounded-full shadow-lg " alt="logo wisma malaqbi">
             </div>
-            <ul class="inline-flex space-x-2 py-2">
+            <ul class="inline-flex items-center space-x-2 py-2">
                 <li class=" border-l  px-2 border-base">
                     <dl>
                         <dd> <font-awesome-icon :icon="['fas', 'phone']" /> <span class="capitalize text-sm">telpon</span>
@@ -27,12 +27,12 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
                         <dt> Jl. Pababari, Karema, Kec. Mamuju, Kabupaten Mamuju, Sulawesi Barat 91512</dt>
                     </dl>
                 </li>
+                <li class=" border-l px-2 border-black">
+                    <Link :href="route('login')">
+                        <PrimaryButton>Masuk</PrimaryButton>
+                    </Link>
+                </li>
             </ul>
-            <div class=" border-l border-black">
-                <Link :href="route('login')">
-                    <PrimaryButton>Masuk</PrimaryButton>
-                </Link>
-            </div>
         </div>
         <nav class="w-full h-1/3 bg-transparent flex justify-center items-center">
             <ul class=" inline-flex space-x-4 h-full w-max">
@@ -67,7 +67,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
         <div class="md:flex md:justify-between">
           <div class="mb-6 md:mb-0">
               <a href="#" class="flex items-center">
-                  <img src="#docs/images/logo.svg" class="h-8 mr-3" alt="FlowBite Logo" />
+                  <img src="#docs/images/logo.svg" class="h-8 mr-3" alt="wisma malqbi Logo" />
                   <span class="self-center text-2xl font-semibold whitespace-nowrap ">Wisma Malqbi</span>
               </a>
           </div>

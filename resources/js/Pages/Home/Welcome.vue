@@ -15,33 +15,38 @@ import Animate from '@/Components/Animate.vue';
         </section>
 
         <section class="container mx-auto flex flex-wrap justify-center gap-4 mb-10">
-            <div class="w-1/4 h-64 px-4 bg-second shadow-md flex flex-col items-center justify-center">
-                <div class=" border text-center rounded-2xl p-2 mb-2">
+            <div class="w-1/4 h-64 px-4 bg-primary shadow-md rounded-lg flex flex-col items-center justify-center">
+                <div class=" border text-center rounded-2xl p-2 mb-2 text-white">
                     <font-awesome-icon class="text-2xl" :icon="['fas', 'home']" />
-                <h1>Fasilitas</h1>
+                    <h1>Fasilitas</h1>
                 </div>
-                <div class="px-3 bg-yellow-200 rounded-lg shadow-sm">
-                    <p class="text-xs md:text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat inventore esse numquam quasi in reprehenderit tempore, commodi nostrum nemo possimus fugiat voluptatum est, unde ea voluptatem temporibus. Maiores, recusandae. Quibusdam.</p>
+                <div class="px-3 bg-red-200 rounded-lg shadow-sm">
+                    <p class="text-xs md:text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat
+                        inventore esse numquam quasi in reprehenderit tempore, commodi nostrum nemo possimus fugiat
+                        voluptatum est, unde ea voluptatem temporibus. Maiores, recusandae. Quibusdam.</p>
                 </div>
             </div>
-            <div class="w-1/4 h-64 px-4 bg-second shadow-md flex flex-col items-center justify-center">
-                <div class=" border text-center rounded-2xl p-2 mb-2">
+            <div class="w-1/4 h-64 px-4 bg-primary shadow-md rounded-lg flex flex-col items-center justify-center">
+                <div class=" border text-center rounded-2xl p-2 mb-2 text-white">
                     <font-awesome-icon class="text-2xl" :icon="['fas', 'home']" />
-                <h1>Fasilitas</h1>
+                    <h1>Fasilitas</h1>
                 </div>
-                <div class="px-3 bg-yellow-200 rounded-lg shadow-sm">
-                    <p class="text-xs md:text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat inventore esse numquam quasi in reprehenderit tempore, commodi nostrum nemo possimus fugiat voluptatum est, unde ea voluptatem temporibus. Maiores, recusandae. Quibusdam.</p>
+                <div class="px-3 bg-red-200 rounded-lg shadow-sm">
+                    <p class="text-xs md:text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat
+                        inventore esse numquam quasi in reprehenderit tempore, commodi nostrum nemo possimus fugiat
+                        voluptatum est, unde ea voluptatem temporibus. Maiores, recusandae. Quibusdam.</p>
                 </div>
             </div>
-            <div class="w-1/4 h-64 px-4 bg-second shadow-md flex flex-col items-center justify-center">
-                <div class=" border text-center rounded-2xl p-2 mb-2">
+            <div class="w-1/4 h-64 px-4 bg-primary shadow-md rounded-lg flex flex-col items-center justify-center">
+                <div class=" border text-center rounded-2xl p-2 mb-2 text-white">
                     <font-awesome-icon class="text-2xl" :icon="['fas', 'home']" />
-                <h1>Fasilitas</h1>
+                    <h1>Fasilitas</h1>
                 </div>
-                <div class="px-3 bg-yellow-200 rounded-lg shadow-sm">
-                    <p class="text-xs md:text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat inventore esse numquam quasi in reprehenderit tempore, commodi nostrum nemo possimus fugiat voluptatum est, unde ea voluptatem temporibus. Maiores, recusandae. Quibusdam.</p>
+                <div class="px-3 bg-red-200 rounded-lg shadow-sm">
+                    <p class="text-xs md:text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat
+                        inventore esse numquam quasi in reprehenderit tempore, commodi nostrum nemo possimus fugiat
+                        voluptatum est, unde ea voluptatem temporibus. Maiores, recusandae. Quibusdam.</p>
                 </div>
-            </div>
-        </section>
-    </HomeLayout>
-</template>
+        </div>
+    </section>
+</HomeLayout></template>
