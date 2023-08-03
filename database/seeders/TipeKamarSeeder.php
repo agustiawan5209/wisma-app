@@ -14,8 +14,8 @@ class TipeKamarSeeder extends Seeder
     public function run(): void
     {
         TipeKamar::insert([
-            ['jenis'=> 'Luxury'],
-            ['jenis'=> 'Ekonomis'],
+            ['tipe'=> 'Luxury'],
+            ['tipe'=> 'Ekonomis'],
         ]);
     }
 }

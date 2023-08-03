@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('tipe_kamars', function (Blueprint $table) {
             $table->id();
-            $table->enum('tipe', ['Luxury', 'Ekonomis']);
+            // $table->enum('tipe', ['Luxury', 'Ekonomis']);
+            $table->string('tipe',50)->unique();
             $table->timestamps();
         });
     }
