@@ -17,7 +17,7 @@ class Role
     public function handle(Request $request, Closure $next, ...$role): Response
     {
 
-        if (in_array(Auth::user(), $role)) {
+        if (in_array(Auth::user()->role, $role)) {
             return $next($request);
         } else {
             abort(403);

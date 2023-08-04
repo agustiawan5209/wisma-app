@@ -11,8 +11,8 @@ const showingNavigationDropdown = ref(false);
 </script>
 
 <template>
-    <div class="flex flex-row">
-        <nav class="bg-base md:h-screen w-0  md:w-1/5 pt-10 border-b border-gray-100">
+    <div class="">
+        <nav class="bg-base md:fixed top-0 md:h-screen w-0  md:w-1/5 pt-10 border-b border-gray-100">
             <div class=" hidden md:flex justify-between flex-col items-center gap-4 md:gap-10">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
@@ -23,22 +23,16 @@ const showingNavigationDropdown = ref(false);
 
                 <!-- Navigation Links -->
                 <ul class="w-full space-y-5 flex flex-col items-center justify-center">
-                    <li class="w-5/6 bg-gray-200 p-2 rounded-lg">
+                    <li class="w-5/6  p-2 rounded-lg border" :class="route().current('dashboard') ? 'bg-gray-200 border-transparent' :'border-white'">
                         <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             <font-awesome-icon :icon="['fas', 'home']" />
                             <span class="nav-home">Dashboard</span>
                         </NavLink>
                     </li>
-                    <li class="w-5/6 bg-gray-200 p-2 rounded-lg">
-                        <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            <font-awesome-icon :icon="['fas', 'home']" />
-                            <span class="nav-home">Dashboard</span>
-                        </NavLink>
-                    </li>
-                    <li class="w-5/6 bg-gray-200 p-2 rounded-lg">
-                        <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            <font-awesome-icon :icon="['fas', 'home']" />
-                            <span class="nav-home">Dashboard</span>
+                    <li class="w-5/6  p-2 rounded-lg border" :class="route().current('Kamar.index') ?  'bg-gray-200 border-transparent' :'border-white'">
+                        <NavLink :href="route('Kamar.index')" :active="route().current('Kamar.index')">
+                            <font-awesome-icon :icon="['fas', 'couch']" />
+                            <span class="nav-home">Kamar</span>
                         </NavLink>
                     </li>
                 </ul>
@@ -46,7 +40,7 @@ const showingNavigationDropdown = ref(false);
             </div>
         </nav>
         <!-- Page Content -->
-        <main class=" w-full md:w-4/5  relative">
+        <main class=" w-full md:left-[20%] md:w-4/5  relative">
             <!-- Page Heading -->
             <header class="bg-base shadow" v-if="$slots.header">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -56,7 +50,7 @@ const showingNavigationDropdown = ref(false);
 
                 </div>
             </header>
-            <div class="py-12">
+            <div class="py-5 bg-gray-100">
                 <div class="max-w-7xl mx-auto px-4">
                     <slot name="content" />
                 </div>

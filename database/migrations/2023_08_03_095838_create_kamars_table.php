@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('tipe_kamar',50)->index();
             $table->string('kode', 50)->unique();
+            $table->string('ruangan', 50)->unique();
+            $table->longText('ket');
             $table->enum('status', ['1','2'])->comment('1 = Kosong, 2 = terisi');
 
             $table->foreign('tipe_kamar')->references('tipe')->on('tipe_kamars')->onUpdate('restrict');

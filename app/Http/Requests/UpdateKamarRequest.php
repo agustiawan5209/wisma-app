@@ -11,7 +11,7 @@ class UpdateKamarRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,10 +23,12 @@ class UpdateKamarRequest extends FormRequest
     {
         return [
             'tipe_kamar'=> 'required|exists:tipe_kamars,tipe',
-            'kode'=> 'required|exists:kamars,kode',
+            // 'kode'=> 'required|exists:kamars,kode',
+            'ruangan'=> 'required|exists:kamars,ruangan',
             // 'status'=>
-            'gambar'=> 'nullable|image|mimes:png,jpg|max:1020',
-            'detail'=> 'required|string|max:200',
+            'foto'=> 'nullable|image|mimes:png,jpg|max:1020',
+            'fasilitas'=> 'required|array',
+            'ket'=> 'required|string|max:255'
         ];
     }
 }

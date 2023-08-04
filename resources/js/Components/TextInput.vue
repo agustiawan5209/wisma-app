@@ -1,10 +1,13 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref,computed } from 'vue';
 
-defineProps({
+const props = defineProps({
     modelValue: {
         type: String,
         required: true,
+    },
+    active: {
+        type: Boolean,
     },
 });
 
@@ -19,11 +22,18 @@ onMounted(() => {
 });
 
 defineExpose({ focus: () => input.value.focus() });
+
+const classes = computed(() =>
+    props.active
+        ? 'border-error focus:border-error focus:ring-error'
+        : 'border-indigo-500 focus:border-indigo-500 focus:ring-indigo-500'
+);
 </script>
 
 <template>
     <input
-        class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+        class="rounded-md shadow-sm"
+        :class="classes"
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
         ref="input"

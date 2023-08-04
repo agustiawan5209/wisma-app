@@ -21,6 +21,8 @@ class KamarFactory extends Factory
         return [
             'tipe_kamar'=> $this->faker->randomElement($type),
             'kode'=> $this->faker->unique()->randomDigit(),
+            'ket'=> $this->faker->paragraph(),
+            'ruangan'=> $this->faker->realText(10),
             'status'=> $this->faker->randomElement($status),
         ];
     }

@@ -19,7 +19,8 @@ export default {
                 'primary': '#DF2E38',
                 'base': '#3C486B',
                 'second': '#F9D949',
-                'light':'#F0F0F0'
+                'light':'#F0F0F0',
+                'error':'#ef4444',
             },
             height:{
                 '10-vh': '10vh',

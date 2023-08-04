@@ -2,16 +2,11 @@
 import { Head, Link } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import { ref, defineProps } from 'vue';
-import ArtikelVue from '@/Components/Artikel.vue'
 
 const props  = defineProps({
-    artikel:{
+    kamar:{
         type:Object,
         default:()=>({})
-    },
-    artikel_relate: {
-        type: Object,
-        default: () => ({}),
     },
 });
 </script>
@@ -19,29 +14,33 @@ const props  = defineProps({
 <template>
     <AuthenticatedLayout>
 
-        <Head :title="artikel.judul" />
+        <template #header>
+            <Head :title="kamar.ruangan" />
+            Detail {{ kamar.ruangan }}
+        </template>
+        <template #content>
+            <section class="p-3 w-full bg-white rounded-md shadow-md">
+                <div class="max-w-full">
+                    <table class="w-full table-auto">
+                        <caption class="table-caption border-b-2">Detail Kamar {{kamar.ruangan}}</caption>
+                        <tr class="border-b border-black ">
+                            <th class="py-2 w-1/4 text-left">Tipe Kamar</th>
+                            <td class="py-2 text-left"> : {{kamar.tipe_kamar}}</td>
+                        </tr>
+                        <tr class="border-b border-black ">
+                            <th class="py-2 w-1/4 text-left">Keterangan Kamar</th>
+                            <td class="py-2 text-left flex flex-wrap"> <span>:</span> <p v-html="kamar.ket"></p></td>
+                        </tr>
+                        <tr class="border-b border-black ">
+                            <th class="py-2 w-1/4 text-left">Status Kamar</th>
+                            <td class="py-2 text-left"> : {{kamar.status_kamar}}</td>
+                        </tr>
 
-        <section class="container mx-auto grid grid-cols-12 gap-8 py-5 bg-white">
-
-            <div class="col-span-12">
-                <div class="w-full">
-                   <transition name="fade">
-                    <article>
-                        <h1 class="text-xl sm:text-2xl md:text-3xl">{{artikel.judul}}</h1>
-                        <figure>
-                            <img :src="artikel.path_foto" :alt="artikel.judul" class="w-full mb-3">
-                            <figcaption>
-                                <time datetime="Y-m-d" class="text-white bg-primary rounded-lg font-medium text-base p-2 border mt-7">{{artikel.tanggal}}</time>
-                            </figcaption>
-                        </figure>
-                        <p v-html="artikel.isi" class="leading-8 tracking-wide"></p>
-                    </article>
-                   </transition>
+                    </table>
                 </div>
+            </section>
+        </template>
 
-            </div>
-
-        </section>
     </AuthenticatedLayout>
 </template>
 
