@@ -35,6 +35,18 @@ const showingNavigationDropdown = ref(false);
                             <span class="nav-home">Kamar</span>
                         </NavLink>
                     </li>
+                    <li class="w-5/6  p-2 rounded-lg border" :class="route().current('Diskon.index') || route().current('Diskon.show') || route().current('Diskon.edit') || route().current('Diskon.create') ?  'bg-white border-transparent' :'border-white'">
+                        <NavLink :href="route('Diskon.index')" :active="route().current('Diskon.index') || route().current('Diskon.show') || route().current('Diskon.edit') || route().current('Diskon.create')">
+                            <font-awesome-icon :icon="['fas', 'credit-card']" />
+                            <span class="nav-home">Diskon</span>
+                        </NavLink>
+                    </li>
+                    <li class="w-5/6  p-2 rounded-lg border" :class="route().current('Voucher.index') || route().current('Voucher.show') || route().current('Voucher.edit') || route().current('Voucher.create') ?  'bg-white border-transparent' :'border-white'">
+                        <NavLink :href="route('Voucher.index')" :active="route().current('Voucher.index') || route().current('Voucher.show') || route().current('Voucher.edit') || route().current('Voucher.create')">
+                            <font-awesome-icon :icon="['far', 'credit-card']" />
+                            <span class="nav-home">Voucher</span>
+                        </NavLink>
+                    </li>
                 </ul>
 
             </div>
