@@ -85,6 +85,8 @@ class KamarController extends Controller
      */
     public function show(Kamar $kamar)
     {
+        $kamar = $kamar->with(['details', 'tipe',])->find(Request::input('slug'));
+        // dd($kamar);
         return Inertia::render('Admin/Kamar/Show', [
             'kamar' =>$kamar->with(['details', 'tipe'])->find(Request::input('slug')),
         ]);
@@ -157,6 +159,16 @@ class KamarController extends Controller
      */
     public function destroy(Kamar $kamar)
     {
-        //
+        $kamar = Kamar::find(Request::input('slug'));
+         // Ambil Data Foto
+         $path = Storage::disk('public')->exists('kamar/' . $kamar->gambar);
+
+         // Hapus Jika Foto Ada Dalam Folder Public
+         if ($path) {
+             Storage::disk('public')->delete('kamar/' . $kamar->gambar);
+         }
+         $kamar->delete();
+         return redirect()->route('Kamar.index')->with('success', 'Berhasil Di Hapus');
+
     }
 }

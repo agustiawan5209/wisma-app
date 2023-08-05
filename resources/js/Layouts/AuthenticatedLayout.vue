@@ -29,8 +29,8 @@ const showingNavigationDropdown = ref(false);
                             <span class="nav-home">Dashboard</span>
                         </NavLink>
                     </li>
-                    <li class="w-5/6  p-2 rounded-lg border" :class="route().current('Kamar.index') ?  'bg-gray-200 border-transparent' :'border-white'">
-                        <NavLink :href="route('Kamar.index')" :active="route().current('Kamar.index')">
+                    <li class="w-5/6  p-2 rounded-lg border" :class="route().current('Kamar.index') || route().current('Kamar.show') || route().current('Kamar.edit') || route().current('Kamar.create') ?  'bg-gray-200 border-transparent' :'border-white'">
+                        <NavLink :href="route('Kamar.index')" :active="route().current('Kamar.index') || route().current('Kamar.show') || route().current('Kamar.edit') || route().current('Kamar.create')">
                             <font-awesome-icon :icon="['fas', 'couch']" />
                             <span class="nav-home">Kamar</span>
                         </NavLink>

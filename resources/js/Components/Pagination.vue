@@ -26,5 +26,9 @@ export default {
         statusBayar: String,
         status: String,
     },
+    search: {
+        type:String,
+        default: null
+    }
 }
 </script>

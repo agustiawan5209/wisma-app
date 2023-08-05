@@ -16,7 +16,7 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
             Route::get('/show', 'show')->name('show');
             Route::post('/store', 'store')->name('store');
             Route::post('/update', 'update')->name('update');
-            Route::delete('/delete', 'delete')->name('delete');
+            Route::delete('/delete', 'destroy')->name('delete');
         });
     });
 });
