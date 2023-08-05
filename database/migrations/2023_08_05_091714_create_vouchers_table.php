@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('vouchers', function (Blueprint $table) {
             $table->id();
-            $table->enum('tipe', ['1','2','3'])->comment('1 = new user, 2 = tipe_kamar, 3 = kamar');
+            // $table->enum('tipe', ['1','2','3'])->comment('1 = new user, 2 = tipe_kamar, 3 = kamar');
             $table->string('kode', 50)->unique();
             $table->integer('potongan');
             $table->date('tgl_mulai');

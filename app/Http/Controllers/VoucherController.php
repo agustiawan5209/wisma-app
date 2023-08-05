@@ -47,7 +47,7 @@ class VoucherController extends Controller
     public function show(Voucher $voucher)
     {
         return Inertia::render('Admin/Voucher/Show', [
-            'voucher'=> Voucher::orderBy('id','desc')->find(Request::input('kode')),
+            'voucher'=> Voucher::orderBy('id','desc')->where('kode',Request::input('kode'))->first(),
             'tipe'=> TipeKamar::all(),
         ]);
     }
@@ -58,7 +58,7 @@ class VoucherController extends Controller
     public function edit(Voucher $voucher)
     {
         return Inertia::render('Admin/Voucher/Edit', [
-            'voucher'=> Voucher::orderBy('id','desc')->find(Request::input('kode')),
+            'voucher'=> Voucher::orderBy('id','desc')->where('kode',Request::input('kode'))->first(),
             'tipe'=> TipeKamar::all(),
         ]);
     }

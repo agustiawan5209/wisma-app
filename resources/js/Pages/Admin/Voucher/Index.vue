@@ -23,7 +23,7 @@ const SearchForm = useForm({});
 const search = ref(props.search);
 
 watch(search, (value) => {
-    SearchForm.get(route('Diskon.index', {
+    SearchForm.get(route('Voucher.index', {
         search: value,
     }), {
         preserveState: true,
@@ -47,8 +47,8 @@ function closeModal() {
 const FormDelete = useForm({
     slug: null,
 });
-function DeleteDiskon() {
-    FormDelete.delete(route('Diskon.delete'), {
+function DeleteVoucher() {
+    FormDelete.delete(route('Voucher.delete'), {
         onSuccess: () => {
             modalDelete.value = false;
             FormDelete.reset()
@@ -58,7 +58,7 @@ function DeleteDiskon() {
 </script>
 
 <template>
-    <Head title="Diskon" />
+    <Head title="Voucher" />
 
     <AuthenticatedLayout>
         <template #header>
@@ -93,7 +93,7 @@ function DeleteDiskon() {
                         </div>
                         <div
                             class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-                            <Link :href="route('Diskon.create')">
+                            <Link :href="route('Voucher.create')">
                             <PrimaryButton>Tambah</PrimaryButton>
                             </Link>
                             <div class="flex items-center space-x-3 w-full md:w-auto">
@@ -106,10 +106,10 @@ function DeleteDiskon() {
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
                                 <tr>
                                     <th scope="col" class="border">No.</th>
-                                    <th scope="col" class="px-4 py-3 border">kode Diskon</th>
-                                    <th scope="col" class="px-4 py-3 border">Potongan Diskon</th>
-                                    <th scope="col" class="px-4 py-3 border">Tanggal Mulai Diskon</th>
-                                    <th scope="col" class="px-4 py-3 border">Tanggal Akhir Diskon</th>
+                                    <th scope="col" class="px-4 py-3 border">kode Voucher</th>
+                                    <th scope="col" class="px-4 py-3 border">Potongan Voucher</th>
+                                    <th scope="col" class="px-4 py-3 border">Tanggal Mulai Voucher</th>
+                                    <th scope="col" class="px-4 py-3 border">Tanggal Akhir Voucher</th>
                                     <th scope="col" class="px-4 py-3 border">
                                         <span class="sr-only">Actions</span>
                                     </th>
@@ -124,12 +124,12 @@ function DeleteDiskon() {
                                     <td class="px-4 py-3 border">{{ item.tgl_mulai }}</td>
                                     <td class="px-4 py-3 border">{{ item.tgl_akhir }}</td>
                                     <td class="px-4 py-3 border flex items-center justify-start">
-                                        <Link :href="route('Diskon.edit', { kode: item.kode, slug: item.id, ket: item.ket, })">
+                                        <Link :href="route('Voucher.edit', { kode: item.kode, slug: item.id, ket: item.ket, })">
                                             <PrimaryButton class="bg-green-500 hover:bg-green-600 active:bg-green-400 text-white">
                                             <font-awesome-icon :icon="['fas', 'pen']" />
                                         </PrimaryButton>
                                         </Link>
-                                        <Link :href="route('Diskon.show', { kode: item.kode, slug: item.id, ket: item.ket, })">
+                                        <Link :href="route('Voucher.show', { kode: item.kode, slug: item.id, ket: item.ket, })">
                                             <PrimaryButton class="bg-blue-500 hover:bg-blue-600 active:bg-blue-400 text-white">
                                             <font-awesome-icon :icon="['fas', 'eye']" />
                                         </PrimaryButton>
@@ -153,7 +153,7 @@ function DeleteDiskon() {
                     <div class="block bg-white rounded-lg py-5">
                         <h3 class="mb-4">Apakah Anda Yakin?</h3>
                         <div class="flex justify-around">
-                            <PrimaryButton type="button" @click="DeleteDiskon()"
+                            <PrimaryButton type="button" @click="DeleteVoucher()"
                                 class="bg-blue-500 hover:bg-blue-600 active:bg-blue-800">Ya
                             </PrimaryButton>
                             <PrimaryButton type="button" @click="closeModal()"

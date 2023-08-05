@@ -11,7 +11,7 @@ class StoreVoucherRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,8 +22,8 @@ class StoreVoucherRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tipe'=> 'nullable|exists:tipe_kamars,tipe',
-            'kode'=> 'required|unique:voucher,kode',
+            // 'tipe'=> 'nullable|exists:tipe_kamars,tipe',
+            'kode'=> 'required|unique:vouchers,kode',
             'potongan'=> 'required|max:100',
             'tgl_mulai'=> 'required|date',
             'tgl_akhir'=> 'required|date',
