@@ -22,8 +22,8 @@ class StoreDiskonRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tipe'=> 'requred|exists:tipe_kamars,tipe',
-            'tipe_kamar'=> 'requred|exists:tipe_kamars,tipe',
+            'tipe'=> 'required',
+            'tipe_kamar'=> 'nullable|exists:tipe_kamars,tipe',
             // 'kode'=> 'required|unique:diskons,kode',
             'kode_kamar'=> 'nullable|exists:kamars,kode',
             'potongan'=> 'required|max:100',
