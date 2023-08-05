@@ -18,7 +18,9 @@ class DiskonController extends Controller
     public function index()
     {
         return Inertia::render('Admin/Diskon/Index', [
-            'diskon'=> Diskon::orderBy('id','desc')->paginate(10),
+            'diskon'=> Diskon::orderBy('id','desc')->filter(Request::only('search','tipe'))->paginate(10),
+            'search'=> Request::input('search'),
+            'tipe'=> Request::input('tipe'),
         ]);
     }
 
