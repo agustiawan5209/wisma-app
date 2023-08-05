@@ -22,7 +22,8 @@ class UpdateDiskonRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tipe'=> 'nullable|exists:tipe_kamars,tipe',
+            'tipe'=> 'required',
+            'tipe_kamar'=> 'nullable|exists:tipe_kamars,tipe',
             'kode'=> 'required|exists:diskons,kode',
             'kode_kamar'=> 'nullable|exists:kamars,kode',
             'potongan'=> 'required|max:100',

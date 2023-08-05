@@ -20,13 +20,13 @@ class DiskonController extends Controller
      */
     private function createCode()
     {
-        $alternatif = Kamar::max('kode');
+        $alternatif = Diskon::max('kode');
         if ($alternatif == null) {
-            $kode = "KA-01";
+            $kode = "DK-01";
         } else {
             $parse_kode = substr($alternatif, 3, 2);
             $parse_kode++;
-            $huruf = "KA-";
+            $huruf = "DK-";
             $kode = sprintf($huruf . "%02s",  $parse_kode);
         }
         return $kode;
@@ -50,7 +50,7 @@ class DiskonController extends Controller
     {
         return Inertia::render('Admin/Diskon/Form', [
             'diskon'=> Diskon::orderBy('id','desc')->paginate(10),
-            'tipe'=> TipeKamar::all(),
+            'tipe_kamar'=> TipeKamar::all(),
             'kamar'=> Kamar::all(),
         ]);
     }
@@ -60,7 +60,9 @@ class DiskonController extends Controller
      */
     public function store(StoreDiskonRequest $request)
     {
-        $diskon = Diskon::create($request->all());
+        $req = $request->all();
+        $req['kode'] =  $this->createCode();
+        $diskon = Diskon::create($req);
         return redirect()->route('Diskon.index')->with('success', 'Berhasil Di Tambah');
     }
 
@@ -70,8 +72,9 @@ class DiskonController extends Controller
     public function show(Diskon $diskon)
     {
         return Inertia::render('Admin/Diskon/Show', [
-            'diskon'=> Diskon::orderBy('id','desc')->find(Request::input('kode')),
-            'tipe'=> TipeKamar::all(),
+            'diskon'=> Diskon::orderBy('id','desc')->where('kode',Request::input('kode'))->first(),
+            'tipe_kamar'=> TipeKamar::all(),
+            'kamar'=> Kamar::all(),
         ]);
     }
 
@@ -81,8 +84,9 @@ class DiskonController extends Controller
     public function edit(Diskon $diskon)
     {
         return Inertia::render('Admin/Diskon/Edit', [
-            'diskon'=> Diskon::orderBy('id','desc')->find(Request::input('kode')),
-            'tipe'=> TipeKamar::all(),
+            'diskon'=> Diskon::orderBy('id','desc')->where('kode',Request::input('kode'))->first(),
+            'tipe_kamar'=> TipeKamar::all(),
+            'kamar'=> Kamar::all(),
         ]);
     }
 
@@ -91,7 +95,7 @@ class DiskonController extends Controller
      */
     public function update(UpdateDiskonRequest $request, Diskon $diskon)
     {
-        $diskon->find(Request::input('slug'))->update($request->all());
+        $diskon->where('kode',Request::input('slug'))->update($request->all());
         return redirect()->route('Diskon.index')->with('success', 'Berhasil Di Edit');
 
     }
