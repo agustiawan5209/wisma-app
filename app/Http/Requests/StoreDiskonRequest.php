@@ -11,7 +11,7 @@ class StoreDiskonRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,8 +22,9 @@ class StoreDiskonRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tipe'=> 'nullable|exists:tipe_kamars,tipe',
-            'kode'=> 'required|unique:diskons,kode',
+            'tipe'=> 'requred|exists:tipe_kamars,tipe',
+            'tipe_kamar'=> 'requred|exists:tipe_kamars,tipe',
+            // 'kode'=> 'required|unique:diskons,kode',
             'kode_kamar'=> 'nullable|exists:kamars,kode',
             'potongan'=> 'required|max:100',
             'tgl_mulai'=> 'required|date',
