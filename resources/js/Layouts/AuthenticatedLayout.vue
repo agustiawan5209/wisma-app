@@ -17,19 +17,19 @@ const showingNavigationDropdown = ref(false);
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <Link :href="route('dashboard')">
-                    <ApplicationLogo class="block h-9 w-auto fill-current text-gray-800" />
+                    <ApplicationLogo class="block h-9 w-32 fill-current text-white" />
                     </Link>
                 </div>
 
                 <!-- Navigation Links -->
                 <ul class="w-full space-y-5 flex flex-col items-center justify-center">
-                    <li class="w-5/6  p-2 rounded-lg border" :class="route().current('dashboard') ? 'bg-gray-200 border-transparent' :'border-white'">
+                    <li class="w-5/6  p-2 rounded-lg border" :class="route().current('dashboard') ? 'bg-white border-transparent' :'border-white'">
                         <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             <font-awesome-icon :icon="['fas', 'home']" />
                             <span class="nav-home">Dashboard</span>
                         </NavLink>
                     </li>
-                    <li class="w-5/6  p-2 rounded-lg border" :class="route().current('Kamar.index') || route().current('Kamar.show') || route().current('Kamar.edit') || route().current('Kamar.create') ?  'bg-gray-200 border-transparent' :'border-white'">
+                    <li class="w-5/6  p-2 rounded-lg border" :class="route().current('Kamar.index') || route().current('Kamar.show') || route().current('Kamar.edit') || route().current('Kamar.create') ?  'bg-white border-transparent' :'border-white'">
                         <NavLink :href="route('Kamar.index')" :active="route().current('Kamar.index') || route().current('Kamar.show') || route().current('Kamar.edit') || route().current('Kamar.create')">
                             <font-awesome-icon :icon="['fas', 'couch']" />
                             <span class="nav-home">Kamar</span>

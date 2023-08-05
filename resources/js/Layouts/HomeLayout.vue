@@ -17,14 +17,14 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
                     <dl>
                         <dd> <font-awesome-icon :icon="['fas', 'phone']" /> <span class="capitalize text-sm">telpon</span>
                         </dd>
-                        <dt> 0823-4970-6696</dt>
+                        <dt class="text-sm text-gray-500"> 0823-4970-6696</dt>
                     </dl>
                 </li>
                 <li class=" border-l  px-2 border-base">
                     <dl>
                         <dd><font-awesome-icon :icon="['fas', 'home']" /> <span class="capitalize text-sm">Alamat</span>
                         </dd>
-                        <dt> Jl. Pababari, Karema, Kec. Mamuju, Kabupaten Mamuju, Sulawesi Barat 91512</dt>
+                        <dt class="text-sm text-gray-500"> Jl. Pababari, Karema, Kec. Mamuju, Kabupaten Mamuju, Sulawesi Barat 91512</dt>
                     </dl>
                 </li>
                 <li class=" border-l px-2 border-black">

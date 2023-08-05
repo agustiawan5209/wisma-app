@@ -107,6 +107,9 @@ function back(){
                                 class="block p-2.5 w-full text-sm   rounded-lg border  focus:ring-primary focus:border-primary bg-gray-100 border-gray-600 placeholder-gray-400 text-gray-800 " />
                             <InputError :message="AddForm.errors.ket" />
                         </div>
+                        <progress v-if="AddForm.progress" :value="AddForm.progress.percentage" max="100">
+                            {{ AddForm.progress.percentage }}%
+                          </progress>
                         <div class="col-span-2 mt-16">
                             <PrimaryButton type="submit" class="w-full text-center">Simpan</PrimaryButton>
                         </div>
