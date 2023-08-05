@@ -17,7 +17,7 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
             Route::get('/edit', 'edit')->name('edit');
             Route::get('/show', 'show')->name('show');
             Route::post('/store', 'store')->name('store');
-            Route::post('/update', 'update')->name('update');
+            Route::put('/update', 'update')->name('update');
             Route::delete('/delete', 'destroy')->name('delete');
         });
     });
@@ -30,7 +30,7 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
             Route::get('/edit', 'edit')->name('edit');
             Route::get('/show', 'show')->name('show');
             Route::post('/store', 'store')->name('store');
-            Route::post('/update', 'update')->name('update');
+            Route::put('/update', 'update')->name('update');
             Route::delete('/delete', 'destroy')->name('delete');
         });
     });
