@@ -19,4 +19,12 @@ class Diskon extends Model
         return $this->hasOne(TipeKamar::class,'tipe','tipe');
     }
 
+    public function scopeFilter($query, $filter)
+    {
+        $query->when($filter['search'] ?? null,  function ($query, $search) {
+            $query->where('kode', 'like', '%' . $search . '%');
+        })->when($filter['tipe'] ?? null,  function ($query, $tipe) {
+            $query->where('tipe', '=', $tipe);
+        });
+    }
 }
