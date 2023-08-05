@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('diskons', function (Blueprint $table) {
             $table->id();
+            $table->enum('tipe', ['1','2'])->comment('1 = tipe_kamar, 2 = kamar');
+            $table->string('kode', 50)->unique();
+            $table->string('kode_kamar',50);
+            $table->integer('diskon');
+            $table->date('tgl_mulai');
+            $table->date('tgl_akhir');
+            $table->integer('max_user')->nullable();
+            $table->foreign('kode_kamar')->references('kode')->on('kamars')->onDelete('restrict');
             $table->timestamps();
         });
     }
