@@ -10,7 +10,7 @@ import Pagination from '@/Components/Pagination.vue';
 import FlashMessage from '@/Components/FlashMessage.vue';
 
 const props = defineProps({
-    kamar: {
+    diskon: {
         type: Object,
         default: () => ({}),
     },
@@ -23,7 +23,7 @@ const SearchForm = useForm({});
 const search = ref(props.search);
 
 watch(search, (value) => {
-    SearchForm.get(route('Kamar.index', {
+    SearchForm.get(route('Diskon.index', {
         search: value,
     }), {
         preserveState: true,
@@ -47,8 +47,8 @@ function closeModal() {
 const FormDelete = useForm({
     slug: null,
 });
-function deleteJadwal() {
-    FormDelete.delete(route('Kamar.delete'), {
+function DeleteDiskon() {
+    FormDelete.delete(route('Diskon.delete'), {
         onSuccess: () => {
             modalDelete.value = false;
             FormDelete.reset()
@@ -58,7 +58,7 @@ function deleteJadwal() {
 </script>
 
 <template>
-    <Head title="Kamar" />
+    <Head title="Diskon" />
 
     <AuthenticatedLayout>
         <template #header>
@@ -93,7 +93,7 @@ function deleteJadwal() {
                         </div>
                         <div
                             class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-                            <Link :href="route('Kamar.create')">
+                            <Link :href="route('Diskon.create')">
                             <PrimaryButton>Tambah</PrimaryButton>
                             </Link>
                             <div class="flex items-center space-x-3 w-full md:w-auto">
@@ -106,30 +106,30 @@ function deleteJadwal() {
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
                                 <tr>
                                     <th scope="col" class="border">No.</th>
-                                    <th scope="col" class="px-4 py-3 border">tipe</th>
-                                    <th scope="col" class="px-4 py-3 border">kode Kamar</th>
-                                    <th scope="col" class="px-4 py-3 border">status Kamar</th>
+                                    <th scope="col" class="px-4 py-3 border">kode Diskon</th>
+                                    <th scope="col" class="px-4 py-3 border">Potongan Diskon</th>
+                                    <th scope="col" class="px-4 py-3 border">Tanggal Mulai Diskon</th>
+                                    <th scope="col" class="px-4 py-3 border">Tanggal Akhir Diskon</th>
                                     <th scope="col" class="px-4 py-3 border">
                                         <span class="sr-only">Actions</span>
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(item, index) in kamar.data" class="border-b ">
-                                    <th class="border text-center">{{ (kamar.current_page - 1) * kamar.per_page + index + 1
+                                <tr v-for="(item, index) in diskon.data" class="border-b ">
+                                    <th class="border text-center">{{ (diskon.current_page - 1) * diskon.per_page + index + 1
                                     }}.</th>
-                                    <th scope="row"
-                                        class="px-4 py-3 border font-medium text-gray-900 whitespace-nowrap text-start ">
-                                        {{ item.tipe.tipe }}</th>
                                     <td class="px-4 py-3 border">{{ item.kode }}</td>
-                                    <td class="px-4 py-3 border">{{ item.status_kamar }}</td>
+                                    <td class="px-4 py-3 border">{{ item.potongan }}%</td>
+                                    <td class="px-4 py-3 border">{{ item.tgl_mulai }}</td>
+                                    <td class="px-4 py-3 border">{{ item.tgl_akhir }}</td>
                                     <td class="px-4 py-3 border flex items-center justify-start">
-                                        <Link :href="route('Kamar.edit', { kode: item.kode, slug: item.id, ket: item.ket, })">
+                                        <Link :href="route('Diskon.edit', { kode: item.kode, slug: item.id, ket: item.ket, })">
                                             <PrimaryButton class="bg-green-500 hover:bg-green-600 active:bg-green-400 text-white">
                                             <font-awesome-icon :icon="['fas', 'pen']" />
                                         </PrimaryButton>
                                         </Link>
-                                        <Link :href="route('Kamar.show', { kode: item.kode, slug: item.id, ket: item.ket, })">
+                                        <Link :href="route('Diskon.show', { kode: item.kode, slug: item.id, ket: item.ket, })">
                                             <PrimaryButton class="bg-blue-500 hover:bg-blue-600 active:bg-blue-400 text-white">
                                             <font-awesome-icon :icon="['fas', 'eye']" />
                                         </PrimaryButton>
@@ -145,7 +145,7 @@ function deleteJadwal() {
                             </tbody>
                         </table>
                     </div>
-                    <Pagination :links="kamar.links" />
+                    <Pagination :links="diskon.links" />
                 </div>
             </section>
             <Modal :show="modalDelete" :maxWidth="'md'">
@@ -153,7 +153,7 @@ function deleteJadwal() {
                     <div class="block bg-white rounded-lg py-5">
                         <h3 class="mb-4">Apakah Anda Yakin?</h3>
                         <div class="flex justify-around">
-                            <PrimaryButton type="button" @click="deleteJadwal()"
+                            <PrimaryButton type="button" @click="DeleteDiskon()"
                                 class="bg-blue-500 hover:bg-blue-600 active:bg-blue-800">Ya
                             </PrimaryButton>
                             <PrimaryButton type="button" @click="closeModal()"
