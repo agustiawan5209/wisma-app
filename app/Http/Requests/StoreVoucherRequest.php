@@ -22,7 +22,12 @@ class StoreVoucherRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'tipe'=> 'nullable|exists:tipe_kamars,tipe',
+            'kode'=> 'required|unique:voucher,kode',
+            'potongan'=> 'required|max:100',
+            'tgl_mulai'=> 'required|date',
+            'tgl_akhir'=> 'required|date',
+            'max_user'=> 'required|integer',
         ];
     }
 }

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use App\Models\Voucher;
+use App\Models\TipeKamar;
+use Illuminate\Support\Facades\Request;
 use App\Http\Requests\StoreVoucherRequest;
 use App\Http\Requests\UpdateVoucherRequest;
 
@@ -13,7 +16,9 @@ class VoucherController extends Controller
      */
     public function index()
     {
-        //
+         return Inertia::render('Admin/Voucher/Index', [
+            'voucher'=> Voucher::orderBy('id','desc')->paginate(10),
+        ]);
     }
 
     /**
@@ -21,7 +26,10 @@ class VoucherController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Admin/Voucher/Form', [
+            'voucher'=> Voucher::orderBy('id','desc')->paginate(10),
+            'tipe'=> TipeKamar::all(),
+        ]);
     }
 
     /**
@@ -29,7 +37,8 @@ class VoucherController extends Controller
      */
     public function store(StoreVoucherRequest $request)
     {
-        //
+        $voucher = Voucher::create($request->all());
+        return redirect()->route('Voucher.index')->with('success', 'Berhasil Di Tambah');
     }
 
     /**
@@ -37,7 +46,10 @@ class VoucherController extends Controller
      */
     public function show(Voucher $voucher)
     {
-        //
+        return Inertia::render('Admin/Voucher/Show', [
+            'voucher'=> Voucher::orderBy('id','desc')->find(Request::input('kode')),
+            'tipe'=> TipeKamar::all(),
+        ]);
     }
 
     /**
@@ -45,7 +57,10 @@ class VoucherController extends Controller
      */
     public function edit(Voucher $voucher)
     {
-        //
+        return Inertia::render('Admin/Voucher/Edit', [
+            'voucher'=> Voucher::orderBy('id','desc')->find(Request::input('kode')),
+            'tipe'=> TipeKamar::all(),
+        ]);
     }
 
     /**
@@ -53,7 +68,8 @@ class VoucherController extends Controller
      */
     public function update(UpdateVoucherRequest $request, Voucher $voucher)
     {
-        //
+        $voucher->find(Request::input('slug'))->update($request->all());
+        return redirect()->route('Voucher.index')->with('success', 'Berhasil Di Edit');
     }
 
     /**
@@ -61,6 +77,7 @@ class VoucherController extends Controller
      */
     public function destroy(Voucher $voucher)
     {
-        //
+        $voucher->find(Request::input('slug'))->delete();
+        return redirect()->route('Voucher.index')->with('success', 'Berhasil Di Hapus');
     }
 }

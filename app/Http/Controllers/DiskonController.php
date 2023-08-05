@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Diskon;
 use App\Http\Requests\StoreDiskonRequest;
 use App\Http\Requests\UpdateDiskonRequest;
+use App\Models\Kamar;
+use App\Models\TipeKamar;
+use Illuminate\Support\Facades\Request;
+use Inertia\Inertia;
 
 class DiskonController extends Controller
 {
@@ -13,7 +17,9 @@ class DiskonController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Admin/Diskon/Index', [
+            'diskon'=> Diskon::orderBy('id','desc')->paginate(10),
+        ]);
     }
 
     /**
@@ -21,7 +27,11 @@ class DiskonController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Admin/Diskon/Form', [
+            'diskon'=> Diskon::orderBy('id','desc')->paginate(10),
+            'tipe'=> TipeKamar::all(),
+            'kamar'=> Kamar::all(),
+        ]);
     }
 
     /**
@@ -29,7 +39,8 @@ class DiskonController extends Controller
      */
     public function store(StoreDiskonRequest $request)
     {
-        //
+        $diskon = Diskon::create($request->all());
+        return redirect()->route('Diskon.index')->with('success', 'Berhasil Di Tambah');
     }
 
     /**
@@ -37,7 +48,10 @@ class DiskonController extends Controller
      */
     public function show(Diskon $diskon)
     {
-        //
+        return Inertia::render('Admin/Diskon/Show', [
+            'diskon'=> Diskon::orderBy('id','desc')->find(Request::input('kode')),
+            'tipe'=> TipeKamar::all(),
+        ]);
     }
 
     /**
@@ -45,7 +59,10 @@ class DiskonController extends Controller
      */
     public function edit(Diskon $diskon)
     {
-        //
+        return Inertia::render('Admin/Diskon/Edit', [
+            'diskon'=> Diskon::orderBy('id','desc')->find(Request::input('kode')),
+            'tipe'=> TipeKamar::all(),
+        ]);
     }
 
     /**
@@ -53,7 +70,9 @@ class DiskonController extends Controller
      */
     public function update(UpdateDiskonRequest $request, Diskon $diskon)
     {
-        //
+        $diskon->find(Request::input('slug'))->update($request->all());
+        return redirect()->route('Diskon.index')->with('success', 'Berhasil Di Edit');
+
     }
 
     /**
@@ -61,6 +80,7 @@ class DiskonController extends Controller
      */
     public function destroy(Diskon $diskon)
     {
-        //
+        $diskon->find(Request::input('slug'))->delete();
+        return redirect()->route('Diskon.index')->with('success', 'Berhasil Di Hapus');
     }
 }

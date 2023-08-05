@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('diskons', function (Blueprint $table) {
             $table->id();
-            $table->enum('tipe', ['1','2'])->comment('1 = tipe_kamar, 2 = kamar');
+            $table->enum('tipe', ['1','2'])->nullable()->comment('1 = tipe_kamar, 2 = kamar');
             $table->string('kode', 50)->unique();
             $table->string('kode_kamar',50);
             $table->integer('potongan');

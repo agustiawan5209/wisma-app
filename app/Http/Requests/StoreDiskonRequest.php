@@ -22,7 +22,12 @@ class StoreDiskonRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'tipe'=> 'nullable|exists:tipe_kamars,tipe',
+            'kode'=> 'required|unique:diskons,kode',
+            'kode_kamar'=> 'nullable|exists:kamars,kode',
+            'potongan'=> 'required|max:100',
+            'tgl_mulai'=> 'required|date',
+            'tgl_akhir'=> 'required|date',
         ];
     }
 }
