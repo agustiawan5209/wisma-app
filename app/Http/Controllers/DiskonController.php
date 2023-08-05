@@ -12,6 +12,25 @@ use Inertia\Inertia;
 
 class DiskonController extends Controller
 {
+
+    /**
+     * createCode
+     *
+     * @return void
+     */
+    private function createCode()
+    {
+        $alternatif = Kamar::max('kode');
+        if ($alternatif == null) {
+            $kode = "KA-01";
+        } else {
+            $parse_kode = substr($alternatif, 3, 2);
+            $parse_kode++;
+            $huruf = "KA-";
+            $kode = sprintf($huruf . "%02s",  $parse_kode);
+        }
+        return $kode;
+    }
     /**
      * Display a listing of the resource.
      */
