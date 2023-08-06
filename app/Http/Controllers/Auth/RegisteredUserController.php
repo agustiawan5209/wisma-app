@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\DetailUser;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -35,6 +36,9 @@ class RegisteredUserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'no_hp'=> 'required|numeric',
+            'jenkel'=> 'required',
+            'alamat'=> 'required|max:100'
         ]);
 
         $user = User::create([
@@ -42,11 +46,27 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-
+        $this->storeDetailUser($user , $request);
         event(new Registered($user));
 
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);
+    }
+
+    /**
+     * storeDetailUser
+     * handle detail user
+     * @param  mixed $user
+     * @param  mixed $request
+     * @return void
+     */
+    public function storeDetailUser($user, $request){
+        DetailUser::create([
+            'user_id'=> $user->id,
+            'no_hp'=>$request->no_hp,
+            'jenkel'=> $request->jenkel,
+            'alamat'=> $request->alamat,
+        ]);
     }
 }

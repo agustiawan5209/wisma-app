@@ -5,17 +5,23 @@ import { Link } from '@inertiajs/vue3';
 
 <template>
     <div
-        class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-[url('/img/halaman.jpg')] bg-cover">
-        <div>
-            <Link href="/">
-            <ApplicationLogo class="w-auto h-auto fill-current text-black font-bold text-2xl uppercase" />
-            </Link>
-        </div>
+        class=" w-full h-screen overflow-auto md:overflow-hidden ">
+        <div class="w-full h-full flex flex-row ">
+            <div class="w-1/2 h-full hidden md:block relative bg-[url('/img/halaman.jpg')] bg-cover">
+                <div class="absolute bg-gray-800 opacity-60 w-full h-full z-0"></div>
+                <div class="w-full h-full flex justify-center items-center ">
+                    <Link href="/" class="z-50 ">
+                    <ApplicationLogo class="w-full h-auto fill-current text-white font-bold text-2xl uppercase" />
+                    </Link>
+                </div>
 
-        <div class="w-full sm:max-w-md  bg-transparent shadow-md overflow-hidden sm:rounded-lg relative">
-            <div class="absolute w-full h-full bg-gray-900 opacity-70 -z-0"></div>
-            <div class="w-full h-full relative z-50 mt-6 px-6 py-4">
-                <slot />
+            </div>
+            <div class="w-full md:w-1/2 h-max md:h-full flex justify-center items-center md:px-10 md:py-20 overflow-auto">
+                <div class="w-full bg-transparent overflow-hidden relative z-50 mt-6 px-6 py-4 shadow-sm rounded-lg border border-gray-400">
+                    <div class="w-full relative ">
+                        <slot />
+                    </div>
+                </div>
             </div>
         </div>
     </div>
