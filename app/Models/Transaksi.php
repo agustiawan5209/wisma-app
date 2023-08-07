@@ -11,7 +11,7 @@ class Transaksi extends Model
     use HasFactory;
 
     protected $table = 'transaksis';
-    protected $fillable = ['kode_transaksi', 'bukti','user_id','kode_kamar','diskon','sub_total','status'];
+    protected $fillable = ['kode_transaksi', 'bukti', 'user_id', 'kode_kamar', 'diskon', 'sub_total', 'status'];
 
     protected $appends = [
         'bukti_path',
@@ -20,15 +20,26 @@ class Transaksi extends Model
     protected function buktiPath(): Attribute
     {
         return new Attribute(
-            get: fn()=> asset('bukti/'. $this->bukti)
+            get: fn () => asset('bukti/' . $this->bukti)
         );
     }
 
-    public function kamar(){
-        return $this->hasOne(Kamar::class,'kode','kode_kamar');
+    public function kamar()
+    {
+        return $this->hasOne(Kamar::class, 'kode', 'kode_kamar');
     }
 
-    public function user(){
-        return $this->hasOne(User::class,'id','user_id');
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function scopeFilter($query, $array)
+    {
+        $query->when($array['search'] ?? null, function ($query, $search) {
+            $query->where('kode_transaksi', 'like', '%' . $search . '%');
+        })->when($array['tgl'] ?? null,  function ($query, $date) {
+            $query->whereDate('created_at', $date);
+        });;
     }
 }
