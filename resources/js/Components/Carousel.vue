@@ -5,11 +5,11 @@
             "disableOnInteraction": true
         }'>
         <swiper-slide v-for="img in image">
-            <div class="absolute w-full h-full flex justify-center items-center z-20">
+            <div class="absolute w-full h-full flex justify-center rounded-full items-center z-20">
                 <div class="max-w-lg text-center">
                     <h1 class="text-xs md:text-5xl text-white font-sans font-bold leading-4 tracking-widest uppercase">
                         {{ img.title }}</h1>
-                        <PrimaryButton class="!bg-primary hover:bg-second active:bg-primary ">Selengkapnya</PrimaryButton>
+                    <PrimaryButton class="!bg-primary hover:bg-second active:bg-primary ">Selengkapnya</PrimaryButton>
 
                 </div>
             </div>
@@ -19,12 +19,10 @@
 
         </swiper-slide>
     </swiper>
-
-
 </template>
 <script>
 // import Swiper core and required modules
-import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from 'swiper/modules';
+import { Navigation, Scrollbar, A11y, Autoplay } from 'swiper/modules';
 
 // Import Swiper Vue.js components
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -32,7 +30,6 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
-import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import 'swiper/css/autoplay';
 import PrimaryButton from './PrimaryButton.vue';
@@ -77,7 +74,7 @@ export default {
         return {
             onSwiper,
             onSlideChange,
-            modules: [Navigation, Pagination, Scrollbar, A11y, Autoplay],
+            modules: [Navigation, Scrollbar, A11y, Autoplay],
         };
     },
 };
@@ -109,5 +106,13 @@ export default {
 .slide-fade-leave-to {
     transform: translateX(20px);
     opacity: 0;
+}
+
+@media (max-width:768px) {
+
+    .swiper-button-prev::after,
+    .swiper-button-next::after {
+        font-size: 10px;
+    }
 }
 </style>
