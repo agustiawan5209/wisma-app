@@ -51,7 +51,7 @@ class Kamar extends Model
         $query->when($filter['search'] ?? null,  function ($query, $search) {
             $query->where('kode', 'like', '%' . $search . '%');
         })->when($filter['tipe'] ?? null,  function ($query, $tipe) {
-            $query->where('tipe', '=', $tipe);
+            $query->where('tipe_kamar', '=', $tipe);
         });
     }
 }

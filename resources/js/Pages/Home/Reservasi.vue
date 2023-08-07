@@ -37,10 +37,10 @@ function minusGuest(){
 
 <template>
     <div class="container mx-auto flex flex-col sm:flex-col md:flex-row md:items-center px-2 py-3 sm:py-5 md:py-10 bg-primary rounded-2xl">
-        <h1 class="font-bold md:w-1/5 xl:w-1/3 text-white leading-6 tracking-wide">Isi Form Reservasi Kamar Wisma Malaqbi</h1>
+        <h1 class="font-bold md:w-1/5 xl:w-1/4 text-white leading-6 tracking-wide">Isi Form Reservasi Kamar Wisma Malaqbi</h1>
 
-        <form class="flex flex-col sm:flex-col lg:flex-row lg:space-x-7 gap-4 py-2 px-4 w-4/5" action="#">
-            <div class="block">
+        <form class="flex flex-col sm:flex-col lg:flex-row md:space-x-4 py-2 px-4 w-4/5" action="#">
+            <div class="block w-1/5">
                 <InputLabel class="text-white" for="tipe_kamar" value="Tipe Kamar" />
                 <select id="countries" v-model="form.tipe_kamar"
                     class="bg-white border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 "

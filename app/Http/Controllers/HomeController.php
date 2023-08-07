@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Kamar;
+use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
 class HomeController extends Controller
@@ -29,7 +30,8 @@ class HomeController extends Controller
     }
     public function room(){
         return Inertia::render('Home/Room', [
-
+            'kamar'=> Kamar::orderBy('id','desc')->with(['details', 'tipe'])->filter(Request::only('search', 'tipe'))->paginate(10),
+            'search'=> Request::input('search'),
         ]);
     }
 
