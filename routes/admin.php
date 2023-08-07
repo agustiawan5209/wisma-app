@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KamarController;
 use App\Http\Controllers\DiskonController;
 use App\Http\Controllers\VoucherController;
+use App\Http\Controllers\TransaksiController;
 
 
 Route::middleware(['auth', 'role:Admin'])->group(function () {
@@ -44,6 +45,16 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
             Route::get('/show', 'show')->name('show');
             Route::post('/store', 'store')->name('store');
             Route::post('/update', 'update')->name('update');
+            Route::delete('/delete', 'destroy')->name('delete');
+        });
+    });
+
+    // router Transaksi
+    Route::group(['prefix' => 'Transaksi', 'as' => 'Transaksi.'], function () {
+        Route::controller(TransaksiController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/show', 'show')->name('show');
+            Route::get('/confirm', 'confirm')->name('confirm');
             Route::delete('/delete', 'destroy')->name('delete');
         });
     });

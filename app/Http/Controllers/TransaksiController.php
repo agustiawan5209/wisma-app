@@ -17,6 +17,8 @@ class TransaksiController extends Controller
     {
         return Inertia::render('Admin/Transaksi/Index', [
             'transaksi' => Transaksi::orderBy('id', 'desc')->with(['kamar', 'user'])->filter(Request::only('search', 'tgl'))->paginate(10),
+            'search'=> Request::input('search'),
+            'tgl'=> Request::input('tgl'),
         ]);
     }
 
