@@ -16,6 +16,7 @@ const AddForm = useForm({
     ket: '',
     tipe_kamar: '',
     ruangan: '',
+    harga: '',
 })
 const UrlFile = ref(null);
 
@@ -87,6 +88,11 @@ function back(){
                             <InputLabel value="Ruangan/Kamar" />
                             <TextInput type="text" :active="AddForm.errors.ruangan" class="w-full" v-model="AddForm.ruangan" />
                             <InputError :message="AddForm.errors.ruangan" />
+                        </div>
+                        <div class="block">
+                            <InputLabel value=" Harga Ruangan/Kamar" />
+                            <TextInput type="text" :active="AddForm.errors.harga" class="w-full" v-model="AddForm.harga" />
+                            <InputError :message="AddForm.errors.harga" />
                         </div>
                         <h1 class="col-span-2 text-sm text-gray-500">Tambahkan Fasilitas Jika Tersedia</h1>
                         <transition-group tag="ul" name="list" >
