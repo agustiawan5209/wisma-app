@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('tipe_kamar',50)->index();
             $table->string('kode', 50)->unique();
             $table->string('ruangan', 50)->unique();
+            $table->integer('harga');
             $table->longText('ket');
             $table->enum('status', ['1','2'])->comment('1 = Kosong, 2 = terisi');
 

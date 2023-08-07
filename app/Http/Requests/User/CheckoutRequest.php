@@ -22,13 +22,14 @@ class CheckoutRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'tipe_kamar'=> 'required|exists:tipe_kamars,tipe',
             'kode_kamar'=> 'required|exists:kamars,kode',
             'diskon'=> 'nullable|numeric',
-            'sub_total'=> 'required',
             'status'=> 'required|in_array:PENDING,SUCCESS',
             'tgl_masuk'=> 'required|date',
             'tgl_keluar'=> 'required|date',
-            'jumlah_tamu'=> 'required|numeric'
+            'jumlah_tamu'=> 'required|numeric',
+            'sub_total'=> 'required',
         ];
     }
 }
