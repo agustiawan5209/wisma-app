@@ -33,6 +33,11 @@ export default {
                 '70-vh': '70vh',
                 '80-vh': '80vh',
                 '90-vh': '90vh',
+            },
+            borderRadius:{
+                '4xl': '2rem',
+                '6xl': '3rem',
+                '8xl': '4rem',
             }
         },
 
