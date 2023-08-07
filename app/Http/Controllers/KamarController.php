@@ -18,7 +18,7 @@ class KamarController extends Controller
     public function index()
     {
         return Inertia::render('Admin/Kamar/Index', [
-            'kamar' => Kamar::with(['details', 'tipe'])->filter(Request::only('search', 'tipe'))->orderBy('id', 'desc')->paginate(10),
+            'kamar' => Kamar::with(['details', 'tipe'])->filter(Request::only('search', 'tipe'))->orderBy('kode', 'desc')->paginate(10),
             'search' => Request::input('search'),
             'tipe' => Request::input('tipe'),
         ]);
