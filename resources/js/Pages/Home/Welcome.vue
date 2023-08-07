@@ -4,6 +4,7 @@ import Carousel from '@/Components/Carousel.vue';
 import { Link, Head } from '@inertiajs/vue3';
 import { ref, defineProps } from 'vue';
 import Animate from '@/Components/Animate.vue';
+import Reservasi from './Reservasi.vue';
 </script>
 
 <template>
@@ -14,5 +15,8 @@ import Animate from '@/Components/Animate.vue';
             <Carousel></Carousel>
         </section>
 
+        <section class="container px-3 mx-auto h-auto mb-5">
+            <Reservasi></Reservasi>
+        </section>
     </HomeLayout>
 </template>
