@@ -12,6 +12,7 @@ Route::middleware(['auth', 'role:User'])->group(function () {
 
 
     // router Checkout
+    // Checkout Controller Only User can be access this routes
     Route::group(['prefix' => 'Checkout', 'as' => 'Checkout.'], function () {
         Route::controller(CheckoutController::class)->group(function () {
             Route::get('/', 'index')->name('index');

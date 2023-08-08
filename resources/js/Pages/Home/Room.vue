@@ -8,6 +8,7 @@ import { ref, defineProps, watch } from 'vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { gsap } from 'gsap';
 import Modal from '@/Components/Modal.vue';
+import loadingAnimation from '@/Components/loadingAnimation.vue';
 import Reservasi from './Reservasi.vue';
 const props = defineProps({
     kamar: {
@@ -18,7 +19,8 @@ const props = defineProps({
     formKamar:{
         type: Object,
         default:()=>({})
-    }
+    },
+    jumlah_tamu: Number,
 })
 
 const tipe = ref(null);
@@ -29,17 +31,7 @@ watch(tipe, (value) => {
         preserveScroll: true,
     })
 })
-const itemkamar = ref([]);
-const showKamar = ref(false);
-function showModal(item) {
-    showKamar.value = true;
-    itemkamar.value = item;
-}
 
-function close() {
-    showKamar.value = false;
-    itemkamar.value = [];
-}
 
 // Checkout Form
 const checkoutForm = useForm({
@@ -48,10 +40,25 @@ const checkoutForm = useForm({
     diskon: '',
     tgl_masuk:  props.formKamar.tgl_masuk,
     tgl_keluar:  props.formKamar.tgl_keluar,
-    jumlah_tamu:  props.formKamar.jumlah_tamu,
+    jumlah_tamu:  props.jumlah_tamu,
 })
+
+//  Modal Checkout
+const itemkamar = ref([]);
+const showKamar = ref(false);
+
+function showModal(item) {
+    showKamar.value = true;
+    itemkamar.value = item;
+    checkoutForm.kode_kamar = item.kode;
+}
+
+function close() {
+    showKamar.value = false;
+    itemkamar.value = [];
+}
 // \Count Form
-const count = ref(props.formKamar.jumlah_tamu);
+const count = ref(props.jumlah_tamu);
 
 function plusGuest(){
     count.value++;
@@ -63,10 +70,26 @@ function minusGuest(){
     }
     checkoutForm.jumlah_tamu = count.value;
 }
+const ShowLoadingPage = ref(false);
 
 function Checkout(){
-    // checkoutForm.ge
+    checkoutForm.get(route('Checkout.index'), {
+        onBefore:()=>{
+            ShowLoadingPage.value = true;
+
+            setInterval(() => {
+                ShowLoadingPage.value = false;
+            }, 2000);
+        },
+        onFinish: ()=>{
+            ShowLoadingPage.value = false;
+        },
+        onError:(err)=>{
+            console.log(err)
+        }
+    })
 }
+
 </script>
 
 <template>
@@ -74,6 +97,7 @@ function Checkout(){
 
         <Head title="Home" />
         <section class="container mx-auto py-3">
+            <loadingAnimation :show="ShowLoadingPage"/>
             <section>
                 <Reservasi />
             </section>
@@ -167,7 +191,7 @@ function Checkout(){
 
 
                     <!-- Form -->
-                    <form class="block mt-3 space-y-3">
+                    <form class="block mt-3 space-y-3" @submit.prevent="Checkout">
                         <div class="block">
                             <InputLabel class="text-gray-700" for="tipe_kamar" value="Tipe Kamar" />
                             <select id="countries" v-model="checkoutForm.tipe"
@@ -206,7 +230,7 @@ function Checkout(){
                         <!-- Action Button -->
                         <div class="flex flex-col xl:flex-row justify-between gap-2 xl:items-center mt-4">
                             <span class="text-xs sm:text-sm md:text-base whitespace-nowrap">Rp. 100.000</span>
-                            <PrimaryButton type="button"
+                            <PrimaryButton type="submit"
                                 class="!text-xs whitespace-nowrap bg-red-200 hover:bg-red-300 active:bg-red-400 focus:bg-red-300 !text-yellow-600 active:!text-white">
                                 Pesan
                                 Sekarang</PrimaryButton>
