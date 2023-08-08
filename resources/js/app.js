@@ -45,6 +45,7 @@ library.add(fas, far, fab)
 const appName =
     import.meta.env.VITE_APP_NAME || 'Malaqbi';
 
+
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`,

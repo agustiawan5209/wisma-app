@@ -16,6 +16,7 @@ Route::middleware(['auth', 'role:User'])->group(function () {
     Route::group(['prefix' => 'Checkout', 'as' => 'Checkout.'], function () {
         Route::controller(CheckoutController::class)->group(function () {
             Route::get('/', 'index')->name('index');
+            Route::get('/createpesanan', 'checkout')->name('checkout');
         });
     });
 });

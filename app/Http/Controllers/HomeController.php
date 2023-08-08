@@ -45,11 +45,14 @@ class HomeController extends Controller
         $formkamar =  ['tipe' => $tipe, 'tgl_masuk' => $tgl_masuk, 'tgl_keluar' => $tgl_keluar, 'jumlah_tamu' => $jumlah_tamu];
         // dd($formkamar);
         return Inertia::render('Home/Room', [
-            'kamar' => Kamar::orderBy('id', 'desc')->with(['details', 'tipe'])->filter(Request::only('search', 'tipe'))->paginate(10),
+            'kamar' => Kamar::orderBy('id', 'desc')->with(['details', 'tipe', 'foto'])->filter(Request::only('search', 'tipe'))->paginate(10),
             'search' => Request::input('search'),
             'formKamar' => $formkamar,
             'tipe_kamar'=> TipeKamar::all(),
             'jumlah_tamu'=> intval(Request::input('jumlah_tamu', 1)),
+            'tipe'=> $tipe,
+            'tgl_masuk'=> $tgl_masuk,
+            'tgl_keluar'=> $tgl_keluar,
 
         ]);
     }

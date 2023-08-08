@@ -5,7 +5,7 @@ import InputError from '@/Components/InputError.vue';
 import TextInput from '@/Components/TextInput.vue';
 import TextInputIcon from '@/Components/TextInputIcon.vue';
 import { Link, Head, useForm, usePage } from '@inertiajs/vue3';
-import { ref, defineProps, watch } from 'vue';
+import { ref, defineProps, watch , onMounted} from 'vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { gsap } from 'gsap';
 import Modal from '@/Components/Modal.vue';
@@ -26,6 +26,9 @@ const props = defineProps({
         default: () => ({})
     },
     jumlah_tamu: Number,
+    tipe: String,
+    tgl_masuk: String,
+    tgl_keluar: String,
 })
 
 const tipe = ref(null);
@@ -37,15 +40,29 @@ watch(tipe, (value) => {
     })
 })
 
-
+// Localstorage Get data Pesanan
+const ItemStorage = localStorage.getItem('pesanan');
+const GetItem = ref({});
+if (ItemStorage == null) {
+    GetItem.value = {
+        tipe: '',
+        kode_kamar: '',
+        diskon: '',
+        tgl_masuk: '',
+        tgl_keluar: '',
+        jumlah_tamu: '',
+    }
+} else {
+    GetItem.value = JSON.parse(ItemStorage)
+}
 // Checkout Form
 const checkoutForm = useForm({
-    tipe: props.formKamar.tipe,
+    tipe: GetItem.value.tipe,
     kode_kamar: '',
     diskon: '',
-    tgl_masuk: props.formKamar.tgl_masuk,
-    tgl_keluar: props.formKamar.tgl_keluar,
-    jumlah_tamu: props.jumlah_tamu,
+    tgl_masuk: GetItem.value.tgl_masuk,
+    tgl_keluar: GetItem.value.tgl_keluar,
+    jumlah_tamu: GetItem.value.jumlah_tamu,
 })
 
 //  Modal Checkout
@@ -77,6 +94,8 @@ function minusGuest() {
 }
 const ShowLoadingPage = ref(false);
 
+
+// Fungsi Checkout Barang
 function Checkout() {
     checkoutForm.get(route('Checkout.index'), {
         onBefore: () => {
@@ -88,11 +107,15 @@ function Checkout() {
         },
         onFinish: () => {
             ShowLoadingPage.value = false;
+            const dataItem = checkoutForm.data();
+            localStorage.setItem('pesanan', JSON.stringify(dataItem))
+            localStorage.setItem('checkoutItem', JSON.stringify(itemkamar.value))
         },
         onError: (err) => {
             console.log(err)
         }
     })
+
 }
 
 </script>

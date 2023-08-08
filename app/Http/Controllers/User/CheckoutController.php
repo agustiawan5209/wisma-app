@@ -7,6 +7,8 @@ use App\Models\Kamar;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Request;
 use App\Http\Requests\User\CheckoutRequest;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class CheckoutController extends Controller
 {
@@ -25,17 +27,11 @@ class CheckoutController extends Controller
         $tgl_masuk = Request::input('tgl_masuk');
         $tgl_keluar = Request::input('tgl_keluar');
         $jumlah_tamu = Request::input('jumlah_tamu', 1);
-
-        // $tipe_exists = Request::exists('tipe');
-        // $kode_kamar_exists = Request::exists('kode_kamar');
-        // $tgl_masuk_exists = Request::exists('tgl_masuk');
-        // $tgl_keluar_exists = Request::exists('tgl_keluar');
-        // $jumlah_tamu_exists = Request::exists('jumlah_tamu');
-        // if($tipe_exists && $kode_kamar_exists &&)
+        $user = User::with(['detail'])->find(Auth::user()->id);
         return Inertia::render('User/checkout', [
             'formKamar' => ['tipe' => $tipe, 'tgl_masuk' => $tgl_masuk, 'tgl_keluar' => $tgl_keluar, 'jumlah_tamu' => $jumlah_tamu],
             'kamar' => Kamar::where('kode', $kode_kamar)->with(['details', 'tipe'])->first(),
-
+            'user'=> $user,
         ]);
     }
 

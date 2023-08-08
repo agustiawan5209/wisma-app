@@ -22,14 +22,20 @@ class CheckoutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tipe_kamar'=> 'required|exists:tipe_kamars,tipe',
+            'tipe'=> 'required|exists:tipe_kamars,tipe',
             'kode_kamar'=> 'required|exists:kamars,kode',
             'diskon'=> 'nullable|numeric',
-            'status'=> 'required|in_array:PENDING,SUCCESS',
+            'status'=> 'required',
             'tgl_masuk'=> 'required|date',
             'tgl_keluar'=> 'required|date',
             'jumlah_tamu'=> 'required|numeric',
-            'sub_total'=> 'required',
+            'sub_total'=> 'required|numeric',
+
+            // Metode Bayar,
+            'metode_bayar'=> 'required',
+            'user_email'=> 'required|email',
+            'user_name'=> 'required|exists:users,name',
+            'user_no_hp'=> 'required|numeric'
         ];
     }
 }
