@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             // $table->enum('tipe', ['Luxury', 'Ekonomis']);
             $table->string('tipe',50)->unique();
+            $table->integer('harga');
             $table->timestamps();
         });
     }

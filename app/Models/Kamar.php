@@ -12,7 +12,7 @@ class Kamar extends Model
     use HasFactory;
 
     protected $table = 'kamars';
-    protected $fillable = ['tipe_kamar', 'kode', 'ket', 'harga', 'ruangan', 'status'];
+    protected $fillable = ['tipe_kamar', 'kode', 'ket', 'ruangan', 'status'];
 
 
     protected $appends = [

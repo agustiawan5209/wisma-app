@@ -26,7 +26,6 @@ class UpdateKamarRequest extends FormRequest
             // 'kode'=> 'required|exists:kamars,kode',
             'ruangan'=> 'required|exists:kamars,ruangan',
             // 'status'=>
-            'harga'=> 'required|numeric',
             'foto'=> 'nullable|image|mimes:png,jpg|max:1020',
             'fasilitas'=> 'required|array',
             'ket'=> 'required|string|max:255'
