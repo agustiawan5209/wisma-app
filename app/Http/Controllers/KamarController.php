@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreKamarRequest;
 use App\Http\Requests\UpdateKamarRequest;
+use App\Models\KamarGambar;
 use App\Models\TipeKamar;
 
 class KamarController extends Controller
@@ -64,10 +65,11 @@ class KamarController extends Controller
             'ruangan' => $request->ruangan,
             'status' => '1',
         ]);
-        DetailKamar::create([
+        KamarGambar::create([
             'kamar_id' => $kamar->id,
-            'jenis' => 'gambar',
-            'detail' => $nama,
+            'ket' => 'gambar',
+            'name' => $nama,
+            'default'=> true,
         ]);
         $fasilitas = $request->fasilitas;
         for ($i = 0; $i < count($fasilitas); $i++) {

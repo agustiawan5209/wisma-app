@@ -32,7 +32,7 @@ class Kamar extends Model
      * kamar has many detail kamar
      * @return void
      */
-    public function details() : HasMany
+    public function details(): HasMany
     {
         return $this->hasMany(DetailKamar::class, 'kamar_id', 'id');
     }
@@ -47,9 +47,13 @@ class Kamar extends Model
         return $this->hasOne(TipeKamar::class, 'tipe', 'tipe_kamar');
     }
 
+    public function foto()
+    {
+        return $this->hasOne(KamarGambar::class, 'kamar_id', 'id');
+    }
 
-
-    public function pathGambar(){
+    public function pathGambar()
+    {
         $data = $this->details();
         $foto = null;
         // foreach($data as $item){
