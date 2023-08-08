@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Kamar extends Model
 {
@@ -26,23 +27,36 @@ class Kamar extends Model
         );
     }
 
-    public function details()
+    /**
+     * details
+     * kamar has many detail kamar
+     * @return void
+     */
+    public function details() : HasMany
     {
         return $this->hasMany(DetailKamar::class, 'kamar_id', 'id');
     }
+
+    /**
+     * tipe
+     *  Kamar Has One Tipe Kamar
+     * @return void
+     */
     public function tipe()
     {
         return $this->hasOne(TipeKamar::class, 'tipe', 'tipe_kamar');
     }
 
+
+
     public function pathGambar(){
         $data = $this->details();
         $foto = null;
-        foreach($data as $item){
-            if($item->jenis === 'gambar'){
-                $foto = $item->detail;
-            }
-        }
+        // foreach($data as $item){
+        //     if($item->jenis === 'gambar'){
+        //         $foto = $item->detail;
+        //     }
+        // }
         return $foto;
     }
 

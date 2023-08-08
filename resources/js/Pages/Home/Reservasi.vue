@@ -5,6 +5,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import loadingAnimation from '@/Components/loadingAnimation.vue';
 const props = defineProps({
     kamar: {
         type: Object,
@@ -13,6 +14,7 @@ const props = defineProps({
 })
 
 const form = useForm({
+    tipe: '',
     kode_kamar: '',
     diskon: '',
     sub_total: '',
@@ -33,32 +35,49 @@ function minusGuest(){
     }
     form.jumlah_tamu = count.value;
 }
+
+const loadingPage = ref(false);
+function submit(){
+    form.get(route('Home.room'),{
+        onBefore: ()=>{
+            loadingPage.value = true;
+        },
+        onFinish: ()=>{
+            loadingPage.value = false;
+        },
+        preserveState:true,
+        preserveScroll:true,
+    });
+}
+
+
 </script>
 
 <template>
     <div class="container mx-auto flex flex-col sm:flex-col md:flex-row md:items-center px-2 py-3 sm:py-5 md:py-10 bg-primary rounded-2xl">
+        <loadingAnimation :show="loadingPage" />
         <h1 class="font-bold md:w-1/5 xl:w-1/4 text-white leading-6 tracking-wide">Isi Form Reservasi Kamar Wisma Malaqbi</h1>
 
-        <form class="flex flex-col sm:flex-col lg:flex-row md:space-x-4 py-2 px-4 w-4/5" action="#">
+        <form class="flex flex-col sm:flex-col lg:flex-row md:space-x-4 py-2 px-4 w-4/5" @submit.prevent="submit">
             <div class="block w-1/5">
                 <InputLabel class="text-white" for="tipe_kamar" value="Tipe Kamar" />
-                <select id="countries" v-model="form.tipe_kamar"
+                <select id="countries" v-model="form.tipe"
                     class="bg-white border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 "
-                    :class="form.errors.tipe_kamar ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-blue-500 focus:ring-blue-500 focus:border-blue-500'">
-                    <option selected>----</option>
+                    :class="form.errors.tipe ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-blue-500 focus:ring-blue-500 focus:border-blue-500'" :required="false">
+                    <option value="">----</option>
                     <option value="Luxury">Luxury</option>
                     <option value="Ekonomis">Ekonomis</option>
                 </select>
-                <InputError :message="form.errors.tipe_kamar" />
+                <InputError :message="form.errors.tipe" />
             </div>
             <div class="block">
                 <InputLabel class="text-white" for="Tanggal Check In" value="Tanggal Check In" />
-                <TextInput class="w-full" type="date" v-model="form.tgl_masuk" />
+                <TextInput class="w-full" type="date" v-model="form.tgl_masuk" required />
                 <InputError :message="form.errors.tgl_masuk" />
             </div>
             <div class="block">
                 <InputLabel class="text-white" for="Tanggal Check Out" value="Tanggal Check Out" />
-                <TextInput class="w-full" type="date" v-model="form.tgl_keluar" />
+                <TextInput class="w-full" type="date" v-model="form.tgl_keluar" required/>
                 <InputError :message="form.errors.tgl_keluar" />
             </div>
             <div class="block">
@@ -74,8 +93,8 @@ function minusGuest(){
                 </div>
                 <InputError :message="form.errors.jumlah_tamu" />
             </div>
-            <div class="flex border-t border-white pt-3">
-                <PrimaryButton class="bg-white text-primary hover:text-red-600 font-bold hover:!bg-gray-200 active:bg-gray-100 focus:bg-gray-200">Cari</PrimaryButton>
+            <div class="flex border-t border-white pt-3 md:border-none">
+                <PrimaryButton class="bg-white !text-primary hover:text-red-600 font-bold hover:!bg-gray-200 active:bg-gray-100 focus:bg-gray-200">Cari</PrimaryButton>
             </div>
         </form>
     </div>

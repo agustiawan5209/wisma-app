@@ -9,7 +9,7 @@
                 <div class="max-w-lg text-center">
                     <h1 class="text-xs md:text-5xl text-white font-sans font-bold leading-4 tracking-widest uppercase">
                         {{ img.title }}</h1>
-                    <PrimaryButton class="!bg-primary hover:bg-second active:bg-primary ">Selengkapnya</PrimaryButton>
+                    <PrimaryButton  id="close-button" class="!bg-primary hover:bg-second active:bg-primary ">Selengkapnya</PrimaryButton>
 
                 </div>
             </div>
@@ -26,6 +26,8 @@ import { Navigation, Scrollbar, A11y, Autoplay } from 'swiper/modules';
 
 // Import Swiper Vue.js components
 import { Swiper, SwiperSlide } from 'swiper/vue';
+
+import gsap from 'gsap';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -68,7 +70,15 @@ export default {
             console.log(swiper);
         };
         const onSlideChange = () => {
+            const boutonClose = document.querySelector('#close-button');
             console.log('slide change');
+            gsap.to(boutonClose, {
+                duration: 2,
+                delay: 2,
+                y: 0,
+                opacity: 1,
+                ease: 'bounce.out',
+            })
         };
 
         return {
@@ -115,4 +125,21 @@ export default {
         font-size: 10px;
     }
 }
+.bounce-enter-active {
+    animation: bounce-in 0.5s;
+  }
+  .bounce-leave-active {
+    animation: bounce-in 0.5s reverse;
+  }
+  @keyframes bounce-in {
+    0% {
+      transform: scale(0);
+    }
+    50% {
+      transform: scale(1.25);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
 </style>
