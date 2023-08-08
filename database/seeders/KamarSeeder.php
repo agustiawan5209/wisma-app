@@ -24,7 +24,7 @@ class KamarSeeder extends Seeder
                 DetailKamar::create([
                     'kamar_id'=> $kamar->id,
                     'jenis'=> 'fasilitas',
-                    'detail'=> fake()->realText(),
+                    'detail'=> fake()->word(),
                 ]);
             }
         });

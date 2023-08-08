@@ -5,6 +5,13 @@ import { Link, Head } from '@inertiajs/vue3';
 import { ref, defineProps } from 'vue';
 import Animate from '@/Components/Animate.vue';
 import Reservasi from './Reservasi.vue';
+
+const props = defineProps({
+    tipe_kamar: {
+        type: Object,
+        default: () => ({}),
+    },
+})
 </script>
 
 <template>
@@ -16,7 +23,7 @@ import Reservasi from './Reservasi.vue';
         </section>
 
         <section class="container px-3 mx-auto h-auto mb-5">
-            <Reservasi></Reservasi>
+            <Reservasi :tipe_kamar="tipe_kamar"></Reservasi>
         </section>
     </HomeLayout>
 </template>

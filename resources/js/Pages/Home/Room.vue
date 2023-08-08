@@ -3,6 +3,7 @@ import HomeLayout from '@/Layouts/HomeLayout.vue'
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 import TextInput from '@/Components/TextInput.vue';
+import TextInputIcon from '@/Components/TextInputIcon.vue';
 import { Link, Head, useForm, usePage } from '@inertiajs/vue3';
 import { ref, defineProps, watch } from 'vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -15,10 +16,14 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
-    search: String,
-    formKamar:{
+    tipe_kamar: {
         type: Object,
-        default:()=>({})
+        default: () => ({}),
+    },
+    search: String,
+    formKamar: {
+        type: Object,
+        default: () => ({})
     },
     jumlah_tamu: Number,
 })
@@ -38,9 +43,9 @@ const checkoutForm = useForm({
     tipe: props.formKamar.tipe,
     kode_kamar: '',
     diskon: '',
-    tgl_masuk:  props.formKamar.tgl_masuk,
-    tgl_keluar:  props.formKamar.tgl_keluar,
-    jumlah_tamu:  props.jumlah_tamu,
+    tgl_masuk: props.formKamar.tgl_masuk,
+    tgl_keluar: props.formKamar.tgl_keluar,
+    jumlah_tamu: props.jumlah_tamu,
 })
 
 //  Modal Checkout
@@ -60,31 +65,31 @@ function close() {
 // \Count Form
 const count = ref(props.jumlah_tamu);
 
-function plusGuest(){
+function plusGuest() {
     count.value++;
     checkoutForm.jumlah_tamu = count;
 }
-function minusGuest(){
-    if(count.value >= 1){
+function minusGuest() {
+    if (count.value >= 1) {
         count.value--;
     }
     checkoutForm.jumlah_tamu = count.value;
 }
 const ShowLoadingPage = ref(false);
 
-function Checkout(){
+function Checkout() {
     checkoutForm.get(route('Checkout.index'), {
-        onBefore:()=>{
+        onBefore: () => {
             ShowLoadingPage.value = true;
 
             setInterval(() => {
                 ShowLoadingPage.value = false;
             }, 2000);
         },
-        onFinish: ()=>{
+        onFinish: () => {
             ShowLoadingPage.value = false;
         },
-        onError:(err)=>{
+        onError: (err) => {
             console.log(err)
         }
     })
@@ -97,9 +102,9 @@ function Checkout(){
 
         <Head title="Home" />
         <section class="container mx-auto py-3">
-            <loadingAnimation :show="ShowLoadingPage"/>
+            <loadingAnimation :show="ShowLoadingPage" />
             <section>
-                <Reservasi />
+                <Reservasi :tipe_kamar="tipe_kamar" />
             </section>
 
             <h1 class="font-bold sm:text-xl md:text-2xl lg:text-3xl pl-4">Rekomendasi Kamar Untuk Anda</h1>
@@ -125,20 +130,18 @@ function Checkout(){
                                 class="text-sm font-normal text-gray-600">Kode Kamar</span></h3>
                         <p class="text-[0.6rem] md:text-sm text-gray-500" v-html="item.ket"></p>
                         <!-- Fasilitas Kamar -->
-                        <div class="fasilitas flex flex-wrap gap-4 mt-3 box-border">
+                        <div class="fasilitas flex flex-col gap-1 mt-3 box-border">
                             <div class="flex gap-2 items-center">
-                                <font-awesome-icon :icon="['fas', 'gear']" class="text-gray-400" />
                                 <dl class="block">
                                     <dt class="text-xs sm:text-sm md:text-base">Fasilitas</dt>
-                                    <dt class="text-xs whitespace-pre-wrap">Lorem ipsum dolor sit amet.</dt>
+                                    <!-- <dt class="text-xs whitespace-pre-wrap">Lorem ipsum dolor sit amet.</dt> -->
                                 </dl>
                             </div>
                             <div class="block" v-for="col in item.details">
                                 <div class="flex gap-2 items-center" v-if="col.jenis !== 'gambar'">
                                     <font-awesome-icon :icon="['fas', 'gear']" class="text-gray-400" />
                                     <dl class="block">
-                                        <dt class="text-xs sm:text-sm md:text-base">{{ col.jenis }}</dt>
-                                        <dt class="text-xs whitespace-pre-wrap w-1/2">{{ col.detail }}</dt>
+                                        <dt class="text-xs whitespace-pre-wrap w-1/2 capitalize">{{ col.detail }}</dt>
                                     </dl>
                                 </div>
                             </div>
@@ -170,20 +173,18 @@ function Checkout(){
                             class="text-sm font-normal text-gray-600">Kode Kamar</span></h3>
                     <p class="text-[0.6rem] md:text-sm text-gray-500" v-html="itemkamar.ket"></p>
                     <!-- Fasilitas Kamar -->
-                    <div class="fasilitas flex flex-wrap gap-4 mt-3 box-border">
+                    <div class="fasilitas flex flex-col gap-1 mt-3 box-border">
                         <div class="flex gap-2 items-center">
-                            <font-awesome-icon :icon="['fas', 'gear']" class="text-gray-400" />
                             <dl class="block">
                                 <dt class="text-xs sm:text-sm md:text-base">Fasilitas</dt>
-                                <dt class="text-xs whitespace-pre-wrap">Lorem ipsum dolor sit amet.</dt>
+                                <!-- <dt class="text-xs whitespace-pre-wrap">Lorem ipsum dolor sit amet.</dt> -->
                             </dl>
                         </div>
                         <div class="block" v-for="col in itemkamar.details">
                             <div class="flex gap-2 items-center" v-if="col.jenis !== 'gambar'">
                                 <font-awesome-icon :icon="['fas', 'gear']" class="text-gray-400" />
                                 <dl class="block">
-                                    <dt class="text-xs sm:text-sm md:text-base">{{ col.jenis }}</dt>
-                                    <dt class="text-xs whitespace-pre-wrap w-1/2">{{ col.detail }}</dt>
+                                    <dt class="text-xs whitespace-pre-wrap w-1/2 capitalize">{{ col.detail }}</dt>
                                 </dl>
                             </div>
                         </div>
@@ -194,34 +195,57 @@ function Checkout(){
                     <form class="block mt-3 space-y-3" @submit.prevent="Checkout">
                         <div class="block">
                             <InputLabel class="text-gray-700" for="tipe_kamar" value="Tipe Kamar" />
-                            <select id="countries" v-model="checkoutForm.tipe"
-                                class="bg-white border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 "
-                                :class="checkoutForm.errors.tipe ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-blue-500 focus:ring-blue-500 focus:border-blue-500'"
-                                :required="false">
-                                <option value="">----</option>
-                                <option value="Luxury">Luxury</option>
-                                <option value="Ekonomis">Ekonomis</option>
-                            </select>
+                            <TextInputIcon>
+                                <template #input>
+                                    <select id="countries" v-model="checkoutForm.tipe"
+                                        class="bg-white border pl-11 text-gray-900 text-sm rounded-lg  block w-full p-2.5 "
+                                        :class="checkoutForm.errors.tipe ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-blue-500 focus:ring-blue-500 focus:border-blue-500'"
+                                        :required="false">
+                                        <option value="">----</option>
+                                        <option v-for="col in tipe_kamar" :value="col.tipe">{{ col.tipe }}</option>
+                                    </select>
+                                </template>
+                                <template #icon>
+                                    <font-awesome-icon :icon="['fas', 'list']" class="h-4 w-4 text-gray-400" />
+                                </template>
+                            </TextInputIcon>
+
                             <InputError :message="checkoutForm.errors.tipe" />
                         </div>
                         <div class="block">
                             <InputLabel class="text-gray-700" for="Tanggal Check In" value="Tanggal Check In" />
-                            <TextInput class="w-full" type="date" v-model="checkoutForm.tgl_masuk" required />
+                            <TextInputIcon>
+                                <template #input>
+                                    <TextInput class="w-full pl-8" type="date" v-model="checkoutForm.tgl_masuk" required />
+                                </template>
+                                <template #icon>
+                                    <font-awesome-icon :icon="['fas', 'calendar-days']" class="h-4 w-4 text-gray-400" />
+                                </template>
+                            </TextInputIcon>
                             <InputError :message="checkoutForm.errors.tgl_masuk" />
                         </div>
                         <div class="block">
                             <InputLabel class="text-gray-700" for="Tanggal Check Out" value="Tanggal Check Out" />
-                            <TextInput class="w-full" type="date" v-model="checkoutForm.tgl_keluar" required />
+                            <TextInputIcon>
+                                <template #input>
+                                    <TextInput class="w-full pl-8" type="date" v-model="checkoutForm.tgl_keluar" required />
+                                </template>
+                                <template #icon>
+                                    <font-awesome-icon :icon="['fas', 'calendar-days']" class="h-4 w-4 text-gray-400" />
+                                </template>
+                            </TextInputIcon>
                             <InputError :message="checkoutForm.errors.tgl_keluar" />
                         </div>
                         <div class="block">
                             <InputLabel class="text-gray-700" for="Jumlah_Tamu" value="Jumlah Tamu" />
                             <div class="flex flex-row">
-                                <PrimaryButton type="button" @click="minusGuest" class="bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent !border-none !ring-0 focus:!ring-0 focus:!border-none active:!ring-0 focus:outline-none outline-none active:border-none !px-3 !text-black">
+                                <PrimaryButton type="button" @click="minusGuest"
+                                    class="bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent !border-none !ring-0 focus:!ring-0 focus:!border-none active:!ring-0 focus:outline-none outline-none active:border-none !px-3 !text-black">
                                     <font-awesome-icon :icon="['fas', 'minus']" />
                                 </PrimaryButton>
-                                <kbd class="p-2 !text-gray-700 font-bold">{{count}}</kbd>
-                                <PrimaryButton type="button" @click="plusGuest" class="bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent !border-none !ring-0 focus:!ring-0 focus:!border-none active:!ring-0 focus:outline-none outline-none active:border-none !px-3 !text-black">
+                                <kbd class="p-2 !text-gray-700 font-bold">{{ count }}</kbd>
+                                <PrimaryButton type="button" @click="plusGuest"
+                                    class="bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent !border-none !ring-0 focus:!ring-0 focus:!border-none active:!ring-0 focus:outline-none outline-none active:border-none !px-3 !text-black">
                                     <font-awesome-icon :icon="['fas', 'plus']" />
                                 </PrimaryButton>
                             </div>

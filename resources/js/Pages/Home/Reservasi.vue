@@ -5,13 +5,19 @@ import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import TextInputIcon from '@/Components/TextInputIcon.vue';
 import loadingAnimation from '@/Components/loadingAnimation.vue';
 const props = defineProps({
     kamar: {
         type: Object,
         default: () => ({}),
+    },
+    tipe_kamar:{
+        type: Object,
+        default: () => ({}),
     }
 })
+const count = ref(1);
 
 const form = useForm({
     tipe: '',
@@ -21,9 +27,8 @@ const form = useForm({
     status: 'PENDING',
     tgl_masuk: '',
     tgl_keluar: '',
-    jumlah_tamu: '',
+    jumlah_tamu: count.value,
 })
-const count = ref(1);
 
 function plusGuest(){
     count.value++;
@@ -61,23 +66,45 @@ function submit(){
         <form class="flex flex-col sm:flex-col lg:flex-row md:space-x-4 py-2 px-4 w-4/5" @submit.prevent="submit">
             <div class="block w-1/5">
                 <InputLabel class="text-white" for="tipe_kamar" value="Tipe Kamar" />
-                <select id="countries" v-model="form.tipe"
-                    class="bg-white border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 "
-                    :class="form.errors.tipe ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-blue-500 focus:ring-blue-500 focus:border-blue-500'" :required="false">
-                    <option value="">----</option>
-                    <option value="Luxury">Luxury</option>
-                    <option value="Ekonomis">Ekonomis</option>
-                </select>
+                <TextInputIcon>
+                    <template #input>
+                        <select id="countries" v-model="form.tipe"
+                            class="bg-white border pl-11 text-gray-900 text-sm rounded-lg  block w-full p-2.5 "
+                            :class="form.errors.tipe ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-blue-500 focus:ring-blue-500 focus:border-blue-500'"
+                            :required="false">
+                            <option value="">----</option>
+                            <option v-for="col in tipe_kamar" :value="col.tipe">{{ col.tipe }}</option>
+                        </select>
+                    </template>
+                    <template #icon>
+                        <font-awesome-icon :icon="['fas', 'list']" class="h-4 w-4 text-red-400" />
+                    </template>
+                </TextInputIcon>
+
                 <InputError :message="form.errors.tipe" />
             </div>
             <div class="block">
                 <InputLabel class="text-white" for="Tanggal Check In" value="Tanggal Check In" />
-                <TextInput class="w-full" type="date" v-model="form.tgl_masuk" required />
+                <TextInputIcon>
+                    <template #input>
+                        <TextInput class="w-full pl-11" type="date" v-model="form.tgl_masuk" required />
+                    </template>
+                    <template #icon>
+                        <font-awesome-icon :icon="['fas', 'calendar-days']" class="h-4 w-4 text-red-400" />
+                    </template>
+                </TextInputIcon>
                 <InputError :message="form.errors.tgl_masuk" />
             </div>
             <div class="block">
                 <InputLabel class="text-white" for="Tanggal Check Out" value="Tanggal Check Out" />
-                <TextInput class="w-full" type="date" v-model="form.tgl_keluar" required/>
+                <TextInputIcon>
+                    <template #input>
+                        <TextInput class="w-full pl-11" type="date" v-model="form.tgl_keluar" required />
+                    </template>
+                    <template #icon>
+                        <font-awesome-icon :icon="['fas', 'calendar-days']" class="h-4 w-4 text-red-400" />
+                    </template>
+                </TextInputIcon>
                 <InputError :message="form.errors.tgl_keluar" />
             </div>
             <div class="block">

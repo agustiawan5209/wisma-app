@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreKamarRequest;
 use App\Http\Requests\UpdateKamarRequest;
+use App\Models\TipeKamar;
 
 class KamarController extends Controller
 {
@@ -31,6 +32,7 @@ class KamarController extends Controller
     {
         return Inertia::render('Admin/Kamar/Form', [
             'kamar' => Kamar::with(['details', 'tipe'])->orderBy('id', 'desc')->paginate(10),
+            'tipe_kamar'=> TipeKamar::all(),
         ]);
     }
     private function createCode()

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kamar;
+use App\Models\TipeKamar;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
@@ -10,19 +11,30 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Home/Welcome', []);
+        return Inertia::render('Home/Welcome', [
+            'tipe_kamar'=> TipeKamar::all(),
+        ]);
     }
     public function about()
     {
-        return Inertia::render('Home/About', []);
+        return Inertia::render('Home/About', [
+            'tipe_kamar'=> TipeKamar::all(),
+
+        ]);
     }
     public function blog()
     {
-        return Inertia::render('Home/Blog', []);
+        return Inertia::render('Home/Blog', [
+            'tipe_kamar'=> TipeKamar::all(),
+
+        ]);
     }
     public function contact()
     {
-        return Inertia::render('Home/Contact', []);
+        return Inertia::render('Home/Contact', [
+            'tipe_kamar'=> TipeKamar::all(),
+
+        ]);
     }
     public function room()
     {
@@ -36,6 +48,8 @@ class HomeController extends Controller
             'search' => Request::input('search'),
             'jumlah_tamu'=> intval(Request::input('jumlah_tamu', 1)),
             'formKamar' => ['tipe' => $tipe, 'tgl_masuk' => $tgl_masuk, 'tgl_keluar' => $tgl_keluar, 'jumlah_tamu' => $jumlah_tamu],
+            'tipe_kamar'=> TipeKamar::all(),
+
         ]);
     }
 }

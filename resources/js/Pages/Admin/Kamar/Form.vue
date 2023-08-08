@@ -7,8 +7,15 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { ref } from 'vue';
+import { ref,defineProps } from 'vue';
 
+
+const props = defineProps({
+    tipe_kamar:{
+        type: Object,
+        default: ()=>({}),
+    },
+})
 const AddForm = useForm({
     foto: null,
     kode: '',
@@ -78,8 +85,7 @@ function back(){
                             <select id="countries" v-model="AddForm.tipe_kamar"
                                 class="bg-white border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 " :class="AddForm.errors.tipe_kamar ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-blue-500 focus:ring-blue-500 focus:border-blue-500'">
                                 <option selected>----</option>
-                                <option value="Luxury">Luxury</option>
-                                <option value="Ekonomis">Ekonomis</option>
+                            <option v-for="col in tipe_kamar" :value="col.tipe">{{ col.tipe }}</option>
                             </select>
                             <InputError :message="AddForm.errors.tipe_kamar" />
 

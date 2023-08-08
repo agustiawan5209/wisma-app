@@ -22,7 +22,7 @@ class KamarFactory extends Factory
             'tipe_kamar'=> $this->faker->randomElement($type),
             'kode'=> 'KA-0'. $this->faker->unique()->randomDigit(),
             'ket'=> $this->faker->paragraph(),
-            'ruangan'=> $this->faker->realText(10),
+            'ruangan'=> $this->faker->word(),
             'status'=> $this->faker->randomElement($status),
         ];
     }
