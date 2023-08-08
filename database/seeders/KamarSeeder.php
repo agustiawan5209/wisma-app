@@ -15,11 +15,16 @@ class KamarSeeder extends Seeder
     public function run(): void
     {
         Kamar::factory()->count(10)->create()->each(function($kamar){
+            DetailKamar::create([
+                'kamar_id'=> $kamar->id,
+                'jenis'=> 'gambar',
+                'detail'=> fake()->imageUrl(),
+            ]);
             for ($i=0; $i < 5; $i++) {
                 DetailKamar::create([
                     'kamar_id'=> $kamar->id,
-                    'jenis'=> 'gambar',
-                    'detail'=> fake()->imageUrl(),
+                    'jenis'=> 'fasilitas',
+                    'detail'=> fake()->realText(),
                 ]);
             }
         });

@@ -16,11 +16,11 @@ class KamarFactory extends Factory
      */
     public function definition(): array
     {
-        $type = ['Luxury','Ekonomis'];
+        $type = ['VVIP','VIP','BIASA','KIPAS'];
         $status = ['1','2'];
         return [
             'tipe_kamar'=> $this->faker->randomElement($type),
-            'kode'=> $this->faker->unique()->randomDigit(),
+            'kode'=> 'KA-0'. $this->faker->unique()->randomDigit(),
             'ket'=> $this->faker->paragraph(),
             'ruangan'=> $this->faker->realText(10),
             'status'=> $this->faker->randomElement($status),
