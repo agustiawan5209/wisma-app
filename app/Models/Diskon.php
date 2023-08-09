@@ -9,7 +9,7 @@ class Diskon extends Model
 {
     use HasFactory;
     protected $table = 'diskons';
-    protected $fillable = ['tipe','kode','kode_kamar','potongan','tgl_mulai','tgl_akhir','max_user'];
+    protected $fillable = ['tipe','tipe_kamar','kode','kode_kamar','potongan','tgl_mulai','tgl_akhir','max_user'];
 
 
     public function kamar(){

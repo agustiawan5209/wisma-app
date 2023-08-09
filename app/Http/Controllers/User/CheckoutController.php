@@ -30,8 +30,12 @@ class CheckoutController extends Controller
         $user = User::with(['detail'])->find(Auth::user()->id);
         return Inertia::render('User/checkout', [
             'formKamar' => ['tipe' => $tipe, 'tgl_masuk' => $tgl_masuk, 'tgl_keluar' => $tgl_keluar, 'jumlah_tamu' => $jumlah_tamu],
-            'kamar' => Kamar::where('kode', $kode_kamar)->with(['details', 'tipe'])->first(),
+            'kamar' => Kamar::where('kode', $kode_kamar)->with(['details','diskon', 'tipe'])->first(),
             'user'=> $user,
+            'jumlah_tamu' => intval(Request::input('jumlah_tamu', 1)),
+            'tipe' => $tipe,
+            'tgl_masuk' => $tgl_masuk,
+            'tgl_keluar' => $tgl_keluar,
         ]);
     }
 

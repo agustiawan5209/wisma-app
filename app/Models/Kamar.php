@@ -64,6 +64,15 @@ class Kamar extends Model
         return $foto;
     }
 
+    /**
+     * scopeFilter
+     * fungsi Pencarian Untuk
+     * Kode
+     * Tipe Kamar
+     * @param  mixed $query
+     * @param  mixed $filter
+     * @return void
+     */
     public function scopeFilter($query, $filter)
     {
         $query->when($filter['search'] ?? null,  function ($query, $search) {
@@ -71,5 +80,15 @@ class Kamar extends Model
         })->when($filter['tipe'] ?? null,  function ($query, $tipe) {
             $query->where('tipe_kamar', '=', $tipe);
         });
+    }
+
+
+    /**
+     * diskon
+     * Kamar Has One Diskon
+     * @return void
+     */
+    public function diskon(){
+        return $this->hasOne(Diskon::class,'kode_kamar','kode');
     }
 }

@@ -137,8 +137,8 @@ function Checkout() {
                 <select id="countries" v-model="tipe"
                     class="bg-white border text-gray-900 text-sm rounded-lg block w-full p-2.5 ">
                     <option value="">----</option>
-                    <option value="Luxury">Luxury</option>
-                    <option value="Ekonomis">Ekonomis</option>
+                    <option v-for="item in tipe_kamar"  :value="item.tipe">{{item.tipe}}</option>
+
                 </select>
             </div>
             <!-- Grid Card Kamar -->

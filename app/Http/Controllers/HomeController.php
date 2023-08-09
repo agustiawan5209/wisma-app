@@ -12,27 +12,27 @@ class HomeController extends Controller
     public function index()
     {
         return Inertia::render('Home/Welcome', [
-            'tipe_kamar'=> TipeKamar::all(),
+            'tipe_kamar' => TipeKamar::all(),
         ]);
     }
     public function about()
     {
         return Inertia::render('Home/About', [
-            'tipe_kamar'=> TipeKamar::all(),
+            'tipe_kamar' => TipeKamar::all(),
 
         ]);
     }
     public function blog()
     {
         return Inertia::render('Home/Blog', [
-            'tipe_kamar'=> TipeKamar::all(),
+            'tipe_kamar' => TipeKamar::all(),
 
         ]);
     }
     public function contact()
     {
         return Inertia::render('Home/Contact', [
-            'tipe_kamar'=> TipeKamar::all(),
+            'tipe_kamar' => TipeKamar::all(),
 
         ]);
     }
@@ -43,16 +43,16 @@ class HomeController extends Controller
         $tgl_keluar = Request::input('tgl_keluar');
         $jumlah_tamu = intval(Request::input('jumlah_tamu', 1));
         $formkamar =  ['tipe' => $tipe, 'tgl_masuk' => $tgl_masuk, 'tgl_keluar' => $tgl_keluar, 'jumlah_tamu' => $jumlah_tamu];
-        // dd($formkamar);
+        // dd(Request::only('search', 'tipe'));
         return Inertia::render('Home/Room', [
-            'kamar' => Kamar::orderBy('id', 'desc')->with(['details', 'tipe', 'foto'])->filter(Request::only('search', 'tipe'))->paginate(10),
+            'kamar' => Kamar::orderBy('id', 'desc')->with(['details', 'diskon', 'tipe', 'foto'])->filter(Request::only('search', 'tipe'))->paginate(10),
             'search' => Request::input('search'),
             'formKamar' => $formkamar,
-            'tipe_kamar'=> TipeKamar::all(),
-            'jumlah_tamu'=> intval(Request::input('jumlah_tamu', 1)),
-            'tipe'=> $tipe,
-            'tgl_masuk'=> $tgl_masuk,
-            'tgl_keluar'=> $tgl_keluar,
+            'tipe_kamar' => TipeKamar::all(),
+            'jumlah_tamu' => intval(Request::input('jumlah_tamu', 1)),
+            'tipe' => $tipe,
+            'tgl_masuk' => $tgl_masuk,
+            'tgl_keluar' => $tgl_keluar,
 
         ]);
     }

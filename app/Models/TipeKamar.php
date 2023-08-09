@@ -13,10 +13,26 @@ class TipeKamar extends Model
     protected $table = 'tipe_kamars';
     protected $fillable = ['tipe','harga',];
 
+    /**
+     * diskon
+     *  Tipe Kamar Has One Diskon
+     * @return void
+     */
+    public function diskon(){
+        return $this->hasOne(Diskon::class, 'tipe_kamar','tipe');
+    }
+
+    // Append Nilai Harga
     protected $appends = [
         'rupiah',
     ];
 
+    /**
+     * rupiah
+     * Generate Harga
+     * Ke Rupiah
+     * @return Attribute
+     */
     protected function rupiah(): Attribute
     {
         return new Attribute(

@@ -35,7 +35,8 @@ class CheckoutRequest extends FormRequest
             'metode_bayar'=> 'required',
             'user_email'=> 'required|email',
             'user_name'=> 'required|exists:users,name',
-            'user_no_hp'=> 'required|numeric'
+            'user_no_hp'=> 'required|numeric',
+            'ket'=> 'required|string|max:100',
         ];
     }
 }

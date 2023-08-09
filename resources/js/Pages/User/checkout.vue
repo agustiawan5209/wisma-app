@@ -17,19 +17,23 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    jumlah_tamu: Number,
+    tipe: String,
+    tgl_masuk: String,
+    tgl_keluar: String,
 })
 const item = JSON.parse(localStorage.getItem('checkoutItem'));
 const pesanan = JSON.parse(localStorage.getItem('pesanan'));
 const sub_total = ref(item.tipe.harga);
 const form = useForm({
-    tipe: item.tipe.tipe,
-    kode_kamar: item.kode,
+    tipe: props.kamar.tipe.tipe,
+    kode_kamar: props.kamar.kode,
     diskon: '',
-    sub_total: item.tipe.harga,
+    sub_total: props.kamar.tipe.harga,
     status: 'PENDING',
-    tgl_masuk: pesanan.tgl_masuk,
-    tgl_keluar: pesanan.tgl_keluar,
-    jumlah_tamu: pesanan.jumlah_tamu,
+    tgl_masuk: props.tgl_masuk,
+    tgl_keluar: props.tgl_keluar,
+    jumlah_tamu: props.jumlah_tamu,
 
     // User
     user_email: props.user.email,
@@ -38,6 +42,7 @@ const form = useForm({
 
     // Metode Pembayaran
     metode_bayar: 'Tunai',
+    ket: '',
 })
 const loadingPage = ref(false);
 const ErrorPage = ref([])
@@ -98,7 +103,7 @@ function checkout() {
                 </div>
             </div>
             <ul class="w-full list-item sm:px-10 lg:px-20 xl:px-32">
-                <li class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 " v-for="err in ErrorPage" ::key="err">
+                <li class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 " v-for="err in form.errors" :key="err">
                     <span class="font-medium">Danger alert!</span> {{ err }}
                 </li>
             </ul>
@@ -212,15 +217,17 @@ function checkout() {
                         </div>
 
                         <label for="billing-address" class="mt-4 mb-2 block text-sm font-medium">Catatan Pembayaran</label>
-                        <div class="flex flex-col sm:flex-row">
+                        <div class="flex flex-col">
                             <div class="relative flex-shrink-0 w-full">
-                                <input type="text" id="billing-address" name="billing-address"
+                                <input type="text" id="billing-description" name="billing-description" v-model="form.ket"
                                     class="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                                     placeholder="Catatan" />
                                 <div class="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
                                     <font-awesome-icon :icon="['fas', 'comments']" class="text-gray-400" />
                                 </div>
+
                             </div>
+                            <InputError :message="form.errors.ket" />
                         </div>
 
                         <!-- Total -->
