@@ -25,4 +25,8 @@ class UserController extends Controller
             'reservasi'=> Reservasi::where('user_id', Auth::user()->id)->with(['detail','detail.kamar','detail.kamar.foto','transaksi'])->latest()->paginate(10),
         ]);
     }
+
+    public function profile(){
+        return Inertia::render('User/Profile');
+    }
 }

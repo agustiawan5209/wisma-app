@@ -22,6 +22,7 @@ Route::middleware(['auth', 'role:User'])->group(function () {
     Route::group(['prefix' => 'User', 'as' => 'User.'], function () {
         Route::controller(UserController::class)->group(function () {
             Route::get('/', 'dashboard')->name('dashboard');
+            Route::get('/setting-profile', 'profile')->name('profile');
             Route::get('/pemesanan-kamar', 'reservasi')->name('reservasi');
             Route::get('/detail-pemesanan-kamar', 'invoice')->name('invoice');
         });
