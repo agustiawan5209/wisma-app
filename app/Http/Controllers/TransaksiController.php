@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Transaksi;
 use App\Http\Requests\Checkout\StoreTransaksiRequest;
 use App\Http\Requests\Checkout\UpdateTransaksiRequest;
+use App\Models\Reservasi;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
@@ -16,7 +17,7 @@ class TransaksiController extends Controller
     public function index()
     {
         return Inertia::render('Admin/Transaksi/Index', [
-            'transaksi' => Transaksi::orderBy('id', 'desc')->with(['kamar', 'user'])->filter(Request::only('search', 'tgl'))->paginate(10),
+            'transaksi' => Reservasi::orderBy('id', 'desc')->with(['detail', 'transaksi'])->filter(Request::only('search', 'tgl','status'))->paginate(10),
             'search'=> Request::input('search'),
             'tgl'=> Request::input('tgl'),
         ]);
@@ -27,8 +28,9 @@ class TransaksiController extends Controller
      */
     public function show(Transaksi $transaksi)
     {
+        $reservasi = Reservasi::with(['detail', 'transaksi','transaksi.user','transaksi.kamar'])->where('kode_reservasi',Request::input('kode'))->first();
         return Inertia::render('Admin/Transaksi/Show', [
-            'transaksi' => Transaksi::with(['kamar', 'user'])->find(Request::input('slug')),
+            'reservasi' => $reservasi,
         ]);
     }
 

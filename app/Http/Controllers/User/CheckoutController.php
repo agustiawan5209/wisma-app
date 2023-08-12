@@ -64,7 +64,10 @@ class CheckoutController extends Controller
 
     public function success()
     {
-        return Inertia::render('User/Success');
+        $resevasi = Reservasi::with(['detail', 'transaksi','transaksi.user','transaksi.kamar'])->where('kode_reservasi',Request::input('kode'))->first();
+        return Inertia::render('User/Success',[
+            'reservasi'=> $resevasi,
+        ]);
     }
 
     private function createCode()
@@ -133,6 +136,6 @@ class CheckoutController extends Controller
             'tipe_kamar'=> $checkoutRequest->tipe,
             'kode_kamar'=> $reservasi->kode_kamar,
         ]);
-        return redirect()->route('Checkout.success');
+        return redirect()->route('Checkout.success', ['kode_reservasi'=> $reservasi->kode_reservasi]);
     }
 }

@@ -55,6 +55,12 @@ function DeleteTransaksi() {
         }
     })
 }
+const rupiah = (num) => {
+  return new  Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+    }).format(num);
+}
 </script>
 
 <template>
@@ -98,6 +104,7 @@ function DeleteTransaksi() {
                                 <tr>
                                     <th scope="col" class="border">No.</th>
                                     <th scope="col" class="px-4 py-3 border">kode Transaksi</th>
+                                    <th scope="col" class="px-4 py-3 border">kode Reservasi</th>
                                     <th scope="col" class="px-4 py-3 border">Kode Kamar</th>
                                     <th scope="col" class="px-4 py-3 border">Potongan</th>
                                     <th scope="col" class="px-4 py-3 border">Sub Total</th>
@@ -109,30 +116,39 @@ function DeleteTransaksi() {
                             </thead>
                             <tbody>
                                 <tr v-for="(item, index) in transaksi.data" class="border-b ">
-                                    <th class="border text-center">{{ (transaksi.current_page - 1) * transaksi.per_page + index + 1
+                                    <th class="border text-center">{{ (transaksi.current_page - 1) * transaksi.per_page +
+                                        index + 1
                                     }}.</th>
-                                    <td class="px-4 py-3 border">{{ item.kode_transaksi }}</td>
+                                    <td class="px-4 py-3 border">{{ item.transaksi.kode_transaksi }}</td>
+                                    <td class="px-4 py-3 border">{{ item.kode_reservasi }}</td>
                                     <td class="px-4 py-3 border">{{ item.kode_kamar }}%</td>
-                                    <td class="px-4 py-3 border">{{ item.potongan }}%</td>
-                                    <td class="px-4 py-3 border">{{ item.sub_total }}</td>
-                                    <td class="px-4 py-3 border">{{ item.status }}</td>
+                                    <td class="px-4 py-3 border">{{ rupiah(item.transaksi.diskon) }}</td>
+                                    <td class="px-4 py-3 border">{{ rupiah(item.transaksi.sub_total) }}</td>
+                                    <td class="px-4 py-3 border">
+                                        <div class=" text-center cursor-pointer relative text-sm rounded-lg bg-gray-800 group"
+                                            role="alert">
+                                            <div class="absolute w-full scale-0 h-full bg-white opacity-10 group-hover:scale-100 transition-all"></div>
+                                            <span class="font-medium text-blue-400 p-4">{{ item.transaksi.status }}</span>
+                                        </div>
+                                    </td>
                                     <td class="px-4 py-3 border flex items-center justify-start">
-                                        <Link :href="route('Transaksi.confirm', { kode: item.kode, slug: item.id, ket: item.ket, })">
+                                        <!-- <Link :href="route('Transaksi.confirm', { kode: item.kode, slug: item.id, ket: item.ket, })">
                                             <PrimaryButton class="bg-green-500 hover:bg-green-600 active:bg-green-400 text-white">
                                             <font-awesome-icon :icon="['fas', 'pen']" />
                                         </PrimaryButton>
-                                        </Link>
-                                        <Link :href="route('Transaksi.show', { kode: item.kode, slug: item.id, ket: item.ket, })">
-                                            <PrimaryButton class="bg-blue-500 hover:bg-blue-600 active:bg-blue-400 text-white">
+                                        </Link> -->
+                                        <Link
+                                            :href="route('Transaksi.show', { kode: item.kode_reservasi, slug: item.id, ket: item.transaksi.kode_transaksi, })">
+                                        <PrimaryButton class="bg-blue-500 hover:bg-blue-600 active:bg-blue-400 text-white">
                                             <font-awesome-icon :icon="['fas', 'eye']" />
                                         </PrimaryButton>
                                         </Link>
-                                        <PrimaryButton type="button"
+                                        <!-- <PrimaryButton type="button"
                                             class="!bg-error text-white hover:bg-red-600 active:bg-red-400 block"
                                             @click="showModaldelete(item.id)">
                                             <font-awesome-icon :icon="['fas', 'trash-can']" />
 
-                                        </PrimaryButton>
+                                        </PrimaryButton> -->
                                     </td>
                                 </tr>
                             </tbody>

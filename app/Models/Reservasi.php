@@ -20,4 +20,21 @@ class Reservasi extends Model
     public function detail(){
         return $this->hasOne(ReservasiDetail::class,'reservasi_id','id');
     }
+
+    public function scopeFilter($query, $array)
+    {
+        $query->when($array['search'] ?? null, function ($query, $search) {
+            $query->where('kode_transaksi', 'like', '%' . $search . '%')
+                ->orWhere('kode_reservasi', 'like',  '%' . $search . '%')
+                ->orWhere('kode_kamar', 'like',  '%' . $search . '%')
+                ->orWhereDate('tgl_masuk', 'like',  '%' . $search . '%')
+                ->orWhereDate('tgl_keluar', 'like',  '%' . $search . '%')
+                ->orWhereDate('jumlah_tamu', 'like',  '%' . $search . '%')
+                ->orWhere('status', 'like',  '%' . $search . '%');
+        })->when($array['tgl'] ?? null,  function ($query, $date) {
+            $query->whereDate('created_at', $date);
+        })->when($array['status'] ?? null,  function ($query, $status) {
+            $query->Where('status', $status);
+        });
+    }
 }
