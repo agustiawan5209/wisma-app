@@ -11,4 +11,8 @@ class ReservasiDetail extends Model
 
     protected $table  = 'reservasi_details';
     protected $fillable = ['reservasi_id','nama','email','no_hp','catatan','tipe_kamar','kode_kamar'];
+
+    public function kamar(){
+        return $this->hasOne(Kamar::class,'kode','kode_kamar');
+    }
 }

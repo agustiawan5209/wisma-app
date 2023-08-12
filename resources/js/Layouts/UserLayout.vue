@@ -9,7 +9,7 @@ import HomeLayout from './HomeLayout.vue';
 <template>
     <HomeLayout>
         <div class="h-screen relative overflow-auto">
-            <aside class="absolute top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 "
+            <aside class="absolute top-0 left-0 z-40 w-64 h-full transition-transform -translate-x-full sm:translate-x-0 "
                 aria-label="Sidenav">
                 <div class="overflow-y-auto py-5 px-3 h-max border-r border-gray-200 relative ">
 
@@ -29,8 +29,8 @@ import HomeLayout from './HomeLayout.vue';
                                 </NavLink>
                             </li>
                             <li class="w-full  p-2 rounded-lg border"
-                                :class="route().current('User.dashboard') ? 'bg-white border-transparent' : 'border-white'">
-                                <NavLink :href="route('User.dashboard')" :active="route().current('User.dashboard')">
+                                :class="route().current('User.reservasi') ? 'bg-white border-transparent' : 'border-white'">
+                                <NavLink :href="route('User.reservasi')" :active="route().current('User.reservasi')">
                                     <font-awesome-icon :icon="['fas', 'briefcase']" />
                                     <span class="nav-home ml-5">Reservasi</span>
                                 </NavLink>
