@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('tgl_masuk');
             $table->date('tgl_keluar');
             $table->integer('jumlah_tamu');
-            $table->enum('status', ['CANCELED','CHECKIN', 'CHECKOUT','WAITING']);
+            $table->enum('status', ['CANCELED','CHECK-IN', 'CHECK-OUT','WAITING']);
 
             $table->foreign('kode_transaksi')->references('kode_transaksi')->on('transaksis')->onUpdate('restrict');
             $table->timestamps();

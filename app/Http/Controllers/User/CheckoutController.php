@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Exports\InvoiceExport;
+use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Kamar;
+use Nette\Utils\Random;
+use App\Models\Reservasi;
+use App\Models\Transaksi;
+use App\Models\ReservasiDetail;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Request;
 use App\Http\Requests\User\CheckoutRequest;
-use App\Models\Reservasi;
-use App\Models\ReservasiDetail;
-use App\Models\Transaksi;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Nette\Utils\Random;
 
 class CheckoutController extends Controller
 {
@@ -65,6 +67,7 @@ class CheckoutController extends Controller
     public function success()
     {
         $resevasi = Reservasi::with(['detail', 'transaksi','transaksi.user','transaksi.kamar'])->where('kode_reservasi',Request::input('kode'))->first();
+        // return Excel::download(new InvoiceExport(Request::input('kode')), 'invoices.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
         return Inertia::render('User/Success',[
             'reservasi'=> $resevasi,
         ]);
@@ -124,7 +127,7 @@ class CheckoutController extends Controller
             'tgl_masuk' => $checkoutRequest->tgl_masuk,
             'tgl_keluar' => $checkoutRequest->tgl_keluar,
             'jumlah_tamu' => $checkoutRequest->jumlah_tamu,
-            'status' => "WAITING",
+            'status' => "CHECK-IN",
         ]);
         $user = User::with(['detail'])->find(Auth::user()->id);
 
