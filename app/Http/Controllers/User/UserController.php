@@ -11,7 +11,7 @@ class UserController extends Controller
 {
     public function dashboard(){
         return Inertia::render('User/Dashboard', [
-            'reservasi'=> Reservasi::where('user_id', Auth::user()->id)->with(['detail','transaksi'])->latest()->first(),
+            'reservasi'=> Reservasi::where('user_id', Auth::user()->id)->with(['detail','detail.kamar','detail.kamar.foto','transaksi'])->latest()->first(),
         ]);
     }
 

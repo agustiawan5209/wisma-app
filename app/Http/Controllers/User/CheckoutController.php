@@ -66,7 +66,7 @@ class CheckoutController extends Controller
 
     public function success()
     {
-        $resevasi = Reservasi::with(['detail', 'transaksi','transaksi.user','transaksi.kamar'])->where('kode_reservasi',Request::input('kode'))->first();
+        $resevasi = Reservasi::with(['detail', 'transaksi','transaksi.user','transaksi.kamar'])->where('kode_reservasi',Request::input('kode_reservasi'))->first();
         // return Excel::download(new InvoiceExport(Request::input('kode')), 'invoices.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
         return Inertia::render('User/Success',[
             'reservasi'=> $resevasi,

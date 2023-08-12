@@ -8,7 +8,7 @@ import HomeLayout from './HomeLayout.vue';
 
 <template>
     <HomeLayout>
-        <div class="h-screen relative overflow-auto">
+        <div class="h-auto relative overflow-auto">
             <aside class="absolute top-0 left-0 z-40 w-64 h-full transition-transform -translate-x-full sm:translate-x-0 "
                 aria-label="Sidenav">
                 <div class="overflow-y-auto py-5 px-3 h-max border-r border-gray-200 relative ">
@@ -64,8 +64,8 @@ import HomeLayout from './HomeLayout.vue';
 
             </aside>
 
-            <main class="w-4/5 h-full left-64 p-4 relative overflow-hidden box-border">
-                <div class="w-full h-full shadow-lg rounded-lg bg-white">
+            <main class="w-4/5 h-full left-64 p-4 relative overflow-hidden box-border bg-[url('/svg/confetti-doodles.svg')]">
+                <div class="w-full h-full shadow-lg rounded-lg ">
                     <slot/>
                 </div>
             </main>

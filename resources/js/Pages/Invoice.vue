@@ -1,12 +1,24 @@
 <script setup>
 import { defineProps } from 'vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 const props = defineProps(['reservasi'])
 
+function printSelectedHTML() {
+    var printContent = document.getElementById("printable-content").innerHTML;
+    var originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContent;
+    window.print();
+    document.body.innerHTML = originalContents;
+
+}
+const Bulan = [
+    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', "oktober", 'November', 'Desember',
+]
 const date = (date) => {
     const tgl = new Date(date);
 
-    return tgl.toLocaleDateString();
+    return tgl.getDate() + ' ' + Bulan[tgl.getMonth()] + ' ' + tgl.getFullYear();
 }
 const rupiah = (num) => {
     return new Intl.NumberFormat('id-ID', {
@@ -14,9 +26,7 @@ const rupiah = (num) => {
         currency: 'IDR',
     }).format(num);
 }
-const Bulan = [
-    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', "oktober", 'November', 'Desember',
-]
+
 function today() {
     var tgl = new Date();
 
@@ -26,111 +36,110 @@ function today() {
 
 <template>
     <div>
-        <div class="bg-white rounded-lg p-6">
-            <div>
-                <h2 class="text-xl font-bold mb-4 text-gray-800">Detail Transaksi</h2>
-                <div class="grid grid-cols-3 gap-4">
-                    <div>
-                        <p class="text-gray-600 font-semibold">ID Transaksi:</p>
-                        <p class="text-sm font-bold text-indigo-700">{{
-                            reservasi.transaksi.kode_transaksi }}</p>
-                    </div>
-                    <div>
-                        <p class="text-gray-600 font-semibold">Tanggal:</p>
-                        <p class="text-sm font-bold text-indigo-700">{{
-                            date(reservasi.transaksi.created_at) }}</p>
-                    </div>
-                    <div>
-                        <p class="text-gray-600 font-semibold">Metode Pembayaran:</p>
-                        <p class="text-sm font-bold text-indigo-700">{{
-                            reservasi.transaksi.metode_bayar }}</p>
-                    </div>
-                    <div>
-                        <p class="text-gray-600 font-semibold">Potongan/Diskon Pembayaran:</p>
-                        <p class="text-sm font-bold text-indigo-700">{{
-                            rupiah(reservasi.transaksi.diskon) }}</p>
-                    </div>
-                    <div>
-                        <p class="text-gray-600 font-semibold">Total Pembayaran:</p>
-                        <p class="text-sm font-bold text-indigo-700">{{
-                            rupiah(reservasi.transaksi.sub_total) }}</p>
-                    </div>
-                    <div>
-                        <p class="text-gray-600 font-semibold">Status Pembayaran:</p>
-                        <p class="text-sm font-bold text-indigo-700">{{ reservasi.transaksi.status }}
-                        </p>
+        <PrimaryButton @click="printSelectedHTML" class="w-1/4">
+            <font-awesome-icon :icon="['fas', 'print']" /> Print Bukti Pemesanan Kamar
+        </PrimaryButton>
+        <div class="container mx-auto box-border relative" id="printable-content">
+            <div class="bg-white rounded-lg p-6">
+                <div class="w-full mx-auto py-8">
+                    <div class="bg-white w-full rounded-lg shadow p-8">
+                        <h2 class="text-2xl font-bold mb-4">Invoice Pemesanan Kamar Wisma Malaqbi</h2>
+
+                        <div class="flex justify-between mb-6">
+                            <div>
+                                <h3 class="text-sm md:text-lg font-semibold">Wisma Malaqbi</h3>
+                                <p>Jl. Pababari, Karema, <br> Kec. Mamuju, Kabupaten Mamuju, Sulawesi Barat 91512</p>
+                            </div>
+                            <div>
+                                <p>Tanggal: {{ date(reservasi.transaksi.created_at) }}</p>
+                                <p>ID Transaksi: <b>{{ reservasi.transaksi.kode_transaksi }}</b></p>
+                            </div>
+                        </div>
+
+                        <div class="mb-6">
+                            <h4 class="text-sm md:text-lg font-semibold">Detail Pemesanan</h4>
+                            <table class="w-full mt-4">
+                                <thead>
+                                    <tr>
+                                        <th class="py-2 border text-center">Kamar</th>
+                                        <th class="py-2 border text-center">Check-in</th>
+                                        <th class="py-2 border text-center">Check-out</th>
+                                        <th class="py-2 border text-center">Harga</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-2 border text-center">Kamar {{ reservasi.detail.tipe_kamar }}</td>
+                                        <td class="py-2 border text-center">{{ reservasi.tgl_masuk }}</td>
+                                        <td class="py-2 border text-center">{{ reservasi.tgl_keluar }}</td>
+                                        <td class="py-2 border text-center">{{ rupiah(reservasi.transaksi.sub_total) }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <table class="mb-2">
+                            <caption class="text-sm md:text-lg font-semibold">Detail Pengguna</caption>
+                            <tbody class="mt-2">
+                                <tr>
+                                    <td>Nama</td>
+                                    <td>: {{ reservasi.detail.nama }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td>: {{ reservasi.detail.email }}</td>
+                                </tr>
+                                <tr>
+                                    <td>No. Telepon</td>
+                                    <td>: {{ reservasi.detail.no_hp }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="flex justify-end">
+                            <div class="w-1/2">
+                                <table class="w-full">
+                                    <tbody>
+                                        <tr>
+                                            <td class="py-2">Subtotal:</td>
+                                            <td class="py-2 text-right">{{ rupiah(Number(reservasi.transaksi.sub_total +
+                                                reservasi.transaksi.diskon)) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2">Potongan:</td>
+                                            <td class="py-2 text-right">{{ rupiah(reservasi.transaksi.diskon) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2">Total:</td>
+                                            <td class="py-2 text-right">{{ rupiah(reservasi.transaksi.sub_total) }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- <div class="mt-8">
+                        <h4 class="text-sm md:text-lg font-semibold">Informasi Pembayaran</h4>
+                        <p class="mt-4">Silakan lakukan pembayaran ke rekening berikut:</p>
+                        <ul class="mt-2">
+                            <li>Bank: Bank ABC</li>
+                            <li>Nomor Rekening: 1234567890</li>
+                            <li>Nama Penerima: Hotel ABC</li>
+                        </ul>
+                    </div> -->
                     </div>
                 </div>
 
+                <div class="flex justify-end w-full">
+                    <div class="mt-2 col-start-2 grid place-content-center  mr-20">
+                        <p class="text-gray-800 text-sm font-semibold">Mammuju, {{ today() }}</p>
+                        <img :src="'../img/qrCode.png'" class="w-32" alt="QR Code Wisma Malaqbi">
+                        <p class=" text-sm font-semibold text-gray-900">Dir. Wisma Malaqbi</p>
+                    </div>
+                </div>
+
+                <!-- Add more details as needed -->
             </div>
-            <hr class="my-4 border-gray-300">
-
-            <div>
-                <h2 class="text-xl font-bold mt-2 text-gray-800">Detail Reservasi</h2>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <p class="text-gray-600 font-semibold">Kode Reservasi:</p>
-                        <p class=" text-sm font-bold text-indigo-700">{{ reservasi.kode_reservasi }}</p>
-                    </div>
-                    <div>
-                        <p class="text-gray-600 font-semibold">Status Reservasi:</p>
-                        <p class=" text-sm font-bold text-indigo-700">{{ reservasi.status }}</p>
-                    </div>
-                </div>
-            </div>
-            <hr class="my-4 border-gray-300">
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <p class="text-gray-600 font-semibold">Nama Tamu:</p>
-                    <p class=" text-sm font-bold text-indigo-700">{{ reservasi.detail.nama }}</p>
-                </div>
-                <div>
-                    <p class="text-gray-600 font-semibold">Email Tamu:</p>
-                    <p class=" text-sm font-bold text-indigo-700">{{ reservasi.detail.email }}</p>
-                </div>
-                <div>
-                    <p class="text-gray-600 font-semibold">Jumlah Tamu:</p>
-                    <p class=" text-sm font-bold text-indigo-700">{{ reservasi.jumlah_tamu }}</p>
-                </div>
-                <div>
-                    <p class="text-gray-600 font-semibold">Nomor Tamu:</p>
-                    <p class=" text-sm font-bold text-indigo-700">{{ reservasi.detail.no_hp }}</p>
-                </div>
-            </div>
-            <hr class="my-4 border-gray-300">
-
-
-            <div class="grid grid-cols-2 gap-4">
-                <div class="mt-2">
-                    <p class="text-gray-600 font-semibold">Tipe Kamar:</p>
-                    <p class=" text-sm font-bold text-indigo-700">{{ reservasi.detail.tipe_kamar }}</p>
-                </div>
-
-                <div class="mt-2">
-                    <p class="text-gray-600 font-semibold">Tanggal Check-in:</p>
-                    <p class=" text-sm font-bold text-indigo-700">{{ reservasi.tgl_masuk }}</p>
-                </div>
-
-                <div class="mt-2">
-                    <p class="text-gray-600 font-semibold">Kode Kamar:</p>
-                    <p class=" text-sm font-bold text-indigo-700">{{ reservasi.detail.kode_kamar }}</p>
-                </div>
-
-                <div class="mt-2">
-                    <p class="text-gray-600 font-semibold">Tanggal Check-out:</p>
-                    <p class=" text-sm font-bold text-indigo-700">{{ reservasi.tgl_keluar }}</p>
-                </div>
-            </div>
-
-            <div class="flex justify-end w-full mt-20">
-                <div class="mt-2 col-start-2 text-center  mr-20">
-                    <p class="text-gray-600 font-semibold">Mammuju, {{ today() }}</p>
-                    <img :src="'../img/qrCode.png'" alt="QR Code Wisma Malaqbi">
-                    <p class=" text-sm font-semibold text-gray-900">Dir. Wisma Malaqbi</p>
-                </div>
-            </div>
-
-            <!-- Add more details as needed -->
         </div>
+
     </div>
 </template>

@@ -29,7 +29,7 @@ class KamarGambar extends Model
     protected function pathGambar(): Attribute
     {
         return new Attribute(
-            get: fn()=> asset('kamar/'.$this->name)
+            get: fn()=> $this->name,
         );
     }
 

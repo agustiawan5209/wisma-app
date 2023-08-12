@@ -22,14 +22,7 @@ const rupiah = (num) => {
     }).format(num);
 }
 let count = 1;
-function printSelectedHTML() {
-    var printContent = document.getElementById("printable-content").innerHTML;
-    var originalContents = document.body.innerHTML;
-    document.body.innerHTML = printContent;
-    window.print();
-    document.body.innerHTML = originalContents;
 
-}
 
 onMounted(()=>{
     // printSelectedHTML()
@@ -62,13 +55,10 @@ onMounted(()=>{
         </section>
         <section class="p-3 w-full bg-white rounded-md shadow-md">
             <div class="max-w-full">
-                <PrimaryButton @click="printSelectedHTML" class="w-1/4 bg-red-500 hover:bg-red-600 focus:bg-red-800">
-                    <font-awesome-icon :icon="['fas', 'print']" /> Print Bukti Pemesanan Kamar
-                </PrimaryButton>
 
-                <div class="container mx-auto box-border relative" id="printable-content">
-                   <Invoice :reservasi="reservasi"/>
-                </div>
+                <Invoice :reservasi="reservasi"/>
+
+
             </div>
         </section>
     </div>
