@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->string('kode_kamar');
             $table->integer('diskon');
+            $table->string('metode_bayar' ,50);
             $table->integer('sub_total');
             $table->enum('status', ['CANCEL','PENDING', 'SUCCESS']);
 

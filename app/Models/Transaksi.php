@@ -11,7 +11,7 @@ class Transaksi extends Model
     use HasFactory;
 
     protected $table = 'transaksis';
-    protected $fillable = ['kode_transaksi', 'bukti', 'user_id', 'kode_kamar', 'diskon', 'sub_total', 'status'];
+    protected $fillable = ['kode_transaksi', 'bukti', 'user_id', 'kode_kamar', 'diskon','metode_bayar', 'sub_total', 'status'];
 
     protected $appends = [
         'bukti_path',
