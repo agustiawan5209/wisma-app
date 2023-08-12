@@ -1,10 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\KamarController;
-use App\Http\Controllers\DiskonController;
-use App\Http\Controllers\VoucherController;
-use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\CheckoutController;
 
 
@@ -18,6 +15,13 @@ Route::middleware(['auth', 'role:User'])->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/createpesanan', 'checkout')->name('checkout');
             Route::get('Success', 'success')->name('success');
+        });
+    });
+
+    // Route User Dashboard
+    Route::group(['prefix' => 'User', 'as' => 'User.'], function () {
+        Route::controller(UserController::class)->group(function () {
+            Route::get('/', 'dashboard')->name('dashboard');
         });
     });
 });

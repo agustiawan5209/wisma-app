@@ -31,8 +31,11 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
                     </dl>
                 </li>
                 <li class=" border-l px-2 border-black ">
-                    <Link :href="route('login')">
+                    <Link :href="route('login')" v-if="$page.props.auth.user == null">
                     <PrimaryButton>Masuk</PrimaryButton>
+                    </Link>
+                    <Link :href="route('User.dashboard')" v-else>
+                    <PrimaryButton>Dashboard</PrimaryButton>
                     </Link>
                 </li>
             </ul>
@@ -89,7 +92,9 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
                 </div>
                 <div class="block text-white font-medium">
                     <h1 class=" border-b-4 border-spacing-9 text-left">Tentang Wisma Malaqbi</h1>
-                    <p class="text-sm text-gray-100 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat rem, voluptate impedit nisi, provident deleniti adipisci alias illo iste minus aliquid omnis modi magnam repudiandae harum, voluptates laborum maiores voluptatem!</p>
+                    <p class="text-sm text-gray-100 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Quaerat rem, voluptate impedit nisi, provident deleniti adipisci alias illo iste minus aliquid omnis
+                        modi magnam repudiandae harum, voluptates laborum maiores voluptatem!</p>
                 </div>
                 <div class="block text-white font-medium">
                     <h1 class=" border-b-4 border-spacing-9 text-left">Informasi</h1>
