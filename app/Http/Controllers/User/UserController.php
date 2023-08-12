@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Reservasi;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -27,6 +28,8 @@ class UserController extends Controller
     }
 
     public function profile(){
-        return Inertia::render('User/Profile');
+        return Inertia::render('User/Profile/Edit', [
+            'user'=> User::with(['detail'])->find(Auth::user()->id),
+        ]);
     }
 }

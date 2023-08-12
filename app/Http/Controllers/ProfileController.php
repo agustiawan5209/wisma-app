@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\DetailUser;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -29,7 +30,24 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        // dd($request->all());
         $request->user()->fill($request->validated());
+        if (Auth::user()->role == 'User') {
+            DetailUser::where('user_id', Auth::user()->id)->update([
+                'alamat' => $request->alamat,
+                'no_hp' => $request->no_hp,
+                'jenkel' => $request->jenkel,
+            ]);
+
+            if ($request->foto !== null) {
+                $file = $request->file('foto');
+                $nama = md5($file->getClientOriginalName());
+                $file->storeAs('public', 'profile/' . $nama);
+                DetailUser::where('user_id', Auth::user()->id)->update([
+                    'foto' => $nama,
+                ]);
+            }
+        }
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
@@ -37,7 +55,7 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit');
+        return Redirect::back();
     }
 
     /**

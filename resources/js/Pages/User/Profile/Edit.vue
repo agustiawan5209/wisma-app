@@ -1,20 +1,23 @@
 <script setup>
 import UserLayout from '@/Layouts/UserLayout.vue';
-import DeleteUserForm from '../Profile/Partials/DeleteUserForm.vue';
-import UpdatePasswordForm from '../Profile/Partials/UpdatePasswordForm.vue';
-import UpdateProfileInformationForm from '../Profile/Partials/UpdateProfileInformationForm.vue';
+import DeleteUserForm from './Partials/DeleteUserForm.vue';
+import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
+import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
 import { Head, usePage } from '@inertiajs/vue3';
 
-defineProps({
+const props = defineProps({
     mustVerifyEmail: {
         type: Boolean,
     },
     status: {
         type: String,
     },
+    user:{
+        type: Object,
+        default:()=>({})
+    }
 });
 
-const user = usePage().props.auth.user;
 </script>
 
 <template>
@@ -26,6 +29,7 @@ const user = usePage().props.auth.user;
                 <UpdateProfileInformationForm
                     :must-verify-email="mustVerifyEmail"
                     :status="status"
+                    :user="user"
                     class="max-w-xl"
                 />
             </div>
