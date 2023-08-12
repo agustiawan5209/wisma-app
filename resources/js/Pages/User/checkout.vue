@@ -21,15 +21,18 @@ const props = defineProps({
     tipe: String,
     tgl_masuk: String,
     tgl_keluar: String,
+    diskon: Number,
+    sub_total: Number,
 })
 const item = JSON.parse(localStorage.getItem('checkoutItem'));
-const pesanan = JSON.parse(localStorage.getItem('pesanan'));
-const sub_total = ref(item.tipe.harga);
+// const pesanan = JSON.parse(localStorage.getItem('pesanan'));
+// const sub_total = ref(props.kamar.tipe.harga);
 const form = useForm({
+    foto: '',
     tipe: props.kamar.tipe.tipe,
     kode_kamar: props.kamar.kode,
-    diskon: '',
-    sub_total: props.kamar.tipe.harga,
+    diskon: props.diskon,
+    sub_total: props.sub_total,
     status: 'PENDING',
     tgl_masuk: props.tgl_masuk,
     tgl_keluar: props.tgl_keluar,
@@ -47,25 +50,44 @@ const form = useForm({
 const loadingPage = ref(false);
 const ErrorPage = ref([])
 function checkout() {
-    form.get(route('Checkout.checkout'), {
-            onBefore: () => {
-                loadingPage.value=true;
-            },
-            onFinish:()=>{
-                loadingPage.value = false;
-            },
-            onError: (err) => {
-                ErrorPage.value = err;
-                console.log(err)
-            },
-        });
+    if(form.metode_bayar == 'Transfer' && form.foto == '' ){
+        alert("Bukti Bayar Harus Di Isi");
+    }else{
+        form.post(route('Checkout.checkout'), {
+        onBefore: () => {
+            loadingPage.value = true;
+        },
+        onFinish: () => {
+            loadingPage.value = false;
+        },
+        onError: (err) => {
+            ErrorPage.value = err;
+            console.log(err)
+        },
+    });
+    }
+}
+
+const rupiah = (num) => {
+  return new  Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+    }).format(num);
+}
+
+const UrlFile = ref(null);
+
+function fileSelected(e) {
+    form.foto = e.target.files[0];
+    UrlFile.value = URL.createObjectURL(e.target.files[0])
 }
 </script>
 
 <template>
     <HomeLayout>
-        <Head title="Checkout Pemesanan Kamar"/>
-        <loadingAnimation :show="loadingPage"/>
+
+        <Head title="Checkout Pemesanan Kamar" />
+        <loadingAnimation :show="loadingPage" />
         <section class="container mx-auto py-12">
             <div class="flex flex-col items-center border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
                 <a href="#" class="text-2xl font-bold text-gray-800">Wisma Malaqbi</a>
@@ -103,7 +125,7 @@ function checkout() {
                 </div>
             </div>
             <ul class="w-full list-item sm:px-10 lg:px-20 xl:px-32">
-                <li class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 " v-for="err in form.errors" :key="err">
+                <li class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 " v-for="err in ErrorPage" :key="err">
                     <span class="font-medium">Danger alert!</span> {{ err }}
                 </li>
             </ul>
@@ -114,25 +136,26 @@ function checkout() {
                     <div class="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
                         <div class="flex flex-col rounded-lg bg-white sm:flex-row">
                             <img class="m-2 h-24 w-28 rounded-md border object-cover object-center"
-                                :src="item.foto.path_gambar" alt="" />
+                                :src="kamar.foto.path_gambar" alt="" />
                             <div class="flex w-full flex-col px-4 py-4">
-                                <span class="font-semibold">{{ item.tipe.tipe }} - {{ item.ruangan }}</span>
+                                <span class="font-semibold">{{ kamar.tipe.tipe }} - {{ kamar.ruangan }}</span>
                                 <span class="float-right text-gray-400">Fasilitas</span>
-                                <div class="block my-1" v-for="col in item.details">
-                                    <div class="flex gap-2 items-center" v-if="col.jenis !== 'gambar'">
+                                <div class="block my-1">
+                                    <div class="flex gap-2 items-center">
                                         <font-awesome-icon :icon="['fas', 'gear']" class="text-gray-400" />
                                         <dl class="block">
-                                            <dt class="text-xs whitespace-pre-wrap w-1/2 capitalize">{{ col.detail }}</dt>
+                                            <dt class="text-xs whitespace-pre-wrap w-1/2 capitalize">{{
+                                                kamar.foto.path_gambar }}</dt>
                                         </dl>
                                     </div>
                                 </div>
-                                <p class="text-lg font-bold">{{ item.tipe.rupiah }}</p>
+                                <p class="text-lg font-bold">{{ kamar.tipe.rupiah }}</p>
                             </div>
                         </div>
                     </div>
 
                     <p class="mt-8 text-lg font-medium">Metode Pembayaran {{ form.metode_bayar }}</p>
-                    <div class="mt-5 grid gap-6" >
+                    <div class="mt-5 grid gap-6">
                         <div class="relative">
                             <input class="peer hidden" id="radio_1" type="radio" name="metodeBayar" value="Tunai"
                                 v-model="form.metode_bayar" />
@@ -164,7 +187,7 @@ function checkout() {
                             </label>
 
                         </div>
-                        <Transition name="fade">
+                        <div name="fade" class="block">
                             <table class="table w-full" v-if="form.metode_bayar == 'Transfer'">
                                 <caption class="table-caption">
                                     <h3 class="capitalize text-base">Kirim Pembayaran Anda Ke NO. Rekening Di Bawah Ini</h3>
@@ -182,7 +205,28 @@ function checkout() {
                                     <td class="border">: BRI</td>
                                 </tr>
                             </table>
-                        </Transition>
+                            <div class="w-full" v-if="form.metode_bayar == 'Transfer'">
+                                <label for="dropzone-file" v-if="form.foto == '' || form.foto == null "
+                                    class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 " :class="form.errors.foto ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-blue-500 focus:ring-blue-500 focus:border-blue-500'">
+                                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                        <svg class="w-8 h-8 mb-4 text-gray-500" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                                        </svg>
+                                        <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Masukan
+                                                Gambar</span></p>
+                                        <p class="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX.
+                                            800x400px)</p>
+                                    </div>
+                                    <input id="dropzone-file" type="file" @input="fileSelected($event)" class="hidden"  />
+                                </label>
+                                <img v-else :src="UrlFile" alt="">
+                                <InputError :message="form.errors.foto" />
+
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0">
@@ -215,6 +259,19 @@ function checkout() {
                                 </svg>
                             </div>
                         </div>
+                        <label for="card-holder" class="mt-4 mb-2 block text-sm font-medium">No. HP Pemesan</label>
+                        <div class="relative">
+                            <input type="text" id="card-holder" name="card-holder" v-model="form.user_no_hp"
+                                class="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm uppercase shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+                                placeholder="Your full name here" />
+                            <div class="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" />
+                                </svg>
+                            </div>
+                        </div>
 
                         <label for="billing-address" class="mt-4 mb-2 block text-sm font-medium">Catatan Pembayaran</label>
                         <div class="flex flex-col">
@@ -225,15 +282,18 @@ function checkout() {
                                 <div class="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
                                     <font-awesome-icon :icon="['fas', 'comments']" class="text-gray-400" />
                                 </div>
-
                             </div>
                             <InputError :message="form.errors.ket" />
                         </div>
 
                         <!-- Total -->
                         <div class="mt-6 flex items-center justify-between">
+                            <p class="text-sm font-medium text-gray-900">Potongan</p>
+                            <p class="text-2xl font-semibold text-gray-900">{{ rupiah(diskon) }}</p>
+                        </div>
+                        <div class="mt-6 flex items-center justify-between">
                             <p class="text-sm font-medium text-gray-900">Total</p>
-                            <p class="text-2xl font-semibold text-gray-900">{{ item.tipe.rupiah }}</p>
+                            <p class="text-2xl font-semibold text-gray-900">{{ rupiah(props.sub_total) }}</p>
                         </div>
                     </div>
                     <button type="submit"
@@ -256,4 +316,5 @@ function checkout() {
 .fade-enter-to {
     opacity: 0;
     transform: translateX(30px);
-}</style>
+}
+</style>

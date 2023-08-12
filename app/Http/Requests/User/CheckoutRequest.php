@@ -36,7 +36,8 @@ class CheckoutRequest extends FormRequest
             'user_email'=> 'required|email',
             'user_name'=> 'required|exists:users,name',
             'user_no_hp'=> 'required|numeric',
-            'ket'=> 'required|string|max:100',
+            'ket'=> 'nullable|string|max:100',
+
         ];
     }
 }

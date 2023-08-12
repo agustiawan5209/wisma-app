@@ -45,12 +45,12 @@ const ItemStorage = localStorage.getItem('pesanan');
 const GetItem = ref({});
 if (ItemStorage == null) {
     GetItem.value = {
-        tipe: '',
+        tipe: props.tipe,
         kode_kamar: '',
         diskon: '',
-        tgl_masuk: '',
-        tgl_keluar: '',
-        jumlah_tamu: '',
+        tgl_masuk: props.tgl_masuk,
+        tgl_keluar: props.tgl_keluar,
+        jumlah_tamu: props.jumlah_tamu,
     }
 } else {
     GetItem.value = JSON.parse(ItemStorage)
@@ -73,6 +73,11 @@ function showModal(item) {
     showKamar.value = true;
     itemkamar.value = item;
     checkoutForm.kode_kamar = item.kode;
+    checkoutForm.tipe = item.tipe.tipe;
+    checkoutForm.kode_kamar = item.kode;
+    checkoutForm.tgl_masuk = GetItem.value.tgl_masuk == null ? props.tgl_masuk : GetItem.value.tgl_masuk ;
+    checkoutForm.tgl_keluar = GetItem.value.tgl_keluar == null ? props.tgl_keluar : GetItem.value.tgl_keluar ;
+    checkoutForm.jumlah_tamu = GetItem.value.jumlah_tamu == null ? props.jumlah_tamu : GetItem.value.jumlah_tamu ;
 }
 
 function close() {
