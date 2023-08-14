@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="absolute bg-gray-900 opacity-80 z-0 w-full h-full"></div>
-            <img :src="img.img" alt="" class="-z-10">
+            <img :src="img.img" alt="" class="-z-10 w-full h-full object-contain">
 
 
         </swiper-slide>
