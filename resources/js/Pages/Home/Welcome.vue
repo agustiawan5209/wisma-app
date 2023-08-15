@@ -2,15 +2,39 @@
 import HomeLayout from '@/Layouts/HomeLayout.vue'
 import Carousel from '@/Components/Carousel.vue';
 import { Link, Head } from '@inertiajs/vue3';
-import { ref, defineProps } from 'vue';
+import { ref, defineProps, onMounted } from 'vue';
 import Animate from '@/Components/Animate.vue';
 import Reservasi from './Reservasi.vue';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// Inisialisasi GSAP dan aktifkan ScrollTrigger
+gsap.registerPlugin(ScrollTrigger);
 
 const props = defineProps({
     tipe_kamar: {
         type: Object,
         default: () => ({}),
     },
+})
+
+const roomVVIP = ref(null);
+onMounted(() => {
+    function initScrollAnimations() {
+        gsap.from(roomVVIP.value, {
+            scale: 0.5,
+            y: 50,
+            duration: 1,
+            ease: 'circ.out',
+            scrollTrigger: {
+                trigger: roomVVIP.value,
+                start: 'top 80%',
+                end: 'top 50%',
+                scrub: true,
+            },
+        });
+    }
+    initScrollAnimations();
 })
 </script>
 
@@ -35,7 +59,7 @@ const props = defineProps({
                 <div
                     class="absolute inset-0 z-20 flex items-center justify-center h-80-vh w-full bg-gray-900 bg-opacity-75">
                 </div>
-                <div class="absolute inset-0  z-30  flex flex-col items-center justify-center">
+                <div ref="roomVVIP" class="absolute inset-0  z-30  flex flex-col items-center justify-center">
                     <div class="shadow-2xl rounded-lg w-4/5 h-96 bg-cover bg-center"
                         style="background-image:url('/img/halaman.jpg');">
 
@@ -45,7 +69,7 @@ const props = defineProps({
                                 <div class="border-l-4 border-gray-400 py-20 px-5 mx-2 absolute top-0 left-0">
                                     <p
                                         class="italic text-white text-xl md:text-4xl lg:text-6xl uppercase text-center  font-semibold ">
-                                       Kamar VVIP
+                                        Kamar VVIP
                                     </p>
                                 </div>
                                 <!-- <div class="text-gray-400 font-semibold text-xl mb-4">07</div>
@@ -56,18 +80,21 @@ const props = defineProps({
                                     class="relative bg-pink-900 h-full md:h-96 w-full bg-opacity-50 rounded-tr-lg rounded-br-lg">
                                     <div class=" p-2 sm:p-3 md:p-8">
                                         <p class="text-white text-xs md:text-sm lg:text-xl mb-4">
-                                            Nikmati pengalaman menginap yang luar biasa dengan memesan kamar VVIP kami. Dengan fasilitas mewah, pelayanan eksklusif, dan tata ruang yang elegan, kamar VVIP kami dirancang untuk memenuhi standar tertinggi. Rasakan kenyamanan dan kemewahan yang tak terlupakan selama Anda menginap di hotel kami.
+                                            Nikmati pengalaman menginap yang luar biasa dengan memesan kamar VVIP kami.
+                                            Dengan fasilitas mewah, pelayanan eksklusif, dan tata ruang yang elegan, kamar
+                                            VVIP kami dirancang untuk memenuhi standar tertinggi. Rasakan kenyamanan dan
+                                            kemewahan yang tak terlupakan selama Anda menginap di hotel kami.
                                         </p>
                                         <div class="bottom-0 relative p-2 right-0">
-                                            <button
+                                            <Link :href="route('Home.room', { tipe: 'VVIP' })"
                                                 class="opacity-75 bg-gray-100 hover:bg-pink-900 hover:text-white text-sm font-bold py-2 px-4 rounded inline-flex items-center">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                </svg>
-                                                <span>PESAN SEKARANG</span>
-                                            </button>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            <span>PESAN SEKARANG</span>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
@@ -77,5 +104,4 @@ const props = defineProps({
                 </div>
             </div>
         </section>
-    </HomeLayout>
-</template>
+    </HomeLayout></template>

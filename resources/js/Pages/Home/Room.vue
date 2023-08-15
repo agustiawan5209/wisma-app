@@ -5,7 +5,7 @@ import InputError from '@/Components/InputError.vue';
 import TextInput from '@/Components/TextInput.vue';
 import TextInputIcon from '@/Components/TextInputIcon.vue';
 import { Link, Head, useForm, usePage } from '@inertiajs/vue3';
-import { ref, defineProps, watch , onMounted} from 'vue';
+import { ref, defineProps, watch, onMounted } from 'vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { gsap } from 'gsap';
 import Modal from '@/Components/Modal.vue';
@@ -57,7 +57,7 @@ if (ItemStorage == null) {
 }
 // Checkout Form
 const checkoutForm = useForm({
-    tipe: GetItem.value.tipe,
+    tipe: props.tipe,
     kode_kamar: '',
     diskon: '',
     tgl_masuk: GetItem.value.tgl_masuk,
@@ -75,9 +75,9 @@ function showModal(item) {
     checkoutForm.kode_kamar = item.kode;
     checkoutForm.tipe = item.tipe.tipe;
     checkoutForm.kode_kamar = item.kode;
-    checkoutForm.tgl_masuk = GetItem.value.tgl_masuk == null ? props.tgl_masuk : GetItem.value.tgl_masuk ;
-    checkoutForm.tgl_keluar = GetItem.value.tgl_keluar == null ? props.tgl_keluar : GetItem.value.tgl_keluar ;
-    checkoutForm.jumlah_tamu = GetItem.value.jumlah_tamu == null ? props.jumlah_tamu : GetItem.value.jumlah_tamu ;
+    checkoutForm.tgl_masuk = GetItem.value.tgl_masuk == null ? props.tgl_masuk : GetItem.value.tgl_masuk;
+    checkoutForm.tgl_keluar = GetItem.value.tgl_keluar == null ? props.tgl_keluar : GetItem.value.tgl_keluar;
+    checkoutForm.jumlah_tamu = GetItem.value.jumlah_tamu == null ? props.jumlah_tamu : GetItem.value.jumlah_tamu;
 }
 
 function close() {
@@ -123,6 +123,37 @@ function Checkout() {
 
 }
 
+function beforeEnter(el) {
+
+    gsap.to(el, {
+        scale: 0.5,
+        duration: 1,
+        // x: '-=100',
+        ease: 'bounce.out',
+    })
+}
+
+function enterActive(el) {
+
+
+    gsap.to(el, {
+        scale: 1,
+        duration: 1,
+        x: '0',
+        ease: 'bounce.out',
+    })
+
+}
+
+function afterEnter(el) {
+
+    gsap.to(el, {
+        scale: 1,
+        duration: 1,
+        x: '-=100',
+        ease: 'bounce.out',
+    })
+}
 </script>
 
 <template>
@@ -142,12 +173,12 @@ function Checkout() {
                 <select id="countries" v-model="tipe"
                     class="bg-white border text-gray-900 text-sm rounded-lg block w-full p-2.5 ">
                     <option value="">----</option>
-                    <option v-for="item in tipe_kamar"  :value="item.tipe">{{item.tipe}}</option>
+                    <option v-for="item in tipe_kamar" :value="item.tipe">{{ item.tipe }}</option>
 
                 </select>
             </div>
             <!-- Grid Card Kamar -->
-            <transition-group name="slide" tag="div"
+            <transition-group tag="div" :on-before-enter="beforeEnter" :on-enter="enterActive" :on-before-leave="afterEnter"
                 class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 border border-white">
                 <div class="col-span-1" v-for="item in kamar.data" v-bind:key="item.id">
                     <div class="box-border h-auto bg-transaparent shadow-md shadow-gray-400 p-3 rounded-md">
