@@ -54,7 +54,7 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
         Route::controller(TransaksiController::class)->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/show', 'show')->name('show');
-            Route::get('/confirm', 'confirm')->name('confirm');
+            Route::post('/confirm', 'confirm')->name('confirm');
             Route::delete('/delete', 'destroy')->name('delete');
         });
     });

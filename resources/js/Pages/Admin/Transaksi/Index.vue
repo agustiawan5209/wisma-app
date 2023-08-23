@@ -41,6 +41,8 @@ function showModaldelete(param) {
 function closeModal() {
     modalDelete.value = false;
     FormDelete.slug = null;
+    ConfirmID.slug = null;
+    ModalConfirm.value = false;
 }
 
 // Delete
@@ -56,10 +58,28 @@ function DeleteTransaksi() {
     })
 }
 const rupiah = (num) => {
-  return new  Intl.NumberFormat('id-ID', {
+    return new Intl.NumberFormat('id-ID', {
         style: 'currency',
         currency: 'IDR',
     }).format(num);
+}
+
+const ModalConfirm = ref(false);
+const ConfirmID = useForm({
+    slug: null,
+});
+function showModalConfirm(id) {
+    ModalConfirm.value = true;
+    ConfirmID.slug = id;
+}
+
+function ConfirmStatus() {
+    ConfirmID.post(route('Transaksi.confirm'),{
+        onError: (err)=> console.log(err),
+        onSuccess:()=>{
+            closeModal()
+        }
+    })
 }
 </script>
 
@@ -125,10 +145,12 @@ const rupiah = (num) => {
                                     <td class="px-4 py-3 border">{{ rupiah(item.transaksi.diskon) }}</td>
                                     <td class="px-4 py-3 border">{{ rupiah(item.transaksi.sub_total) }}</td>
                                     <td class="px-4 py-3 border">
-                                        <div class=" text-center cursor-pointer relative text-sm rounded-lg bg-gray-800 group"
-                                            role="alert">
-                                            <div class="absolute w-full scale-0 h-full bg-white opacity-10 group-hover:scale-100 transition-all"></div>
-                                            <span class="font-medium text-blue-400 p-4">{{ item.transaksi.status }}</span>
+                                        <div class=" text-center cursor-pointer relative text-sm rounded-lg  group" :class="item.transaksi.status == 'PENDING' ? 'bg-red-800 text-blue-100' : 'bg-green-600 text-blue-100' "
+                                            role="alert" @click="showModalConfirm(item.kode_transaksi)">
+                                            <div
+                                                class="absolute w-full scale-0 h-full bg-white opacity-10 group-hover:scale-100 transition-all">
+                                            </div>
+                                            <span class="font-medium p-4">{{ item.transaksi.status }}</span>
                                         </div>
                                     </td>
                                     <td class="px-4 py-3 border flex items-center justify-start">
@@ -157,7 +179,9 @@ const rupiah = (num) => {
                     <Pagination :links="transaksi.links" />
                 </div>
             </section>
-            <Modal :show="modalDelete" :maxWidth="'md'">
+
+            <!-- Modal Delete -->
+            <!-- <Modal :show="modalDelete" :maxWidth="'md'">
                 <div class="max-w-full h-full flex justify-center items-center ">
                     <div class="block bg-white rounded-lg py-5">
                         <h3 class="mb-4">Apakah Anda Yakin?</h3>
@@ -170,7 +194,23 @@ const rupiah = (num) => {
                         </div>
                     </div>
                 </div>
+            </Modal> -->
+            <Modal :show="ModalConfirm" :maxWidth="'md'">
+                <div class="max-w-full h-full flex justify-center items-center ">
+                    <div class="block bg-white rounded-lg p-5">
+                        <h3 class="mb-4">Apakah Anda Yakin?</h3>
+                        <p class="p-3 text-gray-500">Ket : Melakukan Konfirmasi Status Pemesanan Kamar Baik Dalam Metode Bayar Tunai Dan Transfer</p>
+                        <div class="flex justify-around">
+                            <PrimaryButton type="button" @click="ConfirmStatus()"
+                                class="!bg-blue-500 hover:bg-blue-600 active:bg-blue-800">Ya
+                            </PrimaryButton>
+                            <PrimaryButton type="button" @click="closeModal()"
+                                class="!bg-error hover:bg-red-600 active:bg-red-800">Batal</PrimaryButton>
+                        </div>
+                    </div>
+                </div>
             </Modal>
+
         </template>
     </AuthenticatedLayout>
 </template>

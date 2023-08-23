@@ -36,7 +36,8 @@ class TransaksiController extends Controller
 
     public function confirm(Transaksi $transaksi)
     {
-        $transaksi = Transaksi::where('kode_transaksi', '=', Request::input('kode_transaksi'))->first();
+        $transaksi = Transaksi::where('kode_transaksi', '=', Request::input('slug'))->first();
+
         if ($transaksi !== null) {
             $transaksi->update([
                 'status' => 'SUCCESS',
@@ -55,4 +56,5 @@ class TransaksiController extends Controller
         return redirect()->route("Transaksi.index")->with('Transaksi Berhasil Di Hapus');
 
     }
+
 }
