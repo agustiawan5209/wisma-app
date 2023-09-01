@@ -103,8 +103,8 @@ class CheckoutController extends Controller
     {
         $kode_transaksi = $this->createCode();
         $nama = null;
-        if ($checkoutRequest->foto !== null || $checkoutRequest->file('foto') !== null) {
-            $file = $checkoutRequest->file('foto');
+        if ($checkoutRequest->bukti_bayar !== null || $checkoutRequest->file('bukti_bayar') !== null) {
+            $file = $checkoutRequest->file('bukti_bayar');
             $nama = md5($file->getClientOriginalName());
             $file->storeAs('public', 'bukti/' . $nama);
         }

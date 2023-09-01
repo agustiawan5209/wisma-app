@@ -8,12 +8,12 @@ import HomeLayout from './HomeLayout.vue';
 
 <template>
     <HomeLayout>
-        <div class="h-auto relative overflow-auto">
+        <div class="h-auto relative">
             <aside class="absolute top-0 left-0 z-40 w-64 h-full transition-transform -translate-x-full sm:translate-x-0 "
                 aria-label="Sidenav">
-                <div class="overflow-y-auto py-5 px-3 h-max border-r border-gray-200 relative ">
+                <div class="overflow-y-auto py-5 px-3  border-r border-gray-200 relative">
 
-                    <div class="bg-primary py-5 px-3 rounded-xl ">
+                    <div class="bg-primary py-5 px-3 rounded-xl">
                         <div class="w-full flex justify-center mb-5">
                             <div class="bg-white w-max h-full rounded-full">
                                 <font-awesome-icon class="text-6xl" :icon="['fas', 'user']" />
@@ -55,7 +55,7 @@ import HomeLayout from './HomeLayout.vue';
 
             </aside>
 
-            <main class="w-4/5 h-full left-64 p-4 relative overflow-hidden box-border bg-[url('/svg/confetti-doodles.svg')]">
+            <main class="w-4/5 h-screen left-64 p-4 relative overflow-auto box-border bg-[url('/svg/confetti-doodles.svg')]">
                 <div class="w-full h-full shadow-lg rounded-lg ">
                     <slot/>
                 </div>

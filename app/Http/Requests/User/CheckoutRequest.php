@@ -30,7 +30,7 @@ class CheckoutRequest extends FormRequest
             'tgl_keluar'=> 'required|date',
             'jumlah_tamu'=> 'required|numeric',
             'sub_total'=> 'required|numeric',
-
+            'bukti_bayar'=> 'required|image|max:1020',
             // Metode Bayar,
             'metode_bayar'=> 'required',
             'user_email'=> 'required|email',

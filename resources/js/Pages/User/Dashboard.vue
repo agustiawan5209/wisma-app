@@ -23,7 +23,7 @@ const rupiah = (num)=>{
     <UserLayout>
 
         <Head title="Dashboard User" />
-        <section class="w-full">
+        <section class="w-full h-full">
             <div class="w-3/4 ml-4">
                 <div class="bg-white rounded-lg shadow p-4">
                     <h2 class="text-2xl font-bold mb-4">Selamat Datang, {{ $page.props.auth.user.name }}</h2>
@@ -33,7 +33,7 @@ const rupiah = (num)=>{
 
                 <div class="bg-white rounded-lg shadow mt-4 p-4">
                     <h2 class="text-2xl font-bold mb-4">Pemesanan Terakhir</h2>
-                    <div class="flex items-center mb-4">
+                    <div class="flex items-center mb-4" v-if="reservasi !== null">
                         <div class="w-1/4">
                             <img :src="reservasi.detail.kamar.foto.path_gambar" alt="Room Image" class="w-full rounded-lg">
                         </div>

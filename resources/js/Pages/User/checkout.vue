@@ -28,7 +28,7 @@ const item = JSON.parse(localStorage.getItem('checkoutItem'));
 // const pesanan = JSON.parse(localStorage.getItem('pesanan'));
 // const sub_total = ref(props.kamar.tipe.harga);
 const form = useForm({
-    foto: '',
+    bukti_bayar: '',
     tipe: props.kamar.tipe.tipe,
     kode_kamar: props.kamar.kode,
     diskon: props.diskon,
@@ -50,7 +50,7 @@ const form = useForm({
 const loadingPage = ref(false);
 const ErrorPage = ref([])
 function checkout() {
-    if(form.metode_bayar == 'Transfer' && form.foto == '' ){
+    if(form.metode_bayar == 'Transfer' && form.bukti_bayar == '' ){
         alert("Bukti Bayar Harus Di Isi");
     }else{
         form.post(route('Checkout.checkout'), {
@@ -78,7 +78,7 @@ const rupiah = (num) => {
 const UrlFile = ref(null);
 
 function fileSelected(e) {
-    form.foto = e.target.files[0];
+    form.bukti_bayar = e.target.files[0];
     UrlFile.value = URL.createObjectURL(e.target.files[0])
 }
 </script>
@@ -206,8 +206,8 @@ function fileSelected(e) {
                                 </tr>
                             </table>
                             <div class="w-full" v-if="form.metode_bayar == 'Transfer'">
-                                <label for="dropzone-file" v-if="form.foto == '' || form.foto == null "
-                                    class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 " :class="form.errors.foto ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-blue-500 focus:ring-blue-500 focus:border-blue-500'">
+                                <label for="dropzone-file" v-if="form.bukti_bayar == '' || form.bukti_bayar == null "
+                                    class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 " :class="form.errors.bukti_bayar ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-blue-500 focus:ring-blue-500 focus:border-blue-500'">
                                     <div class="flex flex-col items-center justify-center pt-5 pb-6">
                                         <svg class="w-8 h-8 mb-4 text-gray-500" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
@@ -223,7 +223,7 @@ function fileSelected(e) {
                                     <input id="dropzone-file" type="file" @input="fileSelected($event)" class="hidden"  />
                                 </label>
                                 <img v-else :src="UrlFile" alt="">
-                                <InputError :message="form.errors.foto" />
+                                <InputError :message="form.errors.bukti_bayar" />
 
                             </div>
                         </div>
