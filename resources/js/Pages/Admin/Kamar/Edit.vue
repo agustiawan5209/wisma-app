@@ -43,7 +43,7 @@ function fileSelected(e) {
     UrlFile.value = URL.createObjectURL(e.target.files[0])
 }
 function submit() {
-    AddForm.post(route('Kamar.update', {slug: props.kamar.id, kode:props.kamar.kode}), {
+    AddForm.put(route('Kamar.update', {slug: props.kamar.id, kode:props.kamar.kode}), {
         // onFinish: () => {
         //     AddForm.reset()
         // }
