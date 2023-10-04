@@ -20,7 +20,7 @@ class KamarController extends Controller
     public function index()
     {
         return Inertia::render('Admin/Kamar/Index', [
-            'kamar' => Kamar::with(['details', 'tipe'])->filter(Request::only('search', 'tipe'))->orderBy('kode', 'desc')->paginate(10),
+            'kamar' => Kamar::with(['details', 'tipe'])->filter(Request::only('search', 'tipe'))->orderBy('id', 'desc')->paginate(10),
             'search' => Request::input('search'),
             'tipe' => Request::input('tipe'),
         ]);
@@ -90,7 +90,6 @@ class KamarController extends Controller
     public function show(Kamar $kamar)
     {
         $kamar = $kamar->with(['details', 'tipe',])->find(Request::input('slug'));
-        // dd($kamar);
         return Inertia::render('Admin/Kamar/Show', [
             'kamar' =>$kamar->with(['details', 'tipe'])->find(Request::input('slug')),
         ]);
@@ -101,8 +100,12 @@ class KamarController extends Controller
      */
     public function edit(Kamar $kamar)
     {
+        $kamar = $kamar->with(['details', 'tipe',])->find(Request::input('slug'));
+        // dd($kamar);
         return Inertia::render('Admin/Kamar/Edit', [
             'kamar' => Kamar::with(['details', 'tipe'])->find(Request::input('slug')),
+            'tipe_kamar'=> TipeKamar::all(),
+
         ]);
     }
 

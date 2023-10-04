@@ -7,21 +7,25 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { ref , defineProps} from 'vue';
+import { ref, defineProps } from 'vue';
 
 const props = defineProps({
     kamar: {
         type: Object,
-        default: ()=>({})
+        default: () => ({})
+    },
+    tipe_kamar: {
+        type: Object,
+        default: () => ({})
     }
 })
 
 
-const mergeObject = (arr) =>{
+const mergeObject = (arr) => {
     const detail = arr;
     const dataKamar = [];
-    for(var key in detail){
-        if(detail[key].jenis === 'fasilitas'){
+    for (var key in detail) {
+        if (detail[key].jenis === 'fasilitas') {
             dataKamar[key] = detail[key].detail
         }
     }
@@ -43,7 +47,7 @@ function fileSelected(e) {
     UrlFile.value = URL.createObjectURL(e.target.files[0])
 }
 function submit() {
-    AddForm.put(route('Kamar.update', {slug: props.kamar.id, kode:props.kamar.kode}), {
+    AddForm.put(route('Kamar.update', { slug: props.kamar.id, kode: props.kamar.kode }), {
         // onFinish: () => {
         //     AddForm.reset()
         // }
@@ -52,7 +56,7 @@ function submit() {
 
 // console.log(AddForm.fasilitas)
 const count = ref(mergeObject(props.kamar.details).length);
-function back(){
+function back() {
     window.history.back()
 }
 </script>
@@ -69,11 +73,12 @@ function back(){
             <section class="py-3 flex justify-center w-full">
                 <div class="w-full">
                     <form @submit.prevent="submit"
-                    class="w-full grid grid-cols-2 gap-7 bg-white px-4 py-3 rounded-lg shadow-md">
-                    <PrimaryButton class="w-1/2 bg-red-500 hover:bg-red-600 focus:bg-red-800">Kembali</PrimaryButton>
+                        class="w-full grid grid-cols-2 gap-7 bg-white px-4 py-3 rounded-lg shadow-md">
+                        <PrimaryButton class="w-1/2 bg-red-500 hover:bg-red-600 focus:bg-red-800">Kembali</PrimaryButton>
                         <div class="col-span-2">
                             <label for="dropzone-file" v-if="AddForm.foto == null"
-                                class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 " :class="AddForm.errors.foto ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-blue-500 focus:ring-blue-500 focus:border-blue-500'">
+                                class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 "
+                                :class="AddForm.errors.foto ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-blue-500 focus:ring-blue-500 focus:border-blue-500'">
                                 <div class="flex flex-col items-center justify-center pt-5 pb-6">
                                     <svg class="w-8 h-8 mb-4 text-gray-500" aria-hidden="true"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
@@ -96,29 +101,26 @@ function back(){
                             <InputLabel value="Tipe Kamar" />
 
                             <select id="countries" v-model="AddForm.tipe_kamar"
-                                class="bg-white border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 " :class="AddForm.errors.tipe_kamar ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-blue-500 focus:ring-blue-500 focus:border-blue-500'">
-                                <option selected>----</option>
-                                <option value="Luxury">Luxury</option>
-                                <option value="Ekonomis">Ekonomis</option>
+                                class="bg-white border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 "
+                                :class="AddForm.errors.tipe_kamar ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-blue-500 focus:ring-blue-500 focus:border-blue-500'">
+
+                                <option v-for="col in tipe_kamar" :value="col.tipe">{{ col.tipe }}</option>
                             </select>
                             <InputError :message="AddForm.errors.tipe_kamar" />
 
                         </div>
                         <div class="block">
                             <InputLabel value="Ruangan/Kamar" />
-                            <TextInput type="text" :active="AddForm.errors.ruangan" class="w-full" v-model="AddForm.ruangan" />
+                            <TextInput type="text" :active="AddForm.errors.ruangan" class="w-full"
+                                v-model="AddForm.ruangan" />
                             <InputError :message="AddForm.errors.ruangan" />
                         </div>
-                        <div class="block">
-                            <InputLabel value="Harga Ruangan/Kamar" />
-                            <TextInput type="text" :active="AddForm.errors.harga" class="w-full" v-model="AddForm.harga" />
-                            <InputError :message="AddForm.errors.harga" />
-                        </div>
                         <h1 class="col-span-2 text-sm text-gray-500">Tambahkan Fasilitas Jika Tersedia</h1>
-                        <transition-group tag="ul" name="list" >
-                            <li class="block w-full" v-for="cn in count" :key="cn+'cn'">
+                        <transition-group tag="ul" name="list">
+                            <li class="block w-full" v-for="cn in count" :key="cn + 'cn'">
                                 <InputLabel value="Fasilitas" />
-                                <TextInput type="text" :active="AddForm.errors.fasilitas" class="w-full" v-model="AddForm.fasilitas[cn]" />
+                                <TextInput type="text" :active="AddForm.errors.fasilitas" class="w-full"
+                                    v-model="AddForm.fasilitas[cn]" />
                             </li>
                             <InputError :message="AddForm.errors.fasilitas" />
                         </transition-group>
@@ -135,7 +137,7 @@ function back(){
                         </div>
                         <progress v-if="AddForm.progress" :value="AddForm.progress.percentage" max="100">
                             {{ AddForm.progress.percentage }}%
-                          </progress>
+                        </progress>
                         <div class="col-span-2 mt-16">
                             <PrimaryButton type="submit" class="w-full text-center">Simpan</PrimaryButton>
                         </div>
@@ -150,11 +152,11 @@ function back(){
 <style>
 .list-enter-active,
 .list-leave-active {
-  transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
+
 .list-enter-from,
 .list-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
-}
-</style>
+    opacity: 0;
+    transform: translateX(30px);
+}</style>

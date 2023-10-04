@@ -33,9 +33,9 @@ function fileSelected(e) {
 }
 function submit() {
     AddForm.post(route('Kamar.store'), {
-        // onFinish: () => {
-        //     AddForm.reset()
-        // }
+        onError: (err)=>{
+            console.log(err)
+        }
     });
 }
 const count = ref(1);
