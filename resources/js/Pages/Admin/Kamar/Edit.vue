@@ -67,7 +67,7 @@ function back() {
         <template #header>
 
             <Head title="Form Artikel" />
-            Form Pengumuman
+            Form KAMAR
         </template>
         <template #content>
             <section class="py-3 flex justify-center w-full">

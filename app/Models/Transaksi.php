@@ -11,7 +11,7 @@ class Transaksi extends Model
     use HasFactory;
 
     protected $table = 'transaksis';
-    protected $fillable = ['kode_transaksi', 'bukti', 'user_id', 'kode_kamar', 'diskon','metode_bayar', 'sub_total', 'status'];
+    protected $fillable = ['kode_transaksi', 'bukti', 'user_id', 'kode_kamar', 'diskon', 'metode_bayar', 'sub_total', 'status'];
 
     protected $appends = [
         'bukti_path',
@@ -40,6 +40,6 @@ class Transaksi extends Model
             $query->where('kode_transaksi', 'like', '%' . $search . '%');
         })->when($array['tgl'] ?? null,  function ($query, $date) {
             $query->whereDate('created_at', $date);
-        });;
+        });
     }
 }

@@ -35,6 +35,8 @@ class Reservasi extends Model
             $query->whereDate('created_at', $date);
         })->when($array['status'] ?? null,  function ($query, $status) {
             $query->Where('status', $status);
+        })->when($array['min_date'] ?? null && $array['max_date'] ?? null, function ($query) use ($array) {
+            $query->whereBetween('created_at', [$array['min_date'], $array['max_date']]);
         });
     }
 }

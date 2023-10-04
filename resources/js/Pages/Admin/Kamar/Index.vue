@@ -62,7 +62,7 @@ function deleteJadwal() {
 
     <AuthenticatedLayout>
         <template #header>
-            Pengumuman
+            KAMAR
             <FlashMessage />
         </template>
 

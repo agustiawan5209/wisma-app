@@ -53,6 +53,12 @@ const showingNavigationDropdown = ref(false);
                             <span class="nav-home">Transaksi</span>
                         </NavLink>
                     </li>
+                    <li class="w-5/6  p-2 rounded-lg border" :class="route().current('Laporan.index') ?  'bg-white border-transparent' :'border-white'">
+                        <NavLink :href="route('Laporan.index')" :active="route().current('Laporan.index')">
+                            <font-awesome-icon :icon="['fas', 'money-bill-1-wave']" />
+                            <span class="nav-home">Laporan</span>
+                        </NavLink>
+                    </li>
                 </ul>
 
             </div>

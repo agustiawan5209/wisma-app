@@ -62,7 +62,7 @@ function DeleteDiskon() {
 
     <AuthenticatedLayout>
         <template #header>
-            Pengumuman
+            KAMAR
             <FlashMessage />
         </template>
 

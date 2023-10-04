@@ -62,7 +62,7 @@ function DeleteVoucher() {
 
     <AuthenticatedLayout>
         <template #header>
-            Pengumuman
+            KAMAR
             <FlashMessage />
         </template>
 
