@@ -12,27 +12,27 @@ class HomeController extends Controller
     public function index()
     {
         return Inertia::render('Home/Welcome', [
-            'tipe_kamar' => TipeKamar::all(),
+            'tipe_kamar' => TipeKamar::with(['kamar'])->get(),
         ]);
     }
     public function about()
     {
         return Inertia::render('Home/About', [
-            'tipe_kamar' => TipeKamar::all(),
+            'tipe_kamar' => TipeKamar::with(['kamar'])->get(),
 
         ]);
     }
     public function blog()
     {
         return Inertia::render('Home/Blog', [
-            'tipe_kamar' => TipeKamar::all(),
+            'tipe_kamar' => TipeKamar::with(['kamar'])->get(),
 
         ]);
     }
     public function contact()
     {
         return Inertia::render('Home/Contact', [
-            'tipe_kamar' => TipeKamar::all(),
+            'tipe_kamar' => TipeKamar::with(['kamar'])->get(),
 
         ]);
     }
@@ -48,7 +48,7 @@ class HomeController extends Controller
             'kamar' => Kamar::orderBy('id', 'desc')->with(['details', 'diskon', 'tipe', 'foto'])->filter(Request::only('search', 'tipe'))->paginate(10),
             'search' => Request::input('search'),
             'formKamar' => $formkamar,
-            'tipe_kamar' => TipeKamar::all(),
+            'tipe_kamar' => TipeKamar::with(['kamar'])->get(),
             'jumlah_tamu' => intval(Request::input('jumlah_tamu', 1)),
             'tipe' => $tipe,
             'tgl_masuk' => $tgl_masuk,

@@ -42,66 +42,27 @@ onMounted(() => {
     <HomeLayout>
 
         <Head title="Home" />
-        <section class="container mx-auto my-4 h-40-vh sm:h-60-vh md:h-80-vh rounded-6xl mb-5 overflow-hidden">
-            <Carousel></Carousel>
+        <section class="container w-full flex flex-wrap justify-center gap-2 mx-auto my-4  mb-5 overflow-hidden">
+
+            <div class="w-72 rounded-md shadow-lg border" v-for="item in tipe_kamar">
+                <img :src="'img/halaman.jpg'" :alt="item.id"
+                    class="object-cover object-center w-full rounded-t-md h-72 ">
+                <div class="flex flex-col justify-between p-6 space-y-8">
+                    <div class="space-y-2">
+                        <h2 class="text-3xl font-semibold tracki">{{ item.tipe }}</h2>
+                        <p class=""></p>
+                    </div>
+                    <button type="button"
+                        class="flex items-center justify-center w-full p-3 font-semibold tracki rounded-md bg-primary text-white">Pesan Sekarang</button>
+                </div>
+            </div>
         </section>
 
-        <section class="container px-3 mx-auto h-auto mb-5">
+        <section class="container px-3 mx-auto h-auto mb-5 py-2">
             <Reservasi :tipe_kamar="tipe_kamar"></Reservasi>
         </section>
         <section class="container mx-auto">
 
-            <!-- Card Two -->
-            <!-- component -->
-            <div class="z-30 relative items-center justify-center w-full h-full overflow-auto">
-                <div class="inset-0 h-80-vh bg-cover bg-center" style="background-image:url('/img/halaman.jpg');">
-                </div>
-                <div
-                    class="absolute inset-0 z-20 flex items-center justify-center h-80-vh w-full bg-gray-900 bg-opacity-75">
-                </div>
-                <div ref="roomVVIP" class="absolute inset-0  z-30  flex flex-col items-center justify-center">
-                    <div class="shadow-2xl rounded-lg w-4/5 h-96 bg-cover bg-center"
-                        style="background-image:url('/img/halaman.jpg');">
 
-                        <div class="grid grid-cols-12 gap-1">
-                            <div
-                                class="relative my-6 px-8 col-span-12 sm:col-span-12 md:col-span-7 lg:col-span-7 xxl:col-span-7">
-                                <div class="border-l-4 border-gray-400 py-20 px-5 mx-2 absolute top-0 left-0">
-                                    <p
-                                        class="italic text-white text-xl md:text-4xl lg:text-6xl uppercase text-center  font-semibold ">
-                                        Kamar VVIP
-                                    </p>
-                                </div>
-                                <!-- <div class="text-gray-400 font-semibold text-xl mb-4">07</div>
-                                <div class="absolute border-gray-400 border-t-4 bottom-0 py-1 px-4 w-4/5"></div> -->
-                            </div>
-                            <div class="col-span-12 sm:col-span-12 md:col-span-5 lg:col-span-5 xxl:col-span-5">
-                                <div
-                                    class="relative bg-pink-900 h-full md:h-96 w-full bg-opacity-50 rounded-tr-lg rounded-br-lg">
-                                    <div class=" p-2 sm:p-3 md:p-8">
-                                        <p class="text-white text-xs md:text-sm lg:text-xl mb-4">
-                                            Nikmati pengalaman menginap yang luar biasa dengan memesan kamar VVIP kami.
-                                            Dengan fasilitas mewah, pelayanan eksklusif, dan tata ruang yang elegan, kamar
-                                            VVIP kami dirancang untuk memenuhi standar tertinggi. Rasakan kenyamanan dan
-                                            kemewahan yang tak terlupakan selama Anda menginap di hotel kami.
-                                        </p>
-                                        <div class="bottom-0 relative p-2 right-0">
-                                            <Link :href="route('Home.room', { tipe: 'VVIP' })"
-                                                class="opacity-75 bg-gray-100 hover:bg-pink-900 hover:text-white text-sm font-bold py-2 px-4 rounded inline-flex items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                            <span>PESAN SEKARANG</span>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </section>
-    </HomeLayout></template>
+</HomeLayout></template>

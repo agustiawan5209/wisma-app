@@ -22,6 +22,10 @@ class TipeKamar extends Model
         return $this->hasOne(Diskon::class, 'tipe_kamar','tipe');
     }
 
+    public function kamar(){
+        return $this->hasMany(Kamar::class,'tipe_kamar','tipe');
+    }
+
     // Append Nilai Harga
     protected $appends = [
         'rupiah',
