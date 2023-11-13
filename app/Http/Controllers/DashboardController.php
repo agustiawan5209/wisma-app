@@ -13,6 +13,7 @@ class DashboardController extends Controller
         if(Auth::user()->role == "User"){
             return redirect()->route('welcome');
         }
+
         return Inertia::render('Dashboard');
     }
 }
