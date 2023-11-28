@@ -33,7 +33,7 @@ class KamarController extends Controller
     {
         return Inertia::render('Admin/Kamar/Form', [
             'kamar' => Kamar::with(['details', 'tipe'])->orderBy('id', 'desc')->paginate(10),
-            'tipe_kamar'=> TipeKamar::all(),
+            'tipe_kamar' => TipeKamar::all(),
         ]);
     }
     private function createCode()
@@ -69,7 +69,7 @@ class KamarController extends Controller
             'kamar_id' => $kamar->id,
             'ket' => 'gambar',
             'name' => $nama,
-            'default'=> true,
+            'default' => true,
         ]);
         $fasilitas = $request->fasilitas;
         for ($i = 0; $i < count($fasilitas); $i++) {
@@ -91,7 +91,7 @@ class KamarController extends Controller
     {
         $kamar = $kamar->with(['details', 'tipe',])->find(Request::input('slug'));
         return Inertia::render('Admin/Kamar/Show', [
-            'kamar' =>$kamar->with(['details', 'tipe'])->find(Request::input('slug')),
+            'kamar' => $kamar->with(['details', 'tipe'])->find(Request::input('slug')),
         ]);
     }
 
@@ -104,7 +104,7 @@ class KamarController extends Controller
         // dd($kamar);
         return Inertia::render('Admin/Kamar/Edit', [
             'kamar' => Kamar::with(['details', 'tipe'])->find(Request::input('slug')),
-            'tipe_kamar'=> TipeKamar::all(),
+            'tipe_kamar' => TipeKamar::all(),
 
         ]);
     }
@@ -134,9 +134,8 @@ class KamarController extends Controller
             // Update Data Gambar Pada Detail Kamar
             $detail = DetailKamar::where('kamar_id', $kamar->id)->where('jenis', '=', 'gambar')->first();
             $detail->update([
-                'detail'=> $nama,
+                'detail' => $nama,
             ]);
-
         }
         // request fasilitas
         $fasilitas = $request->fasilitas;
@@ -158,7 +157,19 @@ class KamarController extends Controller
             }
         }
         return redirect()->route('Kamar.index')->with('success', 'Berhasil Di Edit');
+    }
 
+    public function updateKamar($id)
+    {
+        // dd(Request::input('status'));
+
+        Request::validate([
+            'status'=> 'required',
+        ]);
+        Kamar::find($id)->update(['status' => Request::input('status')]);
+
+
+        return redirect()->route('Kamar.index')->with('success', 'Berhasil Di Edit');
     }
 
     /**
@@ -167,15 +178,14 @@ class KamarController extends Controller
     public function destroy(Kamar $kamar)
     {
         $kamar = Kamar::find(Request::input('slug'));
-         // Ambil Data Foto
-         $path = Storage::disk('public')->exists('kamar/' . $kamar->gambar);
+        // Ambil Data Foto
+        $path = Storage::disk('public')->exists('kamar/' . $kamar->gambar);
 
-         // Hapus Jika Foto Ada Dalam Folder Public
-         if ($path) {
-             Storage::disk('public')->delete('kamar/' . $kamar->gambar);
-         }
-         $kamar->delete();
-         return redirect()->route('Kamar.index')->with('success', 'Berhasil Di Hapus');
-
+        // Hapus Jika Foto Ada Dalam Folder Public
+        if ($path) {
+            Storage::disk('public')->delete('kamar/' . $kamar->gambar);
+        }
+        $kamar->delete();
+        return redirect()->route('Kamar.index')->with('success', 'Berhasil Di Hapus');
     }
 }

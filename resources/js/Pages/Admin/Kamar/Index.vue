@@ -55,6 +55,24 @@ function deleteJadwal() {
         }
     })
 }
+const modalStatus = ref(false);
+const FormUpdate = useForm({
+    id: null,
+    status: null,
+});
+function updateStatusModal(id) {
+    FormUpdate.id = id;
+    modalStatus.value = true
+}
+
+function UpdateStatus() {
+    FormUpdate.get((route('Kamar.updateStatusKamar', {id: FormUpdate.id})), {
+        onSuccess: () => {
+            modalStatus.value = false;
+            FormUpdate.reset()
+        }
+    });
+}
 </script>
 
 <template>
@@ -122,15 +140,24 @@ function deleteJadwal() {
                                         class="px-4 py-3 border font-medium text-gray-900 whitespace-nowrap text-start ">
                                         {{ item.tipe.tipe }}</th>
                                     <td class="px-4 py-3 border">{{ item.kode }}</td>
-                                    <td class="px-4 py-3 border">{{ item.status_kamar }}</td>
+                                    <td class="px-4 py-3 border">
+                                        <span class="px-3 py-1  text-white rounded-lg cursor-pointer"
+                                            @click="updateStatusModal(item.id)"
+                                            :class="item.status == 1 ? 'bg-green-700' : 'bg-red-700'">
+                                            {{ item.status_kamar }}
+                                        </span>
+                                    </td>
                                     <td class="px-4 py-3 border flex items-center justify-start">
-                                        <Link :href="route('Kamar.edit', { kode: item.kode, slug: item.id, ket: item.ket, })">
-                                            <PrimaryButton class="bg-green-500 hover:bg-green-600 active:bg-green-400 text-white">
+                                        <Link
+                                            :href="route('Kamar.edit', { kode: item.kode, slug: item.id, ket: item.ket, })">
+                                        <PrimaryButton
+                                            class="bg-green-500 hover:bg-green-600 active:bg-green-400 text-white">
                                             <font-awesome-icon :icon="['fas', 'pen']" />
                                         </PrimaryButton>
                                         </Link>
-                                        <Link :href="route('Kamar.show', { kode: item.kode, slug: item.id, ket: item.ket, })">
-                                            <PrimaryButton class="bg-blue-500 hover:bg-blue-600 active:bg-blue-400 text-white">
+                                        <Link
+                                            :href="route('Kamar.show', { kode: item.kode, slug: item.id, ket: item.ket, })">
+                                        <PrimaryButton class="bg-blue-500 hover:bg-blue-600 active:bg-blue-400 text-white">
                                             <font-awesome-icon :icon="['fas', 'eye']" />
                                         </PrimaryButton>
                                         </Link>
@@ -155,6 +182,28 @@ function deleteJadwal() {
                         <div class="flex justify-around">
                             <PrimaryButton type="button" @click="deleteJadwal()"
                                 class="bg-blue-500 hover:bg-blue-600 active:bg-blue-800">Ya
+                            </PrimaryButton>
+                            <PrimaryButton type="button" @click="closeModal()"
+                                class="bg-error hover:bg-red-600 active:bg-red-800">Batal</PrimaryButton>
+                        </div>
+                    </div>
+                </div>
+            </Modal>
+            <Modal :show="modalStatus" :maxWidth="'md'">
+                <div class="max-w-full h-full flex justify-center items-center ">
+                    <div class="block bg-white rounded-lg py-5">
+                        <h3 class="mb-4">Update Status Kamar?</h3>
+
+                        <select id="countries" v-model="FormUpdate.status"
+                            class="bg-white border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 ">
+                            <option selected>----</option>
+                            <option value="1">Tersedia</option>
+                            <option value="2">Tidak Tersedia</option>
+                        </select>
+                        <br>
+                        <div class="flex justify-around">
+                            <PrimaryButton type="button" @click="UpdateStatus()"
+                                class="bg-blue-500 hover:bg-blue-600 active:bg-blue-800">Simpan
                             </PrimaryButton>
                             <PrimaryButton type="button" @click="closeModal()"
                                 class="bg-error hover:bg-red-600 active:bg-red-800">Batal</PrimaryButton>

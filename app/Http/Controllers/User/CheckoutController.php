@@ -84,7 +84,7 @@ class CheckoutController extends Controller
             $huruf = "TRX-";
             $kode = sprintf($huruf . "%02s",  $parse_kode);
         }
-        return $kode . Random::generate(10);
+        return $kode;
     }
     private function ReservasiKode()
     {
@@ -97,7 +97,7 @@ class CheckoutController extends Controller
             $huruf = "RSV";
             $kode = sprintf($huruf . "%02s",  $parse_kode);
         }
-        return $kode . Random::generate(10);
+        return $kode;
     }
     public function checkout(CheckoutRequest $checkoutRequest)
     {
@@ -139,6 +139,7 @@ class CheckoutController extends Controller
             'tipe_kamar'=> $checkoutRequest->tipe,
             'kode_kamar'=> $reservasi->kode_kamar,
         ]);
+
         return redirect()->route('Checkout.success', ['kode_reservasi'=> $reservasi->kode_reservasi]);
     }
 }
