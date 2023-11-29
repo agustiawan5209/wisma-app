@@ -8,7 +8,7 @@ use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\TransaksiController;
 
 
-Route::middleware(['auth', 'role:Admin'])->group(function () {
+Route::middleware(['auth', 'role:Admin,Pemilik'])->group(function () {
 
     // Router Kamar
 

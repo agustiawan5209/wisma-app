@@ -5,9 +5,11 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 
 const showingNavigationDropdown = ref(false);
+const user = usePage().props.auth.user
+
 </script>
 
 <template>
@@ -22,45 +24,71 @@ const showingNavigationDropdown = ref(false);
                 </div>
 
                 <!-- Navigation Links -->
-                <ul class="w-full space-y-5 flex flex-col items-center justify-center">
-                    <li class="w-5/6  p-2 rounded-lg border" :class="route().current('dashboard') ? 'bg-white border-transparent' :'border-white'">
+                <ul class="w-full space-y-5 flex flex-col items-center justify-center" v-if="user.role == 'Admin'">
+                    <li class="w-5/6  p-2 rounded-lg border"
+                        :class="route().current('dashboard') ? 'bg-white border-transparent' : 'border-white'">
                         <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             <font-awesome-icon :icon="['fas', 'home']" />
                             <span class="nav-home">Dashboard</span>
                         </NavLink>
                     </li>
-                    <li class="w-5/6  p-2 rounded-lg border" :class="route().current('Kamar.index') || route().current('Kamar.show') || route().current('Kamar.edit') || route().current('Kamar.create') ?  'bg-white border-transparent' :'border-white'">
-                        <NavLink :href="route('Kamar.index')" :active="route().current('Kamar.index') || route().current('Kamar.show') || route().current('Kamar.edit') || route().current('Kamar.create')">
+                    <li class="w-5/6  p-2 rounded-lg border"
+                        :class="route().current('Kamar.index') || route().current('Kamar.show') || route().current('Kamar.edit') || route().current('Kamar.create') ? 'bg-white border-transparent' : 'border-white'">
+                        <NavLink :href="route('Kamar.index')"
+                            :active="route().current('Kamar.index') || route().current('Kamar.show') || route().current('Kamar.edit') || route().current('Kamar.create')">
                             <font-awesome-icon :icon="['fas', 'couch']" />
                             <span class="nav-home">Kamar</span>
                         </NavLink>
                     </li>
-                    <li class="w-5/6  p-2 rounded-lg border" :class="route().current('Diskon.index') || route().current('Diskon.show') || route().current('Diskon.edit') || route().current('Diskon.create') ?  'bg-white border-transparent' :'border-white'">
-                        <NavLink :href="route('Diskon.index')" :active="route().current('Diskon.index') || route().current('Diskon.show') || route().current('Diskon.edit') || route().current('Diskon.create')">
+                    <li class="w-5/6  p-2 rounded-lg border"
+                        :class="route().current('Diskon.index') || route().current('Diskon.show') || route().current('Diskon.edit') || route().current('Diskon.create') ? 'bg-white border-transparent' : 'border-white'">
+                        <NavLink :href="route('Diskon.index')"
+                            :active="route().current('Diskon.index') || route().current('Diskon.show') || route().current('Diskon.edit') || route().current('Diskon.create')">
                             <font-awesome-icon :icon="['fas', 'credit-card']" />
                             <span class="nav-home">Diskon</span>
                         </NavLink>
                     </li>
-                    <li class="w-5/6  p-2 rounded-lg border" :class="route().current('Voucher.index') || route().current('Voucher.show') || route().current('Voucher.edit') || route().current('Voucher.create') ?  'bg-white border-transparent' :'border-white'">
-                        <NavLink :href="route('Voucher.index')" :active="route().current('Voucher.index') || route().current('Voucher.show') || route().current('Voucher.edit') || route().current('Voucher.create')">
+                    <li class="w-5/6  p-2 rounded-lg border"
+                        :class="route().current('Voucher.index') || route().current('Voucher.show') || route().current('Voucher.edit') || route().current('Voucher.create') ? 'bg-white border-transparent' : 'border-white'">
+                        <NavLink :href="route('Voucher.index')"
+                            :active="route().current('Voucher.index') || route().current('Voucher.show') || route().current('Voucher.edit') || route().current('Voucher.create')">
                             <font-awesome-icon :icon="['far', 'credit-card']" />
                             <span class="nav-home">Voucher</span>
                         </NavLink>
                     </li>
-                    <li class="w-5/6  p-2 rounded-lg border" :class="route().current('Transaksi.index') || route().current('Transaksi.show') ?  'bg-white border-transparent' :'border-white'">
-                        <NavLink :href="route('Transaksi.index')" :active="route().current('Transaksi.index') || route().current('Transaksi.show')">
+                    <li class="w-5/6  p-2 rounded-lg border"
+                        :class="route().current('Transaksi.index') || route().current('Transaksi.show') ? 'bg-white border-transparent' : 'border-white'">
+                        <NavLink :href="route('Transaksi.index')"
+                            :active="route().current('Transaksi.index') || route().current('Transaksi.show')">
                             <font-awesome-icon :icon="['fas', 'money-bill-1-wave']" />
                             <span class="nav-home">Transaksi</span>
                         </NavLink>
                     </li>
-                    <li class="w-5/6  p-2 rounded-lg border" :class="route().current('Laporan.index') ?  'bg-white border-transparent' :'border-white'">
+                    <li class="w-5/6  p-2 rounded-lg border"
+                        :class="route().current('Laporan.index') ? 'bg-white border-transparent' : 'border-white'">
                         <NavLink :href="route('Laporan.index')" :active="route().current('Laporan.index')">
                             <font-awesome-icon :icon="['fas', 'money-bill-1-wave']" />
                             <span class="nav-home">Laporan</span>
                         </NavLink>
                     </li>
                 </ul>
-
+                <!-- Navigation Links -->
+                <ul class="w-full space-y-5 flex flex-col items-center justify-center" v-if="user.role == 'Pemilik'">
+                    <li class="w-5/6  p-2 rounded-lg border"
+                        :class="route().current('dashboard') ? 'bg-white border-transparent' : 'border-white'">
+                        <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                            <font-awesome-icon :icon="['fas', 'home']" />
+                            <span class="nav-home">Dashboard</span>
+                        </NavLink>
+                    </li>
+                    <li class="w-5/6  p-2 rounded-lg border"
+                        :class="route().current('Laporan.index') ? 'bg-white border-transparent' : 'border-white'">
+                        <NavLink :href="route('Laporan.index')" :active="route().current('Laporan.index')">
+                            <font-awesome-icon :icon="['fas', 'money-bill-1-wave']" />
+                            <span class="nav-home">Laporan</span>
+                        </NavLink>
+                    </li>
+                </ul>
             </div>
         </nav>
         <!-- Page Content -->
@@ -98,13 +126,12 @@ const showingNavigationDropdown = ref(false);
                             </template>
                         </Dropdown>
                     </div>
-                </div>
-            </header>
-            <div class="py-5 bg-gray-100">
-                <div class="max-w-7xl mx-auto px-4">
-                    <slot name="content" />
-                </div>
             </div>
-        </main>
-    </div>
-</template>
+        </header>
+        <div class="py-5 bg-gray-100">
+            <div class="max-w-7xl mx-auto px-4">
+                <slot name="content" />
+            </div>
+        </div>
+    </main>
+</div></template>
