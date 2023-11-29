@@ -65,6 +65,7 @@ function today() {
                                         <th class="py-2 border text-center">Check-in</th>
                                         <th class="py-2 border text-center">Check-out</th>
                                         <th class="py-2 border text-center">Harga</th>
+                                        <th class="py-2 border text-center">Metode Bayar</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -73,6 +74,7 @@ function today() {
                                         <td class="py-2 border text-center">{{ reservasi.tgl_masuk }}</td>
                                         <td class="py-2 border text-center">{{ reservasi.tgl_keluar }}</td>
                                         <td class="py-2 border text-center">{{ rupiah(reservasi.transaksi.sub_total) }}</td>
+                                        <td class="py-2 border text-center">{{ reservasi.transaksi.metode_bayar }}</td>
                                     </tr>
                                 </tbody>
                             </table>
