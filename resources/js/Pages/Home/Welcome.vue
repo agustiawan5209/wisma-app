@@ -52,8 +52,8 @@ onMounted(() => {
                         <h2 class="text-3xl font-semibold tracki">{{ item.tipe }}</h2>
                         <p class=""></p>
                     </div>
-                    <button type="button"
-                        class="flex items-center justify-center w-full p-3 font-semibold tracki rounded-md bg-primary text-white">Pesan Sekarang</button>
+                    <Link :href="route('Home.room')"
+                        class="flex items-center justify-center w-full p-3 font-semibold tracki rounded-md bg-primary text-white">Pesan Sekarang</Link>
                 </div>
             </div>
         </section>

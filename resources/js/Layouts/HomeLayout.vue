@@ -30,12 +30,15 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
                             Sulawesi Barat 91512</dt>
                     </dl>
                 </li>
-                <li class=" border-l px-2 border-black ">
+                <li class=" border-l px-2 border-black flex gap-4">
                     <Link :href="route('login')" v-if="$page.props.auth.user == null">
                     <PrimaryButton>Masuk</PrimaryButton>
                     </Link>
                     <Link :href="route('User.dashboard')" v-else>
                     <PrimaryButton>Dashboard</PrimaryButton>
+                    </Link>
+                    <Link :href="route('logout')" method="post" as="button" v-if="$page.props.auth.user != null">
+                        <PrimaryButton>Log Out</PrimaryButton>
                     </Link>
                 </li>
             </ul>
