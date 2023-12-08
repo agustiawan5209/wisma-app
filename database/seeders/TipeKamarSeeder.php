@@ -16,8 +16,8 @@ class TipeKamarSeeder extends Seeder
         TipeKamar::insert([
             ['tipe'=> 'VVIP', 'harga'=> '300000'],
             ['tipe'=> 'VIP', 'harga'=> '250000'],
-            ['tipe'=> 'BIASA', 'harga'=> '200000'],
-            ['tipe'=> 'KIPAS', 'harga'=> '150000'],
+            ['tipe'=> 'DELUXE', 'harga'=> '200000'],
+            ['tipe'=> 'EKONOMIS', 'harga'=> '150000'],
         ]);
     }
 }

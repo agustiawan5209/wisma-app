@@ -18,12 +18,14 @@ class DatabaseSeeder extends Seeder
             'name' => 'User',
             'email' => 'user@gmail.com',
             'password'=> bcrypt('12345678'),
+            'no_hp'=> '12345678',
             'role'=> 'Admin'
         ]);
         \App\Models\User::factory()->create([
             'name' => 'Pemilik',
             'email' => 'Pemilik@gmail.com',
             'password'=> bcrypt('12345678'),
+            'no_hp'=> '12345678',
             'role'=> 'Pemilik'
         ]);
         $this->call([

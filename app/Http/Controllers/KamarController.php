@@ -164,7 +164,7 @@ class KamarController extends Controller
         // dd(Request::input('status'));
 
         Request::validate([
-            'status'=> 'required',
+            'status' => 'required',
         ]);
         Kamar::find($id)->update(['status' => Request::input('status')]);
 
@@ -187,5 +187,62 @@ class KamarController extends Controller
         }
         $kamar->delete();
         return redirect()->route('Kamar.index')->with('success', 'Berhasil Di Hapus');
+    }
+
+
+    // Tipe Kamar Controller
+    /**
+     * Display a listing of the resource.
+     */
+    public function getId()
+    {
+        return TipeKamar::find(Request::input('slug'));
+    }
+    public function indexTipe()
+    {
+        return Inertia::render('Admin/Kamar/TipeKamar', [
+            'kamar' => TipeKamar::orderBy('id','desc')->paginate(10),
+            'tipekamar' => TipeKamar::find(Request::input('slug')),
+            'search' => Request::input('search'),
+            'tipe' => Request::input('tipe'),
+        ]);
+    }
+    public function storeTipe()
+    {
+        Request::validate([
+            'tipe' => 'required',
+            'harga' => 'required|numeric',
+
+        ]);
+
+        $tipe = TipeKamar::create([
+            'tipe' => Request::input('tipe'),
+            'harga' => Request::input('harga'),
+        ]);
+
+        return redirect()->route('Kamar.tipekamar.index')->with('success', 'Berhasil Di Tambah Tipe Kamar');
+    }
+    public function updateTipe()
+    {
+        Request::validate([
+            'slug' => 'required',
+            'tipe' => 'required',
+            'harga' => 'required|numeric',
+
+        ]);
+
+        $tipe = TipeKamar::find(Request::input('slug'))->update([
+            'tipe' => Request::input('tipe'),
+            'harga' => Request::input('harga'),
+        ]);
+
+        return redirect()->route('Kamar.tipekamar.index')->with('success', 'Berhasil Di Edit Tipe Kamar');
+    }
+
+    public function deleteTipe(Kamar $kamar)
+    {
+        $tipe = TipeKamar::find(Request::input('slug'))->delete();
+
+        return redirect()->route('Kamar.tipekamar.index')->with('success', 'Tipe Kamar. Berhasil Di Hapus');
     }
 }

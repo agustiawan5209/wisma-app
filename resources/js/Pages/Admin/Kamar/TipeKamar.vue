@@ -2,15 +2,23 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import TextInput from '@/Components/TextInput.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+
 import { defineProps, ref, watch } from 'vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import Modal from '@/Components/Modal.vue';
 import Pagination from '@/Components/Pagination.vue';
 import FlashMessage from '@/Components/FlashMessage.vue';
+import axios from 'axios';
 
 const props = defineProps({
     kamar: {
+        type: Object,
+        default: () => ({}),
+    },
+    tipekamar: {
         type: Object,
         default: () => ({}),
     },
@@ -18,6 +26,8 @@ const props = defineProps({
     tipe: String,
 
 })
+
+console.log(props.tipekamar)
 // Search Form
 const SearchForm = useForm({});
 const search = ref(props.search);
@@ -41,6 +51,8 @@ function showModaldelete(param) {
 function closeModal() {
     modalDelete.value = false;
     FormDelete.slug = null;
+    modalAdd.value = false;
+    modalEdit.value = false;
 }
 
 // Delete
@@ -48,31 +60,76 @@ const FormDelete = useForm({
     slug: null,
 });
 function deleteJadwal() {
-    FormDelete.delete(route('Kamar.delete'), {
+    FormDelete.delete(route('Kamar.tipekamar.delete'), {
         onSuccess: () => {
             modalDelete.value = false;
             FormDelete.reset()
         }
     })
 }
-const modalStatus = ref(false);
-const FormUpdate = useForm({
-    id: null,
-    status: null,
-});
-function updateStatusModal(id) {
-    FormUpdate.id = id;
-    modalStatus.value = true
+
+const modalAdd = ref(false);
+
+const AddForm = useForm({
+    tipe: '',
+    harga: '',
+})
+
+function addModal() {
+    EditForm.slug = null;
+    modalAdd.value = true;
 }
 
-function UpdateStatus() {
-    FormUpdate.get((route('Kamar.updateStatusKamar', {id: FormUpdate.id})), {
-        onSuccess: () => {
-            modalStatus.value = false;
-            FormUpdate.reset()
+function createData() {
+    AddForm.post(route('Kamar.tipekamar.store'), {
+        preserveState: true,
+        onFinish: () => {
+            AddForm.reset();
+            closeModal()
         }
-    });
+    })
 }
+
+// Edit Data
+
+const modalEdit = ref(false);
+const EditForm = useForm({
+    slug: null,
+    tipe: props.tipekamar == null ? '' : props.tipekamar.tipe,
+    harga: props.tipekamar == null ? '' : props.tipekamar.harga,
+})
+function EditModal(id) {
+    EditForm.slug = id;
+    axios.get(route('Kamar.tipekamar.getId', { slug: id }))
+    .then(res=> {
+        EditForm.tipe = res.data.tipe;
+        EditForm.harga = res.data.harga;
+        modalEdit.value = true;
+    }).catch(err=>{
+        console.log(err)
+    })
+}
+
+function updateData() {
+    EditForm.put(route('Kamar.tipekamar.update'), {
+        preserveState: true,
+        onFinish: () => {
+            EditForm.reset();
+           closeModal()
+        },
+        onError: (err)=>{
+            console.log(err)
+        }
+    })
+}
+
+const rupiah = (num) => {
+    return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+    }).format(num);
+}
+
 </script>
 
 <template>
@@ -80,7 +137,7 @@ function UpdateStatus() {
 
     <AuthenticatedLayout>
         <template #header>
-            KAMAR
+            TIPE KAMAR
             <FlashMessage />
         </template>
 
@@ -89,19 +146,8 @@ function UpdateStatus() {
 
                 <!-- Start coding here -->
                 <div class="bg-white relative shadow-md sm:rounded-lg overflow-hidden px-4">
-                    <br>
-                    <div
-                    class="w-full  space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-                    <Link :href="route('Kamar.tipekamar.index')">
-                    <PrimaryButton>Tipe Kamar</PrimaryButton>
-                    </Link>
-                    <div class="flex items-center space-x-3 w-full md:w-auto">
-
-                    </div>
-                </div>
                     <div
                         class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
-
                         <div class="w-full md:w-1/2">
                             <form class="flex items-center">
                                 <label for="simple-search" class="sr-only">Search</label>
@@ -122,9 +168,7 @@ function UpdateStatus() {
                         </div>
                         <div
                             class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-                            <Link :href="route('Kamar.create')">
-                            <PrimaryButton>Tambah</PrimaryButton>
-                            </Link>
+                            <PrimaryButton type="button" @click="addModal()">Tambah</PrimaryButton>
                             <div class="flex items-center space-x-3 w-full md:w-auto">
 
                             </div>
@@ -136,8 +180,7 @@ function UpdateStatus() {
                                 <tr>
                                     <th scope="col" class="border">No.</th>
                                     <th scope="col" class="px-4 py-3 border">tipe</th>
-                                    <th scope="col" class="px-4 py-3 border">kode Kamar</th>
-                                    <th scope="col" class="px-4 py-3 border">status Kamar</th>
+                                    <th scope="col" class="px-4 py-3 border">Harga Kamar</th>
                                     <th scope="col" class="px-4 py-3 border">
                                         <span class="sr-only">Actions</span>
                                     </th>
@@ -149,29 +192,13 @@ function UpdateStatus() {
                                     }}.</th>
                                     <th scope="row"
                                         class="px-4 py-3 border font-medium text-gray-900 whitespace-nowrap text-start ">
-                                        {{ item.tipe.tipe }}</th>
-                                    <td class="px-4 py-3 border">{{ item.kode }}</td>
-                                    <td class="px-4 py-3 border">
-                                        <span class="px-3 py-1  text-white rounded-lg cursor-pointer"
-                                            @click="updateStatusModal(item.id)"
-                                            :class="item.status == 1 ? 'bg-green-700' : 'bg-red-700'">
-                                            {{ item.status_kamar }}
-                                        </span>
-                                    </td>
+                                        {{ item.tipe }}</th>
+                                    <td class="px-4 py-3 border">{{ rupiah(item.harga) }}</td>
                                     <td class="px-4 py-3 border flex items-center justify-start">
-                                        <Link
-                                            :href="route('Kamar.edit', { kode: item.kode, slug: item.id, ket: item.ket, })">
-                                        <PrimaryButton
+                                        <PrimaryButton type="button" @click="EditModal(item.id)"
                                             class="bg-green-500 hover:bg-green-600 active:bg-green-400 text-white">
                                             <font-awesome-icon :icon="['fas', 'pen']" />
                                         </PrimaryButton>
-                                        </Link>
-                                        <Link
-                                            :href="route('Kamar.show', { kode: item.kode, slug: item.id, ket: item.ket, })">
-                                        <PrimaryButton class="bg-blue-500 hover:bg-blue-600 active:bg-blue-400 text-white">
-                                            <font-awesome-icon :icon="['fas', 'eye']" />
-                                        </PrimaryButton>
-                                        </Link>
                                         <PrimaryButton type="button"
                                             class="!bg-error text-white hover:bg-red-600 active:bg-red-400 block"
                                             @click="showModaldelete(item.id)">
@@ -200,21 +227,41 @@ function UpdateStatus() {
                     </div>
                 </div>
             </Modal>
-            <Modal :show="modalStatus" :maxWidth="'md'">
-                <div class="max-w-full h-full flex justify-center items-center ">
-                    <div class="block bg-white rounded-lg py-5">
-                        <h3 class="mb-4">Update Status Kamar?</h3>
-
-                        <select id="countries" v-model="FormUpdate.status"
-                            class="bg-white border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 ">
-                            <option selected>----</option>
-                            <option value="1">Tersedia</option>
-                            <option value="2">Tidak Tersedia</option>
-                        </select>
-                        <br>
+            <Modal :show="modalAdd" :maxWidth="'md'">
+                <div class="max-w-full h-full flex justify-center items-center py-4 ">
+                    <div class="block bg-white rounded-lg py-5 px-3 border shadow-md">
+                        <div class="mb-4 w-full">
+                            <InputLabel value="Tipe" />
+                            <TextInput type="text" v-model="AddForm.tipe" />
+                        </div>
+                        <div class="mb-4 w-full">
+                            <InputLabel value="Harga" />
+                            <TextInput type="number" v-model="AddForm.harga" />
+                        </div>
                         <div class="flex justify-around">
-                            <PrimaryButton type="button" @click="UpdateStatus()"
-                                class="bg-blue-500 hover:bg-blue-600 active:bg-blue-800">Simpan
+                            <PrimaryButton type="button" @click="createData()"
+                                class="!bg-blue-500 hover:!bg-blue-600 active:!bg-blue-800">Simpan
+                            </PrimaryButton>
+                            <PrimaryButton type="button" @click="closeModal()"
+                                class="bg-error hover:bg-red-600 active:bg-red-800">Batal</PrimaryButton>
+                        </div>
+                    </div>
+                </div>
+            </Modal>
+            <Modal :show="modalEdit" :maxWidth="'md'">
+                <div class="max-w-full h-full flex justify-center items-center py-4 ">
+                    <div class="block bg-white rounded-lg py-5 px-3 border shadow-md">
+                        <div class="mb-4 w-full">
+                            <InputLabel value="Tipe" />
+                            <TextInput type="text" v-model="EditForm.tipe" />
+                        </div>
+                        <div class="mb-4 w-full">
+                            <InputLabel value="Harga" />
+                            <TextInput type="number" v-model="EditForm.harga" />
+                        </div>
+                        <div class="flex justify-around">
+                            <PrimaryButton type="button" @click="updateData()"
+                                class="!bg-green-500 hover:!bg-green-600 active:!bg-green-800">Edit
                             </PrimaryButton>
                             <PrimaryButton type="button" @click="closeModal()"
                                 class="bg-error hover:bg-red-600 active:bg-red-800">Batal</PrimaryButton>

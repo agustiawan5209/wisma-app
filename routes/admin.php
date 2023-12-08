@@ -22,6 +22,13 @@ Route::middleware(['auth', 'role:Admin,Pemilik'])->group(function () {
             Route::put('/update', 'update')->name('update');
             Route::get('/update/statuskamar/{id}', 'updateKamar')->name('updateStatusKamar');
             Route::delete('/delete', 'destroy')->name('delete');
+
+            // Tipe Kamar
+            Route::get('/tipe-kamar', 'indexTipe')->name('tipekamar.index');
+            Route::get('/tipe-kamar/id', 'getId')->name('tipekamar.getId');
+            Route::post('/tipe-kamar-store', 'storeTipe')->name('tipekamar.store');
+            Route::put('/tipe-kamar-update', 'updateTipe')->name('tipekamar.update');
+            Route::delete('/tipe-kamar-update', 'deleteTipe')->name('tipekamar.delete');
         });
     });
 

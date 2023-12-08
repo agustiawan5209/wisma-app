@@ -108,6 +108,7 @@ class CheckoutController extends Controller
             $nama = md5($file->getClientOriginalName());
             $file->storeAs('public', 'bukti/' . $nama);
         }
+        // dd($checkoutRequest->bukti_bayar);
         $transaksi = Transaksi::create([
             'kode_transaksi' => $kode_transaksi,
             'bukti' => $nama,

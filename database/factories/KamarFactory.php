@@ -16,7 +16,7 @@ class KamarFactory extends Factory
      */
     public function definition(): array
     {
-        $type = ['VVIP','VIP','BIASA','KIPAS'];
+        $type = ['VVIP','VIP','DELUXE','EKONOMIS'];
         $status = ['1','2'];
         return [
             'tipe_kamar'=> $this->faker->randomElement($type),
