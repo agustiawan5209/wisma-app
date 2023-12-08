@@ -4,6 +4,7 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
+import InputError from '@/Components/InputError.vue';
 
 import { defineProps, ref, watch } from 'vue';
 import Dropdown from '@/Components/Dropdown.vue';
@@ -73,6 +74,7 @@ const modalAdd = ref(false);
 const AddForm = useForm({
     tipe: '',
     harga: '',
+    foto: '',
 })
 
 function addModal() {
@@ -82,10 +84,12 @@ function addModal() {
 
 function createData() {
     AddForm.post(route('Kamar.tipekamar.store'), {
-        preserveState: true,
-        onFinish: () => {
+        onSuccess: () => {
             AddForm.reset();
             closeModal()
+        },
+        onError: (err)=>{
+            console.log(err)
         }
     })
 }
@@ -95,6 +99,7 @@ function createData() {
 const modalEdit = ref(false);
 const EditForm = useForm({
     slug: null,
+    foto: null,
     tipe: props.tipekamar == null ? '' : props.tipekamar.tipe,
     harga: props.tipekamar == null ? '' : props.tipekamar.harga,
 })
@@ -111,9 +116,8 @@ function EditModal(id) {
 }
 
 function updateData() {
-    EditForm.put(route('Kamar.tipekamar.update'), {
-        preserveState: true,
-        onFinish: () => {
+    EditForm.post(route('Kamar.tipekamar.update'), {
+        onSuccess: () => {
             EditForm.reset();
            closeModal()
         },
@@ -181,6 +185,7 @@ const rupiah = (num) => {
                                     <th scope="col" class="border">No.</th>
                                     <th scope="col" class="px-4 py-3 border">tipe</th>
                                     <th scope="col" class="px-4 py-3 border">Harga Kamar</th>
+                                    <th scope="col" class="px-4 py-3 border">Gambar Tipe Kamar</th>
                                     <th scope="col" class="px-4 py-3 border">
                                         <span class="sr-only">Actions</span>
                                     </th>
@@ -194,6 +199,9 @@ const rupiah = (num) => {
                                         class="px-4 py-3 border font-medium text-gray-900 whitespace-nowrap text-start ">
                                         {{ item.tipe }}</th>
                                     <td class="px-4 py-3 border">{{ rupiah(item.harga) }}</td>
+                                    <td class="px-4 py-3 border">
+                                        <img :src="item.path_foto" width="200" alt="">
+                                    </td>
                                     <td class="px-4 py-3 border flex items-center justify-start">
                                         <PrimaryButton type="button" @click="EditModal(item.id)"
                                             class="bg-green-500 hover:bg-green-600 active:bg-green-400 text-white">
@@ -229,28 +237,38 @@ const rupiah = (num) => {
             </Modal>
             <Modal :show="modalAdd" :maxWidth="'md'">
                 <div class="max-w-full h-full flex justify-center items-center py-4 ">
-                    <div class="block bg-white rounded-lg py-5 px-3 border shadow-md">
+                    <form @submit.prevent="createData()" enctype="multipart/form-data" class="block bg-white rounded-lg py-5 px-3 border shadow-md">
                         <div class="mb-4 w-full">
                             <InputLabel value="Tipe" />
                             <TextInput type="text" v-model="AddForm.tipe" />
+                            <InputError :message="AddForm.errors.tipe" />
                         </div>
                         <div class="mb-4 w-full">
                             <InputLabel value="Harga" />
                             <TextInput type="number" v-model="AddForm.harga" />
+                            <InputError :message="AddForm.errors.harga" />
+
                         </div>
+                        <div class="my-4 w-full">
+                            <InputLabel value="Gambar" />
+                            <TextInput type="file" @input="AddForm.foto = $event.target.files[0]" />
+                            <InputError :message="AddForm.errors.foto" />
+
+                        </div>
+
                         <div class="flex justify-around">
-                            <PrimaryButton type="button" @click="createData()"
+                            <PrimaryButton type="submit"
                                 class="!bg-blue-500 hover:!bg-blue-600 active:!bg-blue-800">Simpan
                             </PrimaryButton>
                             <PrimaryButton type="button" @click="closeModal()"
                                 class="bg-error hover:bg-red-600 active:bg-red-800">Batal</PrimaryButton>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </Modal>
             <Modal :show="modalEdit" :maxWidth="'md'">
                 <div class="max-w-full h-full flex justify-center items-center py-4 ">
-                    <div class="block bg-white rounded-lg py-5 px-3 border shadow-md">
+                    <form @submit.prevent="updateData()" enctype="multipart/form-data"  class="block bg-white rounded-lg py-5 px-3 border shadow-md">
                         <div class="mb-4 w-full">
                             <InputLabel value="Tipe" />
                             <TextInput type="text" v-model="EditForm.tipe" />
@@ -259,14 +277,18 @@ const rupiah = (num) => {
                             <InputLabel value="Harga" />
                             <TextInput type="number" v-model="EditForm.harga" />
                         </div>
+                        <div class="my-4 w-full">
+                            <InputLabel value="Gambar" />
+                            <TextInput type="file" @input="EditForm.foto = $event.target.files[0]"  />
+                        </div>
                         <div class="flex justify-around">
-                            <PrimaryButton type="button" @click="updateData()"
+                            <PrimaryButton type="submit"
                                 class="!bg-green-500 hover:!bg-green-600 active:!bg-green-800">Edit
                             </PrimaryButton>
                             <PrimaryButton type="button" @click="closeModal()"
                                 class="bg-error hover:bg-red-600 active:bg-red-800">Batal</PrimaryButton>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </Modal>
         </template>

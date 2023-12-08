@@ -11,25 +11,35 @@ class TipeKamar extends Model
     use HasFactory;
 
     protected $table = 'tipe_kamars';
-    protected $fillable = ['tipe','harga',];
+    protected $fillable = ['tipe', 'harga', 'foto'];
 
+
+    protected $appends = [
+        'path_foto',
+        'rupiah',
+    ];
+
+    protected function pathFoto() : Attribute
+    {
+        return new Attribute(
+            get: fn()=>  asset('storage/tipe/'.$this->foto),
+        );
+    }
     /**
      * diskon
      *  Tipe Kamar Has One Diskon
      * @return void
      */
-    public function diskon(){
-        return $this->hasOne(Diskon::class, 'tipe_kamar','tipe');
+    public function diskon()
+    {
+        return $this->hasOne(Diskon::class, 'tipe_kamar', 'tipe');
     }
 
-    public function kamar(){
-        return $this->hasMany(Kamar::class,'tipe_kamar','tipe');
+    public function kamar()
+    {
+        return $this->hasMany(Kamar::class, 'tipe_kamar', 'tipe');
     }
 
-    // Append Nilai Harga
-    protected $appends = [
-        'rupiah',
-    ];
 
     /**
      * rupiah
@@ -40,8 +50,7 @@ class TipeKamar extends Model
     protected function rupiah(): Attribute
     {
         return new Attribute(
-            get:fn()=> 'Rp. ' . number_format($this->harga, 0,2),
+            get: fn () => 'Rp. ' . number_format($this->harga, 0, 2),
         );
     }
 }
-

@@ -212,12 +212,17 @@ class KamarController extends Controller
         Request::validate([
             'tipe' => 'required',
             'harga' => 'required|numeric',
+            'foto' => 'required|image',
 
         ]);
+        $file = Request::file('foto');
+        $nama = md5($file->getClientOriginalName());
+        $file->storeAs('public', 'tipe/' . $nama);
 
         $tipe = TipeKamar::create([
             'tipe' => Request::input('tipe'),
             'harga' => Request::input('harga'),
+            'foto' => $nama,
         ]);
 
         return redirect()->route('Kamar.tipekamar.index')->with('success', 'Berhasil Di Tambah Tipe Kamar');
@@ -227,11 +232,30 @@ class KamarController extends Controller
         Request::validate([
             'slug' => 'required',
             'tipe' => 'required',
+            'foto' => 'nullable|image',
             'harga' => 'required|numeric',
 
         ]);
+        $kamar = TipeKamar::find(Request::input('slug'));
+        if (Request::exists('foto')) {
+            // Ambil Data Foto
+            $path = Storage::disk('public')->exists('tipe/' . $kamar->gambar);
 
-        $tipe = TipeKamar::find(Request::input('slug'))->update([
+            // Hapus Jika Foto Ada Dalam Folder Public
+            if ($path) {
+                Storage::disk('public')->delete('tipe/' . $kamar->gambar);
+            }
+            // Ambil path Gmabar
+            // dd(Request::file('foto'));
+            $file = Request::file('foto');
+            $nama = md5($file->getClientOriginalName());
+            $file->storeAs('public', 'tipe/' . $nama);
+            // Update Data Gambar Pada Detail Kamar
+            $kamar->update([
+                'foto' => $nama,
+            ]);
+        }
+        $kamar->update([
             'tipe' => Request::input('tipe'),
             'harga' => Request::input('harga'),
         ]);

@@ -27,7 +27,7 @@ Route::middleware(['auth', 'role:Admin,Pemilik'])->group(function () {
             Route::get('/tipe-kamar', 'indexTipe')->name('tipekamar.index');
             Route::get('/tipe-kamar/id', 'getId')->name('tipekamar.getId');
             Route::post('/tipe-kamar-store', 'storeTipe')->name('tipekamar.store');
-            Route::put('/tipe-kamar-update', 'updateTipe')->name('tipekamar.update');
+            Route::post('/tipe-kamar-update', 'updateTipe')->name('tipekamar.update');
             Route::delete('/tipe-kamar-update', 'deleteTipe')->name('tipekamar.delete');
         });
     });
