@@ -45,7 +45,7 @@ onMounted(() => {
         <section class="container w-full flex flex-wrap justify-center gap-2 mx-auto my-4  mb-5 overflow-hidden">
 
             <div class="w-72 rounded-md shadow-lg border" v-for="item in tipe_kamar">
-                <img :src="'img/halaman.jpg'" :alt="item.id"
+                <img v-if="item.foto !== null" :src="item.path_foto" :alt="item.id"
                     class="object-cover object-center w-full rounded-t-md h-72 ">
                 <div class="flex flex-col justify-between p-6 space-y-8">
                     <div class="space-y-2">

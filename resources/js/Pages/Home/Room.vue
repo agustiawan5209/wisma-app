@@ -192,7 +192,7 @@ const rupiah = (num) => {
                 <div class="col-span-1" v-for="item in tipe_kamar" v-bind:key="item.id">
                     <div class="box-border h-auto bg-transaparent shadow-md shadow-gray-400 p-3 rounded-md">
                         <fieldset class="shadow-lg shadow-gray-400 mb-5">
-                            <img :src="'img/halaman.jpg'" alt="">
+                            <img v-if="item.foto !== null" :src="item.path_foto" alt="">
                         </fieldset>
                         <h3 class="drop-shadow-sm text-xl font-medium">{{ item.tipe }} <span
                                 class="text-sm font-normal text-gray-600">Kode Kamar</span></h3>
