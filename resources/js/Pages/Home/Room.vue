@@ -70,9 +70,10 @@ const checkoutForm = useForm({
 //  Modal Checkout
 const itemkamar = ref([]);
 const showKamar = ref(false);
-
-function showModal(item,harga) {
+var GambarTipe = '';
+function showModal(item,harga, foto) {
     const data = item.kamar[0];
+    GambarTipe = foto;
     // console.log(item.kamar[0])
     showKamar.value = true;
     itemkamar.value = data;
@@ -224,7 +225,7 @@ const rupiah = (num) => {
                         <!-- Action Button -->
                         <div class="flex flex-col xl:flex-row justify-between gap-2 xl:items-center mt-4">
                             <span class="text-xs sm:text-sm md:text-base whitespace-nowrap">{{ rupiah(item.harga) }}</span>
-                            <PrimaryButton type="button" @click="showModal(item, item.harga)" v-if="item.kamar.length > 0"
+                            <PrimaryButton type="button" @click="showModal(item, item.harga, item.path_foto)" v-if="item.kamar.length > 0"
                                 class="!text-xs whitespace-nowrap bg-red-200 hover:bg-red-300 active:bg-red-400 focus:bg-red-300 !text-yellow-600 active:!text-white">
                                 Detail</PrimaryButton>
                             <PrimaryButton type="button" v-else
@@ -244,7 +245,7 @@ const rupiah = (num) => {
                         <font-awesome-icon :icon="['fas', 'xmark']" class="text-xl text-red-100 " />
                     </PrimaryButton>
                     <fieldset class="shadow-lg shadow-gray-400 mb-5">
-                        <img :src="'img/halaman.jpg'" alt="">
+                        <img :src="GambarTipe" alt="">
                     </fieldset>
                     <h3 class="drop-shadow-sm text-xl font-medium">{{ itemkamar.tipe_kamar }} <span
                             class="text-sm font-normal text-gray-600">Kode Kamar</span></h3>
