@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\ReservasiExport;
 use Inertia\Inertia;
 use App\Models\Reservasi;
+use App\Models\Transaksi;
 use Illuminate\Support\Facades\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -14,6 +15,7 @@ class LaporanController extends Controller
         $transaksi =  Reservasi::orderBy('id', 'desc')->with(['detail', 'transaksi'])
         ->filter(Request::only('min_date', 'max_date'))
         ->paginate(20);
+        // dd(Transaksi::latest()->first()->tanggal);
 
         return Inertia::render("Admin/Laporan/Index", [
             'transaksi'=> $transaksi,

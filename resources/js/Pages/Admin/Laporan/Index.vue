@@ -115,6 +115,7 @@ function exportPDF(){
                                 <tr>
                                     <th scope="col" class="border">No.</th>
                                     <th scope="col" class="px-4 py-3 border">kode Transaksi</th>
+                                    <th scope="col" class="px-4 py-3 border">Tanggal Transaksi</th>
                                     <th scope="col" class="px-4 py-3 border">kode Reservasi</th>
                                     <th scope="col" class="px-4 py-3 border">Nama Pelanggan</th>
                                     <th scope="col" class="px-4 py-3 border">No.HP Pelanggan</th>
@@ -129,6 +130,7 @@ function exportPDF(){
                                         index + 1
                                     }}.</th>
                                     <td class="px-4 py-3 border">{{ item.transaksi.kode_transaksi }}</td>
+                                    <td class="px-4 py-3 border">{{ item.transaksi.tanggal }}</td>
                                     <td class="px-4 py-3 border">{{ item.kode_reservasi }}</td>
                                     <td class="px-4 py-3 border">{{ item.detail.nama }}</td>
                                     <td class="px-4 py-3 border">{{ item.detail.no_hp }}</td>

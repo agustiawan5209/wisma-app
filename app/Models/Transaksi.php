@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,12 +16,19 @@ class Transaksi extends Model
 
     protected $appends = [
         'bukti_path',
+        'tanggal',
     ];
 
     protected function buktiPath(): Attribute
     {
         return new Attribute(
             get: fn () => asset('storage/bukti/' . $this->bukti)
+        );
+    }
+    protected function tanggal(): Attribute
+    {
+        return new Attribute(
+            get: fn () => Carbon::parse($this->created_at)->format('Y-m-d')
         );
     }
 
