@@ -66,36 +66,30 @@ class CheckoutController extends Controller
 
     public function success()
     {
-        $resevasi = Reservasi::with(['detail', 'transaksi','transaksi.user','transaksi.kamar'])->where('kode_reservasi',Request::input('kode_reservasi'))->first();
+        $resevasi = Reservasi::with(['detail', 'transaksi', 'transaksi.user', 'transaksi.kamar'])->where('kode_reservasi', Request::input('kode_reservasi'))->first();
         // return Excel::download(new InvoiceExport(Request::input('kode')), 'invoices.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
-        return Inertia::render('User/Success',[
-            'reservasi'=> $resevasi,
+        return Inertia::render('User/Success', [
+            'reservasi' => $resevasi,
         ]);
     }
 
     private function createCode()
     {
-        $alternatif = Transaksi::max('id');
-        if ($alternatif == null) {
-            $kode = "TRX-01";
+        $tr = Transaksi::max('id');
+        if (intval($tr) < 100) {
+            $kode = "TRX-0" . $tr;
         } else {
-            $parse_kode = substr($alternatif, 4, 2);
-            $parse_kode++;
-            $huruf = "TRX-";
-            $kode = sprintf($huruf . "%02s",  $parse_kode);
+            $kode = "TRX-" . $tr;
         }
         return $kode;
     }
     private function ReservasiKode()
     {
-        $alternatif = Reservasi::max('id');
-        if ($alternatif == null) {
-            $kode = "RSV01";
+        $tr = Reservasi::max('id');
+        if (intval($tr) < 100) {
+            $kode = "RSV0" . $tr;
         } else {
-            $parse_kode = substr($alternatif, 3, 2);
-            $parse_kode++;
-            $huruf = "RSV";
-            $kode = sprintf($huruf . "%02s",  $parse_kode);
+            $kode = "RSV" . $tr;
         }
         return $kode;
     }
@@ -133,14 +127,14 @@ class CheckoutController extends Controller
         $user = User::with(['detail'])->find(Auth::user()->id);
 
         ReservasiDetail::create([
-            'reservasi_id'=> $reservasi->id,
+            'reservasi_id' => $reservasi->id,
             'nama' => $checkoutRequest->user_name,
-            'email'=> $checkoutRequest->user_email,
-            'no_hp'=> $checkoutRequest->user_no_hp,
-            'tipe_kamar'=> $checkoutRequest->tipe,
-            'kode_kamar'=> $reservasi->kode_kamar,
+            'email' => $checkoutRequest->user_email,
+            'no_hp' => $checkoutRequest->user_no_hp,
+            'tipe_kamar' => $checkoutRequest->tipe,
+            'kode_kamar' => $reservasi->kode_kamar,
         ]);
 
-        return redirect()->route('Checkout.success', ['kode_reservasi'=> $reservasi->kode_reservasi]);
+        return redirect()->route('Checkout.success', ['kode_reservasi' => $reservasi->kode_reservasi]);
     }
 }

@@ -26,7 +26,7 @@ class StoreKamarRequest extends FormRequest
             // 'kode'=> 'required|unique:kamars,kode',
             'ruangan'=> 'required|unique:kamars,ruangan',
             // 'status'=>
-            'foto'=> 'required|image|mimes:png,jpg|max:1020',
+            // 'foto'=> 'required|image|mimes:png,jpg|max:1020',
             'fasilitas'=> 'required|array',
             'ket'=> 'required|string|max:255'
         ];

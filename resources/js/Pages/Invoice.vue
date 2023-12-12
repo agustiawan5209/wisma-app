@@ -46,6 +46,10 @@ function today() {
                         <h2 class="text-2xl font-bold mb-4">Invoice Pemesanan Kamar Wisma Malaqbi</h2>
 
                         <div class="flex justify-between mb-6">
+                            <div class="mb-6" v-if="reservasi.transaksi.bukti != null">
+                                <h4 class="text-sm md:text-lg font-semibold">Bukti Pemesanan</h4>
+                                <img :src="reservasi.transaksi.bukti_path" alt="" width="200" height="200">
+                            </div>
                             <div>
                                 <h3 class="text-sm md:text-lg font-semibold">Wisma Malaqbi</h3>
                                 <p>Jl. Pababari, Karema, <br> Kec. Mamuju, Kabupaten Mamuju, Sulawesi Barat 91512</p>
@@ -55,6 +59,7 @@ function today() {
                                 <p>ID Transaksi: <b>{{ reservasi.transaksi.kode_transaksi }}</b></p>
                             </div>
                         </div>
+
 
                         <div class="mb-6">
                             <h4 class="text-sm md:text-lg font-semibold">Detail Pemesanan</h4>

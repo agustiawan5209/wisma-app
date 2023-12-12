@@ -48,6 +48,7 @@ if (ItemStorage == null) {
         tipe: props.tipe,
         kode_kamar: '',
         diskon: '',
+        harga: '',
         tgl_masuk: props.tgl_masuk,
         tgl_keluar: props.tgl_keluar,
         jumlah_tamu: props.jumlah_tamu,
@@ -60,6 +61,7 @@ const checkoutForm = useForm({
     tipe: props.tipe,
     kode_kamar: '',
     diskon: '',
+    harga: GetItem.value.harga,
     tgl_masuk: GetItem.value.tgl_masuk,
     tgl_keluar: GetItem.value.tgl_keluar,
     jumlah_tamu: GetItem.value.jumlah_tamu,
@@ -69,12 +71,14 @@ const checkoutForm = useForm({
 const itemkamar = ref([]);
 const showKamar = ref(false);
 
-function showModal(item) {
+function showModal(item,harga) {
     const data = item.kamar[0];
+    // console.log(item.kamar[0])
     showKamar.value = true;
     itemkamar.value = data;
     checkoutForm.kode_kamar = data.kode;
     checkoutForm.tipe = item.tipe;
+    checkoutForm.harga = harga;
     checkoutForm.kode_kamar = data.kode;
     checkoutForm.tgl_masuk = GetItem.value.tgl_masuk == null ? props.tgl_masuk : GetItem.value.tgl_masuk;
     checkoutForm.tgl_keluar = GetItem.value.tgl_keluar == null ? props.tgl_keluar : GetItem.value.tgl_keluar;
@@ -172,7 +176,7 @@ const rupiah = (num) => {
         <section class="container mx-auto py-3">
             <loadingAnimation :show="ShowLoadingPage" />
             <section>
-                <Reservasi :tipe_kamar="tipe_kamar" />
+                <!-- <Reservasi :tipe_kamar="tipe_kamar" /> -->
             </section>
 
             <h1 class="font-bold sm:text-xl md:text-2xl lg:text-3xl p-4">Rekomendasi Kamar Untuk Anda</h1>
@@ -190,7 +194,9 @@ const rupiah = (num) => {
             <transition-group tag="div" :on-before-enter="beforeEnter" :on-enter="enterActive" :on-before-leave="afterEnter"
                 class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 border border-white">
                 <div class="col-span-1" v-for="item in tipe_kamar" v-bind:key="item.id">
-                    <div class="box-border h-auto bg-transaparent shadow-md shadow-gray-400 p-3 rounded-md">
+                    <div class="box-border h-auto bg-transaparent shadow-md shadow-gray-400 p-3 rounded-md"
+                    :class="item.kamar.length > 0 ? '' : 'bg-gray-300 opacity-60'"
+                    >
                         <fieldset class="shadow-lg shadow-gray-400 mb-5">
                             <img v-if="item.foto !== null" :src="item.path_foto" alt="">
                         </fieldset>
@@ -201,7 +207,7 @@ const rupiah = (num) => {
                         <div class="fasilitas flex flex-col gap-1 mt-3 box-border">
                             <div class="flex gap-2 items-center">
                                 <dl class="block">
-                                    <dt class="text-xs sm:text-sm md:text-base">Jumlah Kamar Tersedia</dt>
+                                    <dt class="text-xs sm:text-sm md:text-base">Jumlah Kamar Tersedia </dt>
                                     <dt class="text-xs whitespace-pre-wrap">{{ item.kamar.length }}</dt>
                                 </dl>
                             </div>
@@ -218,7 +224,7 @@ const rupiah = (num) => {
                         <!-- Action Button -->
                         <div class="flex flex-col xl:flex-row justify-between gap-2 xl:items-center mt-4">
                             <span class="text-xs sm:text-sm md:text-base whitespace-nowrap">{{ rupiah(item.harga) }}</span>
-                            <PrimaryButton type="button" @click="showModal(item)" v-if="item.kamar.length > 0"
+                            <PrimaryButton type="button" @click="showModal(item, item.harga)" v-if="item.kamar.length > 0"
                                 class="!text-xs whitespace-nowrap bg-red-200 hover:bg-red-300 active:bg-red-400 focus:bg-red-300 !text-yellow-600 active:!text-white">
                                 Detail</PrimaryButton>
                             <PrimaryButton type="button" v-else
@@ -324,7 +330,7 @@ const rupiah = (num) => {
                         </div>
                         <!-- Action Button -->
                         <div class="flex flex-col xl:flex-row justify-between gap-2 xl:items-center mt-4">
-                            <span class="text-xs sm:text-sm md:text-base whitespace-nowrap">Rp. 100.000</span>
+                            <span class="text-xs sm:text-sm md:text-base whitespace-nowrap">{{rupiah(checkoutForm.harga) }}</span>
                             <PrimaryButton type="submit"
                                 class="!text-xs whitespace-nowrap bg-red-200 hover:bg-red-300 active:bg-red-400 focus:bg-red-300 !text-yellow-600 active:!text-white">
                                 Pesan

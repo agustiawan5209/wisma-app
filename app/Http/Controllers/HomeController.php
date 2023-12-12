@@ -48,7 +48,7 @@ class HomeController extends Controller
             'kamar' => Kamar::orderBy('id', 'desc')->with(['details', 'diskon', 'tipe', 'foto'])->filter(Request::only('search', 'tipe'))->paginate(10),
             'search' => Request::input('search'),
             'formKamar' => $formkamar,
-            'tipe_kamar' => TipeKamar::with(['kamar'])->get(),
+            'tipe_kamar' => TipeKamar::with(['kamar'])->orderBy('id','asc')->get(),
             'jumlah_tamu' => intval(Request::input('jumlah_tamu', 1)),
             'tipe' => $tipe,
             'tgl_masuk' => $tgl_masuk,

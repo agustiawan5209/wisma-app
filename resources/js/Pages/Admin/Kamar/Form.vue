@@ -55,10 +55,10 @@ function back(){
         <template #content>
             <section class="py-3 flex justify-center w-full">
                 <div class="w-full">
+                    <PrimaryButton class="w-1/2 bg-red-500 hover:bg-red-600 focus:bg-red-800">Kembali</PrimaryButton>
                     <form @submit.prevent="submit"
                     class="w-full grid grid-cols-2 gap-7 bg-white px-4 py-3 rounded-lg shadow-md">
-                    <PrimaryButton class="w-1/2 bg-red-500 hover:bg-red-600 focus:bg-red-800">Kembali</PrimaryButton>
-                        <div class="col-span-2">
+                        <!-- <div class="col-span-2">
                             <label for="dropzone-file" v-if="AddForm.foto == null"
                                 class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 " :class="AddForm.errors.foto ? 'border-red-300 focus:ring-red-500 focus:border-red-500' : 'border-blue-500 focus:ring-blue-500 focus:border-blue-500'">
                                 <div class="flex flex-col items-center justify-center pt-5 pb-6">
@@ -78,7 +78,7 @@ function back(){
                             <img v-else :src="UrlFile" alt="">
                             <InputError :message="AddForm.errors.foto" />
 
-                        </div>
+                        </div> -->
                         <div class="block">
                             <InputLabel value="Tipe Kamar" />
 
@@ -95,11 +95,11 @@ function back(){
                             <TextInput type="text" :active="AddForm.errors.ruangan" class="w-full" v-model="AddForm.ruangan" />
                             <InputError :message="AddForm.errors.ruangan" />
                         </div>
-                        <div class="block">
+                        <!-- <div class="block">
                             <InputLabel value=" Harga Ruangan/Kamar" />
                             <TextInput type="text" :active="AddForm.errors.harga" class="w-full" v-model="AddForm.harga" />
                             <InputError :message="AddForm.errors.harga" />
-                        </div>
+                        </div> -->
                         <h1 class="col-span-2 text-sm text-gray-500">Tambahkan Fasilitas Jika Tersedia</h1>
                         <transition-group tag="ul" name="list" >
                             <li class="block w-full" v-for="cn in count" :key="cn+'cn'">

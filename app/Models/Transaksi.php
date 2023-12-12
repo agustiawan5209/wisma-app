@@ -20,7 +20,7 @@ class Transaksi extends Model
     protected function buktiPath(): Attribute
     {
         return new Attribute(
-            get: fn () => asset('bukti/' . $this->bukti)
+            get: fn () => asset('storage/bukti/' . $this->bukti)
         );
     }
 

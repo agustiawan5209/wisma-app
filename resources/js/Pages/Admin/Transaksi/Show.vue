@@ -46,6 +46,10 @@ const rupiah = (num) => {
                         <div class="bg-white rounded-lg shadow-lg p-6">
                             <h2 class="text-2xl font-bold mb-4 text-gray-800">Detail Transaksi</h2>
                             <div class="grid grid-cols-2 gap-4">
+                                <div class="mb-6" v-if="reservasi.transaksi.bukti != null">
+                                    <h4 class="text-sm md:text-lg font-semibold">Bukti Pemesanan</h4>
+                                    <img :src="reservasi.transaksi.bukti_path" alt="" width="100" height="200">
+                                </div>
                                 <div>
                                     <p class="text-gray-600 font-semibold">ID Transaksi:</p>
                                     <p class="text-sm md:text-lg font-bold text-indigo-700">{{
