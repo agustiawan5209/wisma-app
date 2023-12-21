@@ -76,10 +76,11 @@ class CheckoutController extends Controller
     private function createCode()
     {
         $tr = Transaksi::max('id');
-        if (intval($tr) < 100) {
-            $kode = "TRX-0" . $tr;
+        $id = $tr+1;
+        if (intval($id) < 100) {
+            $kode = "TRX-0" . $id;
         } else {
-            $kode = "TRX-" . $tr;
+            $kode = "TRX-" . $id;
         }
         return $kode;
     }
